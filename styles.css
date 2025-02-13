@@ -86,16 +86,54 @@ input.dark-mode {
     color: #f4f4f4;
 }
 
-/* RTL Layout Adjustments */
-[dir="rtl"] {
-    text-align: right;
+.hidden {
+    display: none;
 }
 
-.container, main {
-    direction: rtl;
+.auth-form input {
+    margin-bottom: 10px;
 }
 
-/* Mobile Responsiveness */
+.auth-form button {
+    margin-top: 20px;
+}
+
+.task-btn {
+    background: #28a745;
+}
+
+.task-btn:hover {
+    background: #218838;
+}
+
+.lang-btn, .theme-btn {
+    background: #343a40;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1em;
+    margin: 10px;
+}
+
+.theme-btn:hover {
+    background: #007bff;
+}
+
+/* Task list styles */
+#taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#taskList li {
+    margin: 10px 0;
+}
+
+#taskManagement {
+    margin-bottom: 30px;
+}
+
+/* Responsive Design */
 @media (max-width: 600px) {
     .container {
         width: 90%;
