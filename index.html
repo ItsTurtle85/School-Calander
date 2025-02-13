@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <header>
-            <h1 id="greeting">Hello, select a subject</h1>
+            <h1 id="greeting">📅 School Calendar</h1>
             <button id="themeToggle">🌗 Toggle Theme</button>
         </header>
         
@@ -17,25 +17,29 @@
         <div id="weatherInfo"></div>
 
         <main>
-            <label for="country">Country:</label>
-            <input type="text" id="country" placeholder="Enter your country">
+            <div class="location-inputs">
+                <label for="country">🌍 Country:</label>
+                <input type="text" id="country" placeholder="Enter your country">
 
-            <label for="city">City:</label>
-            <input type="text" id="city" placeholder="Enter your city">
-            <button id="getWeather">Get Weather</button>
+                <label for="city">🏙️ City:</label>
+                <input type="text" id="city" placeholder="Enter your city">
+                <button id="getWeather">☁️ Get Weather</button>
+            </div>
 
-            <label for="subjectSelect" id="subjectLabel">Subject:</label>
-            <select id="subjectSelect"></select>
+            <div class="subject-section">
+                <label for="subjectSelect">📚 Subject:</label>
+                <select id="subjectSelect"></select>
 
-            <input type="text" id="customSubject" placeholder="Add a subject">
-            <button id="addSubject">➕ Add</button>
-            <button id="removeSubject">❌ Remove Selected</button>
+                <input type="text" id="customSubject" placeholder="Add a subject">
+                <button id="addSubject">➕ Add</button>
+                <button id="removeSubject">❌ Remove Selected</button>
+            </div>
 
             <button id="changeLanguageBtn">🌍 Change Language</button>
         </main>
         
         <footer>
-            <p>&copy; 2025 Your App</p>
+            <p>&copy; 2025 Your App | Made for Success 🚀</p>
         </footer>
     </div>
     
