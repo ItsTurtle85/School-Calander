@@ -8,7 +8,7 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Login/Register Screen -->
+    <!-- Main Content Container -->
     <div id="authScreen" class="auth-screen">
         <h2>התחבר או הרשם</h2>
         <form id="loginForm">
@@ -39,6 +39,7 @@
         <div id="outfitSuggestion"></div>
 
         <main>
+            <!-- Country Selection for Weather -->
             <label for="country" id="countryLabel">מדינה:</label>
             <select id="country">
                 <option value="">בחר מדינה</option>
@@ -53,6 +54,7 @@
             </select>
             <button id="getWeather">הצג מזג אוויר</button>
 
+            <!-- Weekly Schedule Inputs -->
             <h3>קבע את הלוח זמנים שלך לשבוע:</h3>
             <div id="weeklySchedule">
                 <label for="sundaySubjects">ראשון:</label>
@@ -72,6 +74,7 @@
                 <button id="saveSchedule">שמור לוח זמנים</button>
             </div>
 
+            <!-- Reminder Input -->
             <h3>תזכורת לקחת מחר:</h3>
             <input type="text" id="tomorrowReminder" placeholder="מה לקחת מחר?" />
             <button id="setReminder">קבע תזכורת</button>
