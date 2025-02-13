@@ -8,17 +8,36 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="container">
+    <!-- Login / Register Screen -->
+    <div id="authScreen" class="auth-screen">
+        <h2>Login or Register</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="Username" required />
+            <input type="password" id="loginPassword" placeholder="Password" required />
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+        </form>
+
+        <form id="registerForm" class="hidden">
+            <input type="text" id="registerUsername" placeholder="Username" required />
+            <input type="password" id="registerPassword" placeholder="Password" required />
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent" style="display:none;">
         <header>
             <h1 id="title">📆 Ultimate School Calendar</h1>
             <button id="themeToggle">🌗 Toggle Theme</button>
             <button id="changeLanguageBtn">🌍 עברית / English</button>
         </header>
-        
+
         <div id="timeDisplay"></div>
         <div id="weatherInfo"></div>
         <div id="outfitSuggestion"></div>
-        
+
         <main>
             <label for="country" id="countryLabel">Country:</label>
             <select id="country">
@@ -33,15 +52,19 @@
                 <option value="">Select a city</option>
             </select>
             <button id="getWeather">Get Weather</button>
-            
+
             <label for="subjectSelect" id="subjectLabel">Subject:</label>
             <select id="subjectSelect"></select>
-            
             <input type="text" id="customSubject" placeholder="Add a subject">
             <button id="addSubject">➕ Add</button>
             <button id="removeSubject">❌ Remove Selected</button>
+
+            <h3>Remind me to take tomorrow:</h3>
+            <input type="text" id="tomorrowReminder" placeholder="What should I take tomorrow?">
+            <button id="setReminder">Set Reminder</button>
+            <p id="reminderDisplay"></p>
         </main>
-        
+
         <footer>
             <p>&copy; 2025 Ultimate Calendar</p>
         </footer>
