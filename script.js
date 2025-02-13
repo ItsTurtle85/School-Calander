@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const customSubjectInput = document.getElementById("customSubject");
     const addSubjectBtn = document.getElementById("addSubject");
     const removeSubjectBtn = document.getElementById("removeSubject");
+    const mondaySubjectsInput = document.getElementById("mondaySubjects");
+    const tuesdaySubjectsInput = document.getElementById("tuesdaySubjects");
+    const wednesdaySubjectsInput = document.getElementById("wednesdaySubjects");
+    const thursdaySubjectsInput = document.getElementById("thursdaySubjects");
+    const fridaySubjectsInput = document.getElementById("fridaySubjects");
+    const saveScheduleBtn = document.getElementById("saveSchedule");
     const tomorrowReminder = document.getElementById("tomorrowReminder");
     const setReminderBtn = document.getElementById("setReminder");
     const reminderDisplay = document.getElementById("reminderDisplay");
@@ -74,65 +80,54 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.toggle("dark-mode");
     });
 
-    // Populating the city dropdown based on the selected country
-    countrySelect.addEventListener("change", () => {
-        const cities = {
-            Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
-            "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
-            "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
+    // Set Weekly Schedule
+    saveScheduleBtn.addEventListener("click", () => {
+        const schedule = {
+            monday: mondaySubjectsInput.value.trim(),
+            tuesday: tuesdaySubjectsInput.value.trim(),
+            wednesday: wednesdaySubjectsInput.value.trim(),
+            thursday: thursdaySubjectsInput.value.trim(),
+            friday: fridaySubjectsInput.value.trim(),
         };
 
-        const selectedCountry = countrySelect.value;
-        if (selectedCountry) {
-            citySelect.innerHTML = '<option value="">Select a city</option>';
-            cities[selectedCountry].forEach(city => {
-                const option = document.createElement("option");
-                option.value = city;
-                option.textContent = city;
-                citySelect.appendChild(option);
-            });
-        }
+        localStorage.setItem("weeklySchedule", JSON.stringify(schedule));
+        alert("Schedule saved!");
     });
 
-    // Set a reminder for tomorrow
+    // Set Reminder
     setReminderBtn.addEventListener("click", () => {
-        const reminder = tomorrowReminder.value;
-        if (reminder) {
-            localStorage.setItem("tomorrowReminder", reminder);
-            reminderDisplay.textContent = `Reminder set: ${reminder}`;
-        } else {
-            reminderDisplay.textContent = "Please enter a reminder.";
-        }
+        const reminder = tomorrowReminder.value.trim();
+        localStorage.setItem("tomorrowReminder", reminder);
+        reminderDisplay.textContent = `Reminder: ${reminder}`;
     });
 
-    // Fetch weather data and outfit suggestion
-    getWeatherBtn.addEventListener("click", () => {
+    // Fetch Weather and Suggest Outfit
+    getWeatherBtn.addEventListener("click", async () => {
         const city = citySelect.value;
-        if (city) {
-            fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city}`)
-                .then(response => response.json())
-                .then(data => {
-                    const weather = data.current;
-                    weatherInfo.innerHTML = `
-                        <p>Temperature: ${weather.temp_c}°C</p>
-                        <p>Condition: ${weather.condition.text}</p>
-                    `;
-                    suggestOutfit(weather);
-                });
+        const country = countrySelect.value;
+
+        if (city && country) {
+            const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city},${country}`);
+            const weather = await response.json();
+
+            weatherInfo.textContent = `Weather in ${city}: ${weather.current.temp_c}°C, ${weather.current.condition.text}`;
+            suggestOutfit(weather);
         }
     });
 
+    // Outfit suggestion based on weather
     function suggestOutfit(weather) {
-        let suggestion = "Weather is fine!";
-        if (weather.temp_c < 10) {
-            suggestion = "It's cold! Wear a coat and scarf.";
-        } else if (weather.temp_c < 20) {
+        let suggestion = "";
+
+        if (weather.current.temp_c < 10) {
+            suggestion = "It's cold! You should take a coat and scarf.";
+        } else if (weather.current.temp_c < 20) {
             suggestion = "It's chilly! A jacket would be good.";
         } else {
             suggestion = "It's warm! Wear something light.";
         }
 
-        if (weather.condition.text.toLowerCase().includes("rain")) {
+        if (weather.current.condition.text.toLowerCase().includes("rain")) {
             suggestion += " Don't forget your umbrella!";
         }
 
@@ -156,4 +151,19 @@ document.addEventListener("DOMContentLoaded", () => {
             subjectSelect.removeChild(selectedOption);
         }
     });
+
+    // Load saved schedule and reminder on page load
+    const savedSchedule = JSON.parse(localStorage.getItem("weeklySchedule"));
+    if (savedSchedule) {
+        mondaySubjectsInput.value = savedSchedule.monday;
+        tuesdaySubjectsInput.value = savedSchedule.tuesday;
+        wednesdaySubjectsInput.value = savedSchedule.wednesday;
+        thursdaySubjectsInput.value = savedSchedule.thursday;
+        fridaySubjectsInput.value = savedSchedule.friday;
+    }
+
+    const savedReminder = localStorage.getItem("tomorrowReminder");
+    if (savedReminder) {
+        reminderDisplay.textContent = `Reminder: ${savedReminder}`;
+    }
 });
