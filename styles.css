@@ -1,4 +1,4 @@
-/* Default Light Theme */
+/* Light & Dark Mode Variables */
 :root {
     --bg-color: #f4f4f4;
     --text-color: #333;
@@ -9,7 +9,7 @@
     --input-border: #ccc;
 }
 
-/* Dark Theme */
+/* Dark Mode */
 .dark-mode {
     --bg-color: #1e1e1e;
     --text-color: #f4f4f4;
@@ -24,9 +24,17 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    direction: ltr;
+    text-align: left;
     margin: 0;
     padding: 0;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+/* Right-to-Left (RTL) Support */
+.rtl {
+    direction: rtl;
+    text-align: right;
 }
 
 .container {
@@ -45,17 +53,6 @@ header {
     color: white;
     padding: 15px;
     border-radius: 10px 10px 0 0;
-}
-
-h1 {
-    margin: 0;
-}
-
-#timeDisplay {
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-top: 10px;
 }
 
 button {
@@ -95,6 +92,7 @@ footer {
     font-size: 0.9em;
 }
 
+/* Responsive Design */
 @media (max-width: 600px) {
     .container {
         width: 90%;
