@@ -1,100 +1,141 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
-    margin: 0;
-    background-color: #f7f7f7;
+    background-color: #f4f7fa;
     color: #333;
 }
 
 #app {
-    max-width: 600px;
+    width: 100%;
+    max-width: 800px;
     margin: auto;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    padding: 30px;
 }
 
-/* Inputs and Buttons */
-input, button, select {
-    margin: 10px 0;
-    padding: 12px;
-    width: 90%;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-button {
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:active {
-    background-color: #004080;
+/* Screen Layout */
+.screen {
+    display: block;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
 }
 
 .hidden {
     display: none;
 }
 
-/* Container for days and items */
-#schedule {
-    margin-top: 30px;
-}
-
-#days {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-#days div {
-    background-color: #f1f1f1;
-    padding: 10px;
+/* Buttons and Inputs */
+input, button, select {
+    margin: 10px 0;
+    padding: 12px;
+    width: 90%;
     border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
 }
 
-#days select {
-    width: 100%;
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
-#weatherSection {
-    background-color: #eef;
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3e8e41;
+}
+
+button.logout {
+    background-color: #f44336;
+}
+
+button.logout:hover {
+    background-color: #e53935;
+}
+
+input[type="text"], input[type="password"] {
+    padding-left: 15px;
+}
+
+/* Header and Text */
+h2, h3 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+h3 {
+    color: #00796b;
+}
+
+/* Sections */
+.section {
+    background-color: #e1f5fe;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
 }
 
-h2, h3 {
-    color: #333;
+#schedule {
+    margin-bottom: 30px;
 }
 
-#logoutBtn {
-    background-color: #dc3545;
-    color: white;
+#days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 }
 
-#logoutBtn:hover {
-    background-color: #c82333;
+#days div {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%;
+    min-width: 200px;
 }
 
-/* Responsive Design */
+#days select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#weatherSection {
+    background-color: #f1f8e9;
+}
+
+#tomorrowItems {
+    font-size: 18px;
+    color: #1b5e20;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
     #app {
         padding: 15px;
-        width: 95%;
     }
 
     #days {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #days div {
+        width: 100%;
     }
 }
