@@ -8,7 +8,7 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Login / Register Screen -->
+    <!-- Login/Register Screen -->
     <div id="authScreen" class="auth-screen">
         <h2>Login or Register</h2>
         <form id="loginForm">
@@ -53,14 +53,10 @@
             </select>
             <button id="getWeather">Get Weather</button>
 
-            <label for="subjectSelect" id="subjectLabel">Subject:</label>
-            <select id="subjectSelect"></select>
-            <input type="text" id="customSubject" placeholder="Add a subject">
-            <button id="addSubject">➕ Add</button>
-            <button id="removeSubject">❌ Remove Selected</button>
-
             <h3>Set your schedule for the week:</h3>
             <div id="weeklySchedule">
+                <label for="sundaySubjects">Sunday:</label>
+                <input type="text" id="sundaySubjects" placeholder="Subjects for Sunday" />
                 <label for="mondaySubjects">Monday:</label>
                 <input type="text" id="mondaySubjects" placeholder="Subjects for Monday" />
                 <label for="tuesdaySubjects">Tuesday:</label>
@@ -71,6 +67,8 @@
                 <input type="text" id="thursdaySubjects" placeholder="Subjects for Thursday" />
                 <label for="fridaySubjects">Friday:</label>
                 <input type="text" id="fridaySubjects" placeholder="Subjects for Friday" />
+                <label for="saturdaySubjects">Saturday:</label>
+                <input type="text" id="saturdaySubjects" placeholder="Subjects for Saturday" />
                 <button id="saveSchedule">Save Schedule</button>
             </div>
 
