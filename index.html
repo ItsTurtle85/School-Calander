@@ -9,7 +9,7 @@
 <body>
     <div id="app">
         <!-- Login Screen -->
-        <div id="loginScreen">
+        <div id="loginScreen" class="screen">
             <h2>התחבר למערכת בית הספר</h2>
             <input type="text" id="username" placeholder="שם משתמש" required>
             <input type="password" id="password" placeholder="סיסמה" required>
@@ -19,16 +19,16 @@
         </div>
 
         <!-- School Bag Management Screen -->
-        <div id="bagScreen" class="hidden">
+        <div id="bagScreen" class="screen hidden">
             <h2>ניהול תיק לבית הספר</h2>
 
-            <div id="weatherSection">
+            <div id="weatherSection" class="section">
                 <h3>המלצת לבוש:</h3>
                 <p id="weather"></p>
                 <p id="outfitSuggestion"></p>
             </div>
             
-            <div id="schedule">
+            <div id="schedule" class="section">
                 <h3>מערכת שעות:</h3>
                 <div id="days"></div>
             </div>
@@ -38,7 +38,7 @@
             <button id="setReminderBtn">שמור תזכורת</button>
             <div id="reminderDisplay"></div>
 
-            <button id="logoutBtn">התנתק</button>
+            <button id="logoutBtn" class="logout">התנתק</button>
 
             <div id="savedMessage"></div>
             <div id="tomorrowItems" style="margin-top:20px; font-weight:bold;"></div>
