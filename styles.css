@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     border-radius: 12px;
@@ -105,13 +105,6 @@ input.dark-mode {
     color: #f4f4f4;
 }
 
-/* Responsive Design */
-@media (max-width: 700px) {
-    .container {
-        width: 95%;
-    }
-}
-
 /* Schedule Form */
 #weeklySchedule {
     margin-top: 20px;
@@ -121,4 +114,30 @@ input.dark-mode {
 #weeklySchedule input {
     margin-bottom: 10px;
     width: 100%;
+}
+
+/* Enhanced Styling */
+h1 {
+    font-size: 2em;
+    color: #333;
+}
+
+button:hover {
+    background-color: var(--button-hover-light);
+    transform: scale(1.05);
+}
+
+input {
+    font-size: 1em;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+
+    button, input {
+        font-size: 0.9em;
+    }
 }
