@@ -84,25 +84,23 @@ function setReminder() {
 
 // Load Reminder
 function loadReminder() {
-    const savedReminder = localStorage.getItem(`${currentUser}_reminder`);
-    if (savedReminder) {
-        document.getElementById('reminderDisplay').textContent = `תזכורת: ${savedReminder}`;
+    const reminder = localStorage.getItem(`${currentUser}_reminder`);
+    if (reminder) {
+        document.getElementById('reminderDisplay').textContent = `תזכורת: ${reminder}`;
     }
 }
 
-// Login Functionality
+// Login User
 function login() {
     const user = document.getElementById('username').value;
     const pass = document.getElementById('password').value;
     const storedPass = localStorage.getItem(user);
-
     if (storedPass && storedPass === pass) {
         currentUser = user;
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('bagScreen').classList.remove('hidden');
         loadSchedule(user);
         showTomorrowItems();
-        fetchWeather();
     } else {
         document.getElementById('loginMessage').innerText = 'שם משתמש או סיסמה שגויים';
     }
@@ -120,25 +118,11 @@ function register() {
     }
 }
 
-// Logout Functionality
+// Logout User
 function logout() {
     document.getElementById('bagScreen').classList.add('hidden');
     document.getElementById('loginScreen').classList.remove('hidden');
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
     currentUser = '';
-}
-
-// Load User's Schedule from Local Storage
-function loadSchedule(user) {
-    for (let day = 1; day <= 5; day++) {
-        const saved = localStorage.getItem(`${user}_day${day}`);
-        if (saved) {
-            const select = document.getElementById(`day${day}`);
-            const subjectsArray = saved.split(', ');
-            Array.from(select.options).forEach(option => {
-                option.selected = subjectsArray.includes(option.value);
-            });
-        }
-    }
 }
