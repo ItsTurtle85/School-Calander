@@ -10,15 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const customSubjectInput = document.getElementById("customSubject");
     const addSubjectBtn = document.getElementById("addSubject");
     const removeSubjectBtn = document.getElementById("removeSubject");
-    
+
     const cityData = {
         Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
         "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
         "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
     };
 
-    const weatherAPIKey = "bfba7f78869e4222b89154845251302"; // Replace with your API key
-    const weatherBaseURL = "https://api.weatherapi.com/v1/current.json?key=";
+    const weatherAPIKey = "bfba7f78869e4222b89154845251302"; // Your WeatherAPI key
+    const weatherBaseURL = "https://api.weatherapi.com/v1/current.json?key=" + weatherAPIKey;
 
     // Function to toggle theme (dark/light mode)
     themeToggle.addEventListener("click", () => {
@@ -54,27 +54,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Fetching weather data using the OpenWeather API
+    // Fetching weather data using the WeatherAPI
     getWeatherBtn.addEventListener("click", () => {
         const city = citySelect.value;
         const country = countrySelect.value;
 
         if (city && country) {
-            const url = `${weatherBaseURL}&q=${city},${country}&appid=${weatherAPIKey}`;
-            
+            const url = `${weatherBaseURL}&q=${city},${country}`;
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.cod === 200) {
-                        const { main, weather } = data;
-                        weatherInfo.innerHTML = `
-                            <h3>Weather in ${city}</h3>
-                            <p>Temperature: ${main.temp}°C</p>
-                            <p>Humidity: ${main.humidity}%</p>
-                            <p>Condition: ${weather[0].description}</p>
-                        `;
-                    } else {
+                    if (data.error) {
                         weatherInfo.innerHTML = `<p>Weather data not found for ${city}, ${country}. Try again!</p>`;
+                    } else {
+                        const { current, location } = data;
+                        weatherInfo.innerHTML = `
+                            <h3>Weather in ${location.name}</h3>
+                            <p>Temperature: ${current.temp_c}°C</p>
+                            <p>Humidity: ${current.humidity}%</p>
+                            <p>Condition: ${current.condition.text}</p>
+                        `;
                     }
                 })
                 .catch(() => {
@@ -122,5 +122,4 @@ document.addEventListener("DOMContentLoaded", () => {
             subjectSelect.removeChild(subjectSelect.querySelector(`option[value="${selectedSubject}"]`));
         }
     });
-
 });
