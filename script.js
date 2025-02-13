@@ -1,113 +1,145 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const authScreen = document.getElementById("authScreen");
+    const mainContent = document.getElementById("mainContent");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const showRegister = document.getElementById("showRegister");
+    const showLogin = document.getElementById("showLogin");
+    const loginUsername = document.getElementById("loginUsername");
+    const loginPassword = document.getElementById("loginPassword");
+    const registerUsername = document.getElementById("registerUsername");
+    const registerPassword = document.getElementById("registerPassword");
     const themeToggle = document.getElementById("themeToggle");
-    const changeLanguageBtn = document.getElementById("changeLanguageBtn");
     const countrySelect = document.getElementById("country");
     const citySelect = document.getElementById("city");
     const getWeatherBtn = document.getElementById("getWeather");
-    const timeDisplay = document.getElementById("timeDisplay");
     const weatherInfo = document.getElementById("weatherInfo");
     const outfitSuggestion = document.getElementById("outfitSuggestion");
     const subjectSelect = document.getElementById("subjectSelect");
     const customSubjectInput = document.getElementById("customSubject");
     const addSubjectBtn = document.getElementById("addSubject");
     const removeSubjectBtn = document.getElementById("removeSubject");
+    const tomorrowReminder = document.getElementById("tomorrowReminder");
+    const setReminderBtn = document.getElementById("setReminder");
+    const reminderDisplay = document.getElementById("reminderDisplay");
 
-    const cityData = {
-        Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
-        "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
-        "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
-    };
+    // Dummy users for login/register
+    const users = [];
+    let currentUser = null;
 
-    const weatherAPIKey = "bfba7f78869e4222b89154845251302"; // Your WeatherAPI key
-    const weatherBaseURL = "https://api.weatherapi.com/v1/current.json?key=" + weatherAPIKey;
-
-    // Toggle themes
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        document.body.classList.toggle("custom-mode");
+    // Toggle between Login and Register
+    showRegister.addEventListener("click", () => {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
     });
 
-    // Change language (English <-> Hebrew)
-    changeLanguageBtn.addEventListener("click", () => {
-        document.body.classList.toggle("rtl");
-        const isRTL = document.body.classList.contains("rtl");
-        changeLanguageBtn.textContent = isRTL ? "🌍 English / עברית" : "🌍 עברית / English";
-        document.getElementById("countryLabel").textContent = isRTL ? "מדינה:" : "Country:";
-        document.getElementById("cityLabel").textContent = isRTL ? "עיר:" : "City:";
-        document.getElementById("subjectLabel").textContent = isRTL ? "נושא:" : "Subject:";
-        document.getElementById("customSubject").placeholder = isRTL ? "הוסף נושא" : "Add a subject";
-        addSubjectBtn.textContent = isRTL ? "➕ הוסף" : "➕ Add";
-        removeSubjectBtn.textContent = isRTL ? "❌ הסר נבחר" : "❌ Remove Selected";
+    showLogin.addEventListener("click", () => {
+        registerForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+    });
+
+    // Login functionality
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = loginUsername.value;
+        const password = loginPassword.value;
+
+        currentUser = users.find(user => user.username === username && user.password === password);
+
+        if (currentUser) {
+            authScreen.style.display = "none";
+            mainContent.style.display = "block";
+        } else {
+            alert("Invalid login credentials");
+        }
+    });
+
+    // Register functionality
+    registerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = registerUsername.value;
+        const password = registerPassword.value;
+
+        if (users.some(user => user.username === username)) {
+            alert("Username already exists");
+        } else {
+            users.push({ username, password });
+            alert("Registration successful! You can now log in.");
+            showLogin.click();
+        }
+    });
+
+    // Toggle Theme
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
     });
 
     // Populating the city dropdown based on the selected country
     countrySelect.addEventListener("change", () => {
+        const cities = {
+            Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
+            "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
+            "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
+        };
+
         const selectedCountry = countrySelect.value;
         if (selectedCountry) {
             citySelect.innerHTML = '<option value="">Select a city</option>';
-            cityData[selectedCountry].forEach(city => {
+            cities[selectedCountry].forEach(city => {
                 const option = document.createElement("option");
                 option.value = city;
                 option.textContent = city;
                 citySelect.appendChild(option);
             });
-        } else {
-            citySelect.innerHTML = '<option value="">Select a city</option>';
         }
     });
 
-    // Fetching weather data using the WeatherAPI
+    // Set a reminder for tomorrow
+    setReminderBtn.addEventListener("click", () => {
+        const reminder = tomorrowReminder.value;
+        if (reminder) {
+            localStorage.setItem("tomorrowReminder", reminder);
+            reminderDisplay.textContent = `Reminder set: ${reminder}`;
+        } else {
+            reminderDisplay.textContent = "Please enter a reminder.";
+        }
+    });
+
+    // Fetch weather data and outfit suggestion
     getWeatherBtn.addEventListener("click", () => {
         const city = citySelect.value;
-        const country = countrySelect.value;
-
-        if (city && country) {
-            const url = `${weatherBaseURL}&q=${city},${country}`;
-
-            fetch(url)
+        if (city) {
+            fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.error) {
-                        weatherInfo.innerHTML = `<p>Weather data not found for ${city}, ${country}. Try again!</p>`;
-                    } else {
-                        const { current, location } = data;
-                        weatherInfo.innerHTML = `
-                            <h3>Weather in ${location.name}, ${location.country}</h3>
-                            <p>Temperature: ${current.temp_c}°C</p>
-                            <p>Condition: ${current.condition.text}</p>
-                        `;
-                        suggestOutfit(current);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching weather data:", error);
-                    weatherInfo.innerHTML = "<p>Error fetching weather data. Please try again later.</p>";
+                    const weather = data.current;
+                    weatherInfo.innerHTML = `
+                        <p>Temperature: ${weather.temp_c}°C</p>
+                        <p>Condition: ${weather.condition.text}</p>
+                    `;
+                    suggestOutfit(weather);
                 });
-        } else {
-            weatherInfo.innerHTML = "<p>Please select both a country and a city.</p>";
         }
     });
 
-    // Suggest outfit based on weather
     function suggestOutfit(weather) {
-        let suggestion = "";
-
+        let suggestion = "Weather is fine!";
         if (weather.temp_c < 10) {
-            suggestion = "It's cold! You should wear a coat and a scarf.";
-        } else if (weather.temp_c >= 10 && weather.temp_c < 20) {
-            suggestion = "It's chilly! Consider wearing a jacket.";
+            suggestion = "It's cold! Wear a coat and scarf.";
+        } else if (weather.temp_c < 20) {
+            suggestion = "It's chilly! A jacket would be good.";
         } else {
-            suggestion = "It's warm! A light shirt will do.";
+            suggestion = "It's warm! Wear something light.";
         }
 
         if (weather.condition.text.toLowerCase().includes("rain")) {
-            suggestion += " Don't forget to take an umbrella!";
+            suggestion += " Don't forget your umbrella!";
         }
 
-        outfitSuggestion.innerHTML = `<p>${suggestion}</p>`;
+        outfitSuggestion.textContent = suggestion;
     }
 
-    // Handle subject addition/removal
+    // Subject management
     addSubjectBtn.addEventListener("click", () => {
         const customSubject = customSubjectInput.value.trim();
         if (customSubject) {
@@ -124,7 +156,4 @@ document.addEventListener("DOMContentLoaded", () => {
             subjectSelect.removeChild(selectedOption);
         }
     });
-
-    // Initialize page
-    document.body.classList.add("light-mode");
 });
