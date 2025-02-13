@@ -4,47 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול תיק לבית ספר</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="app">
-        <!-- Login Screen -->
-        <div id="loginScreen" class="screen">
-            <h2>התחבר למערכת בית הספר</h2>
-            <input type="text" id="username" placeholder="שם משתמש" required>
-            <input type="password" id="password" placeholder="סיסמה" required>
-            <button id="loginBtn">התחבר</button>
-            <button id="registerBtn">הירשם</button>
-            <p id="loginMessage"></p>
-        </div>
+    <!-- Login/Register Screen -->
+    <div id="authScreen" class="auth-screen">
+        <h2>התחבר או הרשם</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="שם משתמש" required />
+            <input type="password" id="loginPassword" placeholder="סיסמה" required />
+            <button type="submit">התחבר</button>
+            <p>אין לך חשבון? <a href="#" id="showRegister">הרשם</a></p>
+        </form>
 
-        <!-- School Bag Management Screen -->
-        <div id="bagScreen" class="screen hidden">
-            <h2>ניהול תיק לבית הספר</h2>
-
-            <div id="weatherSection" class="section">
-                <h3>המלצת לבוש:</h3>
-                <p id="weather"></p>
-                <p id="outfitSuggestion"></p>
-            </div>
-            
-            <div id="schedule" class="section">
-                <h3>מערכת שעות:</h3>
-                <div id="days"></div>
-            </div>
-
-            <h3>תזכורת למחר:</h3>
-            <input type="text" id="tomorrowReminder" placeholder="הזן תזכורת...">
-            <button id="setReminderBtn">שמור תזכורת</button>
-            <div id="reminderDisplay"></div>
-
-            <button id="logoutBtn" class="logout">התנתק</button>
-
-            <div id="savedMessage"></div>
-            <div id="tomorrowItems" style="margin-top:20px; font-weight:bold;"></div>
-        </div>
+        <form id="registerForm" class="hidden">
+            <input type="text" id="registerUsername" placeholder="שם משתמש" required />
+            <input type="password" id="registerPassword" placeholder="סיסמה" required />
+            <button type="submit">הירשם</button>
+            <p>כבר יש לך חשבון? <a href="#" id="showLogin">התחבר</a></p>
+        </form>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Main Content -->
+    <div class="container" id="mainContent" style="display:none;">
+        <header>
+            <h1 id="title">📆 ניהול תיק לבית ספר</h1>
+            <button id="themeToggle">🌗 החלף ערכת צבעים</button>
+            <button id="changeLanguageBtn">🌍 עברית / English</button>
+        </header>
+
+        <div id="timeDisplay"></div>
+        <div id="weatherInfo"></div>
+        <div id="outfitSuggestion"></div>
+
+        <main>
+            <label for="country" id="countryLabel">מדינה:</label>
+            <select id="country">
+                <option value="">בחר מדינה</option>
+                <option value="Israel">ישראל</option>
+                <option value="United States">ארה"ב</option>
+                <option value="United Kingdom">בריטניה</option>
+            </select>
+
+            <label for="city" id="cityLabel">עיר:</label>
+            <select id="city">
+                <option value="">בחר עיר</option>
+            </select>
+            <button id="getWeather">הצג מזג אוויר</button>
+
+            <h3>קבע את הלוח זמנים שלך לשבוע:</h3>
+            <div id="weeklySchedule">
+                <label for="sundaySubjects">ראשון:</label>
+                <input type="text" id="sundaySubjects" placeholder="נושאים ליום ראשון" />
+                <label for="mondaySubjects">שני:</label>
+                <input type="text" id="mondaySubjects" placeholder="נושאים ליום שני" />
+                <label for="tuesdaySubjects">שלישי:</label>
+                <input type="text" id="tuesdaySubjects" placeholder="נושאים ליום שלישי" />
+                <label for="wednesdaySubjects">רביעי:</label>
+                <input type="text" id="wednesdaySubjects" placeholder="נושאים ליום רביעי" />
+                <label for="thursdaySubjects">חמישי:</label>
+                <input type="text" id="thursdaySubjects" placeholder="נושאים ליום חמישי" />
+                <label for="fridaySubjects">שישי:</label>
+                <input type="text" id="fridaySubjects" placeholder="נושאים ליום שישי" />
+                <label for="saturdaySubjects">שבת:</label>
+                <input type="text" id="saturdaySubjects" placeholder="נושאים ליום שבת" />
+                <button id="saveSchedule">שמור לוח זמנים</button>
+            </div>
+
+            <h3>תזכורת לקחת מחר:</h3>
+            <input type="text" id="tomorrowReminder" placeholder="מה לקחת מחר?" />
+            <button id="setReminder">קבע תזכורת</button>
+            <p id="reminderDisplay"></p>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 ניהול תיק לבית ספר</p>
+        </footer>
+    </div>
 </body>
 </html>
