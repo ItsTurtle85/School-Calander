@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
     };
 
-    const weatherAPIKey = "YOUR_API_KEY"; // Replace with your API key
-    const weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?units=metric";
+    const weatherAPIKey = "bfba7f78869e4222b89154845251302"; // Replace with your API key
+    const weatherBaseURL = "https://api.weatherapi.com/v1/current.json?key=";
 
     // Function to toggle theme (dark/light mode)
     themeToggle.addEventListener("click", () => {
