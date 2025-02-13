@@ -3,46 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Calendar - The Best Ever</title>
+    <title>Ultimate School Calendar</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 id="greeting">📅 School Calendar</h1>
+            <h1>📆 Ultimate School Calendar</h1>
             <button id="themeToggle">🌗 Toggle Theme</button>
         </header>
         
         <div id="timeDisplay"></div>
         <div id="weatherInfo"></div>
-
+        
         <main>
-            <div class="location-inputs">
-                <label for="country">🌍 Country:</label>
-                <input type="text" id="country" placeholder="Enter your country">
+            <label for="country">Country:</label>
+            <input type="text" id="country" placeholder="Enter your country">
 
-                <label for="city">🏙️ City:</label>
-                <input type="text" id="city" placeholder="Enter your city">
-                <button id="getWeather">☁️ Get Weather</button>
-            </div>
-
-            <div class="subject-section">
-                <label for="subjectSelect">📚 Subject:</label>
-                <select id="subjectSelect"></select>
-
-                <input type="text" id="customSubject" placeholder="Add a subject">
-                <button id="addSubject">➕ Add</button>
-                <button id="removeSubject">❌ Remove Selected</button>
-            </div>
-
+            <label for="city">City:</label>
+            <input type="text" id="city" placeholder="Enter your city">
+            <button id="getWeather">Get Weather</button>
+            
+            <label for="subjectSelect">Subject:</label>
+            <select id="subjectSelect"></select>
+            
+            <input type="text" id="customSubject" placeholder="Add a subject">
+            <button id="addSubject">➕ Add</button>
+            <button id="removeSubject">❌ Remove Selected</button>
+            
             <button id="changeLanguageBtn">🌍 Change Language</button>
         </main>
         
         <footer>
-            <p>&copy; 2025 Your App | Made for Success 🚀</p>
+            <p>&copy; 2025 Ultimate Calendar</p>
         </footer>
     </div>
-    
-    <script src="script.js"></script>
 </body>
 </html>
