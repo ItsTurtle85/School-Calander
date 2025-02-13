@@ -3,32 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Subject Selector</title>
+    <title>School Calendar - The Best Ever</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1 id="greeting">Hello, select a subject</h1>
-            <button id="toggleTheme">🌙</button>
-            <p id="liveTime"></p>
+            <button id="themeToggle">🌗 Toggle Theme</button>
         </header>
+        
+        <div id="timeDisplay"></div>
+        <div id="weatherInfo"></div>
+
         <main>
-            <label for="countryInput">Country:</label>
-            <input type="text" id="countryInput" placeholder="Enter your country">
-            <label for="cityInput">City:</label>
-            <input type="text" id="cityInput" placeholder="Enter your city">
+            <label for="country">Country:</label>
+            <input type="text" id="country" placeholder="Enter your country">
+
+            <label for="city">City:</label>
+            <input type="text" id="city" placeholder="Enter your city">
             <button id="getWeather">Get Weather</button>
-            <p id="weatherSuggestion"></p>
-            
-            <label for="subjectSelect" id="subjectLabel">Subject</label>
+
+            <label for="subjectSelect" id="subjectLabel">Subject:</label>
             <select id="subjectSelect"></select>
-            <button id="changeLanguageBtn">Change Language</button>
+
+            <input type="text" id="customSubject" placeholder="Add a subject">
+            <button id="addSubject">➕ Add</button>
+            <button id="removeSubject">❌ Remove Selected</button>
+
+            <button id="changeLanguageBtn">🌍 Change Language</button>
         </main>
+        
         <footer>
             <p>&copy; 2025 Your App</p>
         </footer>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
