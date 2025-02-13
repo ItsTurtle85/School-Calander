@@ -1,40 +1,51 @@
-/* Light & Dark Mode Variables */
+/* Light Mode Variables */
 :root {
-    --bg-color: #f4f4f4;
-    --text-color: #333;
-    --header-bg: #0077cc;
-    --button-bg: #0088dd;
-    --button-hover: #005599;
-    --input-bg: #fff;
-    --input-border: #ccc;
+    --bg-color-light: #f4f4f4;
+    --text-color-light: #333;
+    --header-bg-light: #0077cc;
+    --button-bg-light: #0088dd;
+    --button-hover-light: #005599;
+    --input-bg-light: #fff;
+    --input-border-light: #ccc;
 }
 
-/* Dark Mode */
-.dark-mode {
-    --bg-color: #1e1e1e;
-    --text-color: #f4f4f4;
-    --header-bg: #005599;
-    --button-bg: #004488;
-    --button-hover: #002244;
-    --input-bg: #2a2a2a;
-    --input-border: #555;
+/* Dark Mode Variables */
+:root {
+    --bg-color-dark: #1e1e1e;
+    --text-color-dark: #f4f4f4;
+    --header-bg-dark: #005599;
+    --button-bg-dark: #004488;
+    --button-hover-dark: #002244;
+    --input-bg-dark: #2a2a2a;
+    --input-border-dark: #555;
+}
+
+/* Custom Theme Variables */
+:root {
+    --bg-color-custom: #2c3e50;
+    --text-color-custom: #ecf0f1;
+    --header-bg-custom: #34495e;
+    --button-bg-custom: #1abc9c;
+    --button-hover-custom: #16a085;
+    --input-bg-custom: #34495e;
+    --input-border-custom: #7f8c8d;
 }
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    direction: ltr;
-    text-align: left;
-    margin: 0;
-    padding: 0;
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
     transition: all 0.3s ease;
 }
 
-/* Right-to-Left (RTL) Support */
-.rtl {
-    direction: rtl;
-    text-align: right;
+body.dark-mode {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+body.custom-mode {
+    background-color: var(--bg-color-custom);
+    color: var(--text-color-custom);
 }
 
 .container {
@@ -49,10 +60,18 @@ body {
 
 header {
     text-align: center;
-    background: var(--header-bg);
+    background: var(--header-bg-light);
     color: white;
     padding: 15px;
     border-radius: 12px 12px 0 0;
+}
+
+header.dark-mode {
+    background: var(--header-bg-dark);
+}
+
+header.custom-mode {
+    background: var(--header-bg-custom);
 }
 
 button {
@@ -61,7 +80,7 @@ button {
     padding: 12px;
     margin: 10px 0;
     font-size: 16px;
-    background: var(--button-bg);
+    background: var(--button-bg-light);
     color: white;
     border: none;
     border-radius: 6px;
@@ -70,19 +89,47 @@ button {
 }
 
 button:hover {
-    background: var(--button-hover);
+    background: var(--button-hover-light);
     transform: scale(1.05);
+}
+
+button.dark-mode {
+    background: var(--button-bg-dark);
+}
+
+button.dark-mode:hover {
+    background: var(--button-hover-dark);
+}
+
+button.custom-mode {
+    background: var(--button-bg-custom);
+}
+
+button.custom-mode:hover {
+    background: var(--button-hover-custom);
 }
 
 input, select {
     width: 100%;
     padding: 12px;
     margin: 5px 0;
-    border: 1px solid var(--input-border);
-    background: var(--input-bg);
-    color: var(--text-color);
+    border: 1px solid var(--input-border-light);
+    background: var(--input-bg-light);
+    color: var(--text-color-light);
     border-radius: 6px;
     transition: border 0.3s ease, background 0.3s ease;
+}
+
+input.dark-mode, select.dark-mode {
+    background: var(--input-bg-dark);
+    color: var(--text-color-dark);
+    border: 1px solid var(--input-border-dark);
+}
+
+input.custom-mode, select.custom-mode {
+    background: var(--input-bg-custom);
+    color: var(--text-color-custom);
+    border: 1px solid var(--input-border-custom);
 }
 
 footer {
@@ -90,6 +137,14 @@ footer {
     margin-top: 20px;
     padding: 12px;
     font-size: 0.9em;
+}
+
+footer.dark-mode {
+    color: var(--text-color-dark);
+}
+
+footer.custom-mode {
+    color: var(--text-color-custom);
 }
 
 /* Responsive Design */
