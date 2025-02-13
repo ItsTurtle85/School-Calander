@@ -1,111 +1,159 @@
-/* Basic Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--bg-color-light);
-    color: var(--text-color-light);
-    transition: all 0.3s ease;
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const authScreen = document.getElementById("authScreen");
+    const mainContent = document.getElementById("mainContent");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const showRegister = document.getElementById("showRegister");
+    const showLogin = document.getElementById("showLogin");
+    const loginUsername = document.getElementById("loginUsername");
+    const loginPassword = document.getElementById("loginPassword");
+    const registerUsername = document.getElementById("registerUsername");
+    const registerPassword = document.getElementById("registerPassword");
+    const themeToggle = document.getElementById("themeToggle");
+    const countrySelect = document.getElementById("country");
+    const citySelect = document.getElementById("city");
+    const getWeatherBtn = document.getElementById("getWeather");
+    const weatherInfo = document.getElementById("weatherInfo");
+    const outfitSuggestion = document.getElementById("outfitSuggestion");
+    const subjectSelect = document.getElementById("subjectSelect");
+    const customSubjectInput = document.getElementById("customSubject");
+    const addSubjectBtn = document.getElementById("addSubject");
+    const removeSubjectBtn = document.getElementById("removeSubject");
+    const tomorrowReminder = document.getElementById("tomorrowReminder");
+    const setReminderBtn = document.getElementById("setReminder");
+    const reminderDisplay = document.getElementById("reminderDisplay");
 
-.container {
-    max-width: 700px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
+    // Dummy users for login/register
+    const users = [];
+    let currentUser = null;
 
-header {
-    text-align: center;
-    background: var(--header-bg-light);
-    color: white;
-    padding: 15px;
-    border-radius: 12px 12px 0 0;
-}
+    // Toggle between Login and Register
+    showRegister.addEventListener("click", () => {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+    });
 
-button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 16px;
-    background: var(--button-bg-light);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s;
-}
+    showLogin.addEventListener("click", () => {
+        registerForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+    });
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 5px 0;
-    border: 1px solid var(--input-border-light);
-    background: var(--input-bg-light);
-    color: var(--text-color-light);
-    border-radius: 6px;
-}
+    // Login functionality
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = loginUsername.value;
+        const password = loginPassword.value;
 
-footer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 12px;
-    font-size: 0.9em;
-}
+        currentUser = users.find(user => user.username === username && user.password === password);
 
-/* Auth Screen */
-.auth-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
+        if (currentUser) {
+            authScreen.style.display = "none";
+            mainContent.style.display = "block";
+        } else {
+            alert("Invalid login credentials");
+        }
+    });
 
-.auth-screen form {
-    width: 300px;
-    margin-bottom: 20px;
-}
+    // Register functionality
+    registerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = registerUsername.value;
+        const password = registerPassword.value;
 
-.auth-screen input {
-    margin-bottom: 15px;
-}
+        if (users.some(user => user.username === username)) {
+            alert("Username already exists");
+        } else {
+            users.push({ username, password });
+            alert("Registration successful! You can now log in.");
+            showLogin.click();
+        }
+    });
 
-/* Hide/Show forms */
-.hidden {
-    display: none;
-}
+    // Toggle Theme
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+    });
 
-/* Theme-specific variables */
-:root {
-    --bg-color-light: #f4f4f4;
-    --text-color-light: #333;
-    --header-bg-light: #0077cc;
-    --button-bg-light: #0088dd;
-    --button-hover-light: #005599;
-    --input-bg-light: #fff;
-    --input-border-light: #ccc;
-}
+    // Populating the city dropdown based on the selected country
+    countrySelect.addEventListener("change", () => {
+        const cities = {
+            Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
+            "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
+            "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
+        };
 
-body.dark-mode {
-    background-color: #1e1e1e;
-    color: #f4f4f4;
-}
+        const selectedCountry = countrySelect.value;
+        if (selectedCountry) {
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            cities[selectedCountry].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    });
 
-button.dark-mode {
-    background-color: #004488;
-}
+    // Set a reminder for tomorrow
+    setReminderBtn.addEventListener("click", () => {
+        const reminder = tomorrowReminder.value;
+        if (reminder) {
+            localStorage.setItem("tomorrowReminder", reminder);
+            reminderDisplay.textContent = `Reminder set: ${reminder}`;
+        } else {
+            reminderDisplay.textContent = "Please enter a reminder.";
+        }
+    });
 
-input.dark-mode {
-    background-color: #2a2a2a;
-    color: #f4f4f4;
-}
+    // Fetch weather data and outfit suggestion
+    getWeatherBtn.addEventListener("click", () => {
+        const city = citySelect.value;
+        if (city) {
+            fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    const weather = data.current;
+                    weatherInfo.innerHTML = `
+                        <p>Temperature: ${weather.temp_c}°C</p>
+                        <p>Condition: ${weather.condition.text}</p>
+                    `;
+                    suggestOutfit(weather);
+                });
+        }
+    });
 
-/* Responsive Design */
-@media (max-width: 700px) {
-    .container {
-        width: 95%;
+    function suggestOutfit(weather) {
+        let suggestion = "Weather is fine!";
+        if (weather.temp_c < 10) {
+            suggestion = "It's cold! Wear a coat and scarf.";
+        } else if (weather.temp_c < 20) {
+            suggestion = "It's chilly! A jacket would be good.";
+        } else {
+            suggestion = "It's warm! Wear something light.";
+        }
+
+        if (weather.condition.text.toLowerCase().includes("rain")) {
+            suggestion += " Don't forget your umbrella!";
+        }
+
+        outfitSuggestion.textContent = suggestion;
     }
-}
+
+    // Subject management
+    addSubjectBtn.addEventListener("click", () => {
+        const customSubject = customSubjectInput.value.trim();
+        if (customSubject) {
+            const option = document.createElement("option");
+            option.textContent = customSubject;
+            subjectSelect.appendChild(option);
+            customSubjectInput.value = "";
+        }
+    });
+
+    removeSubjectBtn.addEventListener("click", () => {
+        const selectedOption = subjectSelect.options[subjectSelect.selectedIndex];
+        if (selectedOption) {
+            subjectSelect.removeChild(selectedOption);
+        }
+    });
+});
