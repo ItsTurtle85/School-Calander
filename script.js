@@ -1,84 +1,126 @@
 document.addEventListener("DOMContentLoaded", () => {
     const themeToggle = document.getElementById("themeToggle");
-    const langToggle = document.getElementById("changeLanguageBtn");
-    const timeDisplay = document.getElementById("timeDisplay");
+    const changeLanguageBtn = document.getElementById("changeLanguageBtn");
+    const countrySelect = document.getElementById("country");
+    const citySelect = document.getElementById("city");
     const getWeatherBtn = document.getElementById("getWeather");
+    const timeDisplay = document.getElementById("timeDisplay");
+    const weatherInfo = document.getElementById("weatherInfo");
+    const subjectSelect = document.getElementById("subjectSelect");
+    const customSubjectInput = document.getElementById("customSubject");
     const addSubjectBtn = document.getElementById("addSubject");
     const removeSubjectBtn = document.getElementById("removeSubject");
-    const subjectSelect = document.getElementById("subjectSelect");
-    const countryInput = document.getElementById("country");
-    const cityInput = document.getElementById("city");
     
-    let isHebrew = false;
+    const cityData = {
+        Israel: ["Tel Aviv", "Jerusalem", "Haifa", "Eilat"],
+        "United States": ["New York", "Los Angeles", "Chicago", "Miami"],
+        "United Kingdom": ["London", "Manchester", "Birmingham", "Edinburgh"]
+    };
 
-    // Dark Mode Toggle
+    const weatherAPIKey = "YOUR_API_KEY"; // Replace with your API key
+    const weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?units=metric";
+
+    // Function to toggle theme (dark/light mode)
     themeToggle.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
     });
 
-    // Language Toggle (Hebrew/English)
-    langToggle.addEventListener("click", () => {
-        isHebrew = !isHebrew;
-        document.body.classList.toggle("rtl", isHebrew);
-
-        const translations = {
-            en: {
-                title: "📆 Ultimate School Calendar",
-                country: "Country:",
-                city: "City:",
-                subject: "Subject:",
-                addSubject: "➕ Add",
-                removeSubject: "❌ Remove Selected"
-            },
-            he: {
-                title: "📆 לוח שנה לבית ספר",
-                country: "מדינה:",
-                city: "עיר:",
-                subject: "נושא:",
-                addSubject: "➕ הוסף",
-                removeSubject: "❌ מחק נבחר"
-            }
-        };
-
-        const lang = isHebrew ? "he" : "en";
-        document.getElementById("title").textContent = translations[lang].title;
-        document.getElementById("countryLabel").textContent = translations[lang].country;
-        document.getElementById("cityLabel").textContent = translations[lang].city;
-        document.getElementById("subjectLabel").textContent = translations[lang].subject;
-        addSubjectBtn.textContent = translations[lang].addSubject;
-        removeSubjectBtn.textContent = translations[lang].removeSubject;
+    // Change language (English <-> Hebrew)
+    changeLanguageBtn.addEventListener("click", () => {
+        document.body.classList.toggle("rtl");
+        const isRTL = document.body.classList.contains("rtl");
+        changeLanguageBtn.textContent = isRTL ? "🌍 English / עברית" : "🌍 עברית / English";
+        document.getElementById("countryLabel").textContent = isRTL ? "מדינה:" : "Country:";
+        document.getElementById("cityLabel").textContent = isRTL ? "עיר:" : "City:";
+        document.getElementById("subjectLabel").textContent = isRTL ? "נושא:" : "Subject:";
+        document.getElementById("customSubject").placeholder = isRTL ? "הוסף נושא" : "Add a subject";
+        addSubjectBtn.textContent = isRTL ? "➕ הוסף" : "➕ Add";
+        removeSubjectBtn.textContent = isRTL ? "❌ הסר נבחר" : "❌ Remove Selected";
     });
 
-    // Live Time Update
-    function updateTime() {
-        timeDisplay.textContent = new Date().toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // Fetch Weather (Fake API Placeholder)
-    getWeatherBtn.addEventListener("click", () => {
-        const city = cityInput.value;
-        const country = countryInput.value;
-        if (city && country) {
-            document.getElementById("weatherInfo").textContent = `🌤️ Weather in ${city}, ${country}: 25°C`;
+    // Populating the city dropdown based on the selected country
+    countrySelect.addEventListener("change", () => {
+        const selectedCountry = countrySelect.value;
+        if (selectedCountry) {
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+            cityData[selectedCountry].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        } else {
+            citySelect.innerHTML = '<option value="">Select a city</option>';
         }
     });
 
-    // Add Subject
+    // Fetching weather data using the OpenWeather API
+    getWeatherBtn.addEventListener("click", () => {
+        const city = citySelect.value;
+        const country = countrySelect.value;
+
+        if (city && country) {
+            const url = `${weatherBaseURL}&q=${city},${country}&appid=${weatherAPIKey}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.cod === 200) {
+                        const { main, weather } = data;
+                        weatherInfo.innerHTML = `
+                            <h3>Weather in ${city}</h3>
+                            <p>Temperature: ${main.temp}°C</p>
+                            <p>Humidity: ${main.humidity}%</p>
+                            <p>Condition: ${weather[0].description}</p>
+                        `;
+                    } else {
+                        weatherInfo.innerHTML = `<p>Weather data not found for ${city}, ${country}. Try again!</p>`;
+                    }
+                })
+                .catch(() => {
+                    weatherInfo.innerHTML = `<p>Failed to fetch weather data. Please try again later.</p>`;
+                });
+        } else {
+            weatherInfo.innerHTML = `<p>Please select a country and city first.</p>`;
+        }
+    });
+
+    // Time display function
+    function updateTime() {
+        const date = new Date();
+        const timeString = date.toLocaleTimeString();
+        timeDisplay.textContent = `Current Time: ${timeString}`;
+    }
+
+    setInterval(updateTime, 1000); // Update every second
+
+    // Subject handling
+    const subjects = ["Math", "English", "Science", "History"];
+    subjects.forEach(subject => {
+        const option = document.createElement("option");
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.appendChild(option);
+    });
+
     addSubjectBtn.addEventListener("click", () => {
-        const newSubject = document.getElementById("customSubject").value;
-        if (newSubject) {
+        const newSubject = customSubjectInput.value.trim();
+        if (newSubject && !subjects.includes(newSubject)) {
+            subjects.push(newSubject);
             const option = document.createElement("option");
+            option.value = newSubject;
             option.textContent = newSubject;
             subjectSelect.appendChild(option);
+            customSubjectInput.value = ''; // Clear the input
         }
     });
 
-    // Remove Subject
     removeSubjectBtn.addEventListener("click", () => {
-        if (subjectSelect.selectedIndex !== -1) {
-            subjectSelect.remove(subjectSelect.selectedIndex);
+        const selectedSubject = subjectSelect.value;
+        if (selectedSubject && subjects.includes(selectedSubject)) {
+            subjects.splice(subjects.indexOf(selectedSubject), 1);
+            subjectSelect.removeChild(subjectSelect.querySelector(`option[value="${selectedSubject}"]`));
         }
     });
+
 });
