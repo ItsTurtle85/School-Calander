@@ -1,51 +1,9 @@
-/* Light Mode Variables */
-:root {
-    --bg-color-light: #f4f4f4;
-    --text-color-light: #333;
-    --header-bg-light: #0077cc;
-    --button-bg-light: #0088dd;
-    --button-hover-light: #005599;
-    --input-bg-light: #fff;
-    --input-border-light: #ccc;
-}
-
-/* Dark Mode Variables */
-:root {
-    --bg-color-dark: #1e1e1e;
-    --text-color-dark: #f4f4f4;
-    --header-bg-dark: #005599;
-    --button-bg-dark: #004488;
-    --button-hover-dark: #002244;
-    --input-bg-dark: #2a2a2a;
-    --input-border-dark: #555;
-}
-
-/* Custom Theme Variables */
-:root {
-    --bg-color-custom: #2c3e50;
-    --text-color-custom: #ecf0f1;
-    --header-bg-custom: #34495e;
-    --button-bg-custom: #1abc9c;
-    --button-hover-custom: #16a085;
-    --input-bg-custom: #34495e;
-    --input-border-custom: #7f8c8d;
-}
-
+/* Basic Styles */
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--bg-color-light);
     color: var(--text-color-light);
     transition: all 0.3s ease;
-}
-
-body.dark-mode {
-    background-color: var(--bg-color-dark);
-    color: var(--text-color-dark);
-}
-
-body.custom-mode {
-    background-color: var(--bg-color-custom);
-    color: var(--text-color-custom);
 }
 
 .container {
@@ -55,7 +13,6 @@ body.custom-mode {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease;
 }
 
 header {
@@ -64,14 +21,6 @@ header {
     color: white;
     padding: 15px;
     border-radius: 12px 12px 0 0;
-}
-
-header.dark-mode {
-    background: var(--header-bg-dark);
-}
-
-header.custom-mode {
-    background: var(--header-bg-custom);
 }
 
 button {
@@ -88,28 +37,7 @@ button {
     transition: background 0.3s ease, transform 0.2s;
 }
 
-button:hover {
-    background: var(--button-hover-light);
-    transform: scale(1.05);
-}
-
-button.dark-mode {
-    background: var(--button-bg-dark);
-}
-
-button.dark-mode:hover {
-    background: var(--button-hover-dark);
-}
-
-button.custom-mode {
-    background: var(--button-bg-custom);
-}
-
-button.custom-mode:hover {
-    background: var(--button-hover-custom);
-}
-
-input, select {
+input {
     width: 100%;
     padding: 12px;
     margin: 5px 0;
@@ -117,19 +45,6 @@ input, select {
     background: var(--input-bg-light);
     color: var(--text-color-light);
     border-radius: 6px;
-    transition: border 0.3s ease, background 0.3s ease;
-}
-
-input.dark-mode, select.dark-mode {
-    background: var(--input-bg-dark);
-    color: var(--text-color-dark);
-    border: 1px solid var(--input-border-dark);
-}
-
-input.custom-mode, select.custom-mode {
-    background: var(--input-bg-custom);
-    color: var(--text-color-custom);
-    border: 1px solid var(--input-border-custom);
 }
 
 footer {
@@ -139,18 +54,58 @@ footer {
     font-size: 0.9em;
 }
 
-footer.dark-mode {
-    color: var(--text-color-dark);
+/* Auth Screen */
+.auth-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4;
 }
 
-footer.custom-mode {
-    color: var(--text-color-custom);
+.auth-screen form {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.auth-screen input {
+    margin-bottom: 15px;
+}
+
+/* Hide/Show forms */
+.hidden {
+    display: none;
+}
+
+/* Theme-specific variables */
+:root {
+    --bg-color-light: #f4f4f4;
+    --text-color-light: #333;
+    --header-bg-light: #0077cc;
+    --button-bg-light: #0088dd;
+    --button-hover-light: #005599;
+    --input-bg-light: #fff;
+    --input-border-light: #ccc;
+}
+
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f4f4f4;
+}
+
+button.dark-mode {
+    background-color: #004488;
+}
+
+input.dark-mode {
+    background-color: #2a2a2a;
+    color: #f4f4f4;
 }
 
 /* Responsive Design */
 @media (max-width: 700px) {
     .container {
         width: 95%;
-        padding: 18px;
     }
 }
