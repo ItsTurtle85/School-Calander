@@ -6,21 +6,25 @@
     <title>ניהול תיק לבית ספר</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <!-- Auth Screen for Login/Register -->
     <div id="authScreen" class="auth-screen">
         <h2>התחבר או הרשם</h2>
-        <form id="loginForm">
+        <form id="loginForm" class="auth-form">
             <input type="text" id="loginUsername" placeholder="שם משתמש" required />
             <input type="password" id="loginPassword" placeholder="סיסמה" required />
             <button type="submit">התחבר</button>
             <p>אין לך חשבון? <a href="#" id="showRegister">הרשם</a></p>
         </form>
 
-        <form id="registerForm" class="hidden">
+        <form id="registerForm" class="auth-form hidden">
             <input type="text" id="registerUsername" placeholder="שם משתמש" required />
+            <input type="email" id="registerEmail" placeholder="אימייל" required />
             <input type="password" id="registerPassword" placeholder="סיסמה" required />
+            <input type="password" id="registerConfirmPassword" placeholder="אשר סיסמה" required />
+            <div id="passwordStrengthMeter"></div>
             <button type="submit">הירשם</button>
             <p>כבר יש לך חשבון? <a href="#" id="showLogin">התחבר</a></p>
         </form>
@@ -30,51 +34,34 @@
     <div class="container" id="mainContent" style="display:none;">
         <header>
             <h1 id="title">📆 ניהול תיק לבית ספר</h1>
-            <button id="themeToggle">🌗 החלף ערכת צבעים</button>
-            <button id="changeLanguageBtn">🌍 עברית / English</button>
+            <button id="themeToggle" class="theme-btn">🌗 החלף ערכת צבעים</button>
+            <button id="changeLanguageBtn" class="lang-btn">🌍 עברית / English</button>
         </header>
 
+        <div id="greeting"></div>
         <div id="timeDisplay"></div>
         <div id="weatherInfo"></div>
         <div id="outfitSuggestion"></div>
 
         <main>
-            <!-- Country Selection for Weather -->
-            <label for="country" id="countryLabel">מדינה:</label>
-            <select id="country">
-                <option value="">בחר מדינה</option>
-                <option value="Israel">ישראל</option>
-                <option value="United States">ארה"ב</option>
-                <option value="United Kingdom">בריטניה</option>
-            </select>
+            <h3>המשימות שלך:</h3>
+            <div id="taskManagement">
+                <input type="text" id="newTask" placeholder="הוסף משימה חדשה" />
+                <button id="addTaskBtn" class="task-btn">הוסף משימה</button>
+                <ul id="taskList"></ul>
+            </div>
 
-            <label for="city" id="cityLabel">עיר:</label>
-            <select id="city">
-                <option value="">בחר עיר</option>
-            </select>
-            <button id="getWeather">הצג מזג אוויר</button>
-
-            <!-- Weekly Schedule Inputs -->
             <h3>קבע את הלוח זמנים שלך לשבוע:</h3>
             <div id="weeklySchedule">
-                <label for="sundaySubjects">ראשון:</label>
-                <input type="text" id="sundaySubjects" placeholder="נושאים ליום ראשון" />
-                <label for="mondaySubjects">שני:</label>
-                <input type="text" id="mondaySubjects" placeholder="נושאים ליום שני" />
-                <label for="tuesdaySubjects">שלישי:</label>
-                <input type="text" id="tuesdaySubjects" placeholder="נושאים ליום שלישי" />
-                <label for="wednesdaySubjects">רביעי:</label>
-                <input type="text" id="wednesdaySubjects" placeholder="נושאים ליום רביעי" />
-                <label for="thursdaySubjects">חמישי:</label>
-                <input type="text" id="thursdaySubjects" placeholder="נושאים ליום חמישי" />
-                <label for="fridaySubjects">שישי:</label>
-                <input type="text" id="fridaySubjects" placeholder="נושאים ליום שישי" />
-                <label for="saturdaySubjects">שבת:</label>
-                <input type="text" id="saturdaySubjects" placeholder="נושאים ליום שבת" />
+                <!-- Days of the week as input fields -->
+                <div id="weekDays">
+                    <input type="text" id="sundaySubjects" placeholder="נושאים ליום ראשון" />
+                    <input type="text" id="mondaySubjects" placeholder="נושאים ליום שני" />
+                    <!-- Additional inputs for other days... -->
+                </div>
                 <button id="saveSchedule">שמור לוח זמנים</button>
             </div>
 
-            <!-- Reminder Input -->
             <h3>תזכורת לקחת מחר:</h3>
             <input type="text" id="tomorrowReminder" placeholder="מה לקחת מחר?" />
             <button id="setReminder">קבע תזכורת</button>
