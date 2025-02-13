@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             color: #333;
+            transition: background-color 0.3s ease;
         }
         header {
             background-color: #007bff;
@@ -48,16 +49,6 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
-        .signup, .signin {
-            display: none;
-        }
-        #main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-            flex-direction: column;
-        }
         .feature-box {
             margin: 10px;
             padding: 20px;
@@ -93,6 +84,16 @@
             font-size: 24px;
             margin-top: 50px;
         }
+        .feature-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .feature-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body>
@@ -102,70 +103,158 @@
     <p>Your all-in-one solution for a modern web experience!</p>
 </header>
 
-<div class="container" id="main-content">
-    <!-- Sign-in and Sign-up -->
-    <div class="signin-form">
-        <h2>Sign In</h2>
-        <input type="text" id="signin-username" placeholder="Username">
-        <input type="password" id="signin-password" placeholder="Password">
-        <button onclick="signIn()">Sign In</button>
-        <p>Don't have an account? <a href="#" onclick="toggleSignup()">Sign up here</a></p>
-    </div>
+<div class="container">
+    <!-- Feature Section -->
+    <div class="feature-content">
+        <div class="feature-box" id="feature1">
+            <h3>Dynamic Background Color</h3>
+            <p>Click to change the background color of the page!</p>
+            <button onclick="changeBackgroundColor()">Change Color</button>
+        </div>
 
-    <div class="signup-form">
-        <h2>Sign Up</h2>
-        <input type="text" id="signup-username" placeholder="Username">
-        <input type="password" id="signup-password" placeholder="Password">
-        <button onclick="signUp()">Sign Up</button>
-        <p>Already have an account? <a href="#" onclick="toggleSignin()">Sign in here</a></p>
-    </div>
+        <div class="feature-box" id="feature2">
+            <h3>Random Text Generator</h3>
+            <p>Click to generate random quotes or text!</p>
+            <button onclick="generateRandomText()">Generate Text</button>
+        </div>
 
-    <!-- Features Section -->
-    <div class="feature-box" id="feature1">
-        <h3>Interactive Feature #1</h3>
-        <p>Click here to explore more!</p>
-    </div>
-    <div class="feature-box" id="feature2">
-        <h3>Interactive Feature #2</h3>
-        <p>Enhance your experience with this feature.</p>
-    </div>
-    <div class="feature-box" id="feature3">
-        <h3>Interactive Feature #3</h3>
-        <p>Explore and customize this amazing feature.</p>
-    </div>
-    <div class="feature-box" id="feature4">
-        <h3>Interactive Feature #4</h3>
-        <p>Click here to discover more details!</p>
-    </div>
-    <div class="feature-box" id="feature5">
-        <h3>Interactive Feature #5</h3>
-        <p>This feature offers cool visual enhancements.</p>
-    </div>
+        <div class="feature-box" id="feature3">
+            <h3>Sticky Navigation Bar</h3>
+            <p>The navbar sticks to the top as you scroll.</p>
+            <div style="height: 500px;">Scroll to see the effect!</div>
+        </div>
 
-    <!-- 20 additional features -->
-    <div id="feature6" class="feature-box">
-        <h3>Customizable Button</h3>
-        <button onclick="alert('Feature activated!')">Click Me!</button>
-    </div>
-    <div id="feature7" class="feature-box">
-        <h3>Text to Speech</h3>
-        <button onclick="textToSpeech()">Play Text</button>
-    </div>
-    <div id="feature8" class="feature-box">
-        <h3>Dark Mode Toggle</h3>
-        <button onclick="toggleDarkMode()">Switch to Dark Mode</button>
-    </div>
-    <div id="feature9" class="feature-box">
-        <h3>Background Color Changer</h3>
-        <button onclick="changeBackgroundColor()">Change Background</button>
-    </div>
-    <div id="feature10" class="feature-box">
-        <h3>Change Text Color</h3>
-        <button onclick="changeTextColor()">Change Text Color</button>
-    </div>
+        <div class="feature-box" id="feature4">
+            <h3>Animated Button</h3>
+            <p>Click to see an animated effect on this button!</p>
+            <button onclick="animateButton()">Animate Button</button>
+        </div>
 
-    <!-- More features added dynamically -->
-    <!-- Here, add more feature boxes up to 20 -->
+        <div class="feature-box" id="feature5">
+            <h3>Image Hover Effect</h3>
+            <p>Hover over this image to see the effect.</p>
+            <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="hover-img">
+        </div>
+
+        <div class="feature-box" id="feature6">
+            <h3>Interactive Accordion</h3>
+            <p>Click to open and close the accordion sections.</p>
+            <button onclick="toggleAccordion()">Toggle Accordion</button>
+            <div id="accordion" style="display:none;">
+                <p>This is the content of the accordion.</p>
+            </div>
+        </div>
+
+        <div class="feature-box" id="feature7">
+            <h3>Parallax Scrolling</h3>
+            <p>Scroll down for a parallax scrolling effect!</p>
+            <div style="height: 600px; background-color: #333; color: white;">
+                <h2>Parallax Content</h2>
+            </div>
+        </div>
+
+        <div class="feature-box" id="feature8">
+            <h3>Flip Card</h3>
+            <p>Click to flip this card and reveal the back.</p>
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <h3>Front of Card</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Back of Card</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-box" id="feature9">
+            <h3>Dark Mode Toggle</h3>
+            <p>Switch between light and dark modes!</p>
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        </div>
+
+        <div class="feature-box" id="feature10">
+            <h3>Image Slider</h3>
+            <p>Click to change the images in the slider!</p>
+            <img src="https://via.placeholder.com/300" id="slider-img" alt="Slider Image">
+            <button onclick="changeImage()">Next Image</button>
+        </div>
+
+        <div class="feature-box" id="feature11">
+            <h3>Form Validation</h3>
+            <p>Enter a name and submit the form!</p>
+            <input type="text" id="name-input" placeholder="Enter Name">
+            <button onclick="validateForm()">Submit</button>
+        </div>
+
+        <div class="feature-box" id="feature12">
+            <h3>Live Clock</h3>
+            <p>The current time is displayed here:</p>
+            <div id="live-clock"></div>
+        </div>
+
+        <div class="feature-box" id="feature13">
+            <h3>Countdown Timer</h3>
+            <p>Countdown to a future date.</p>
+            <div id="countdown"></div>
+        </div>
+
+        <div class="feature-box" id="feature14">
+            <h3>Audio Player</h3>
+            <p>Play background music here:</p>
+            <audio controls>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <div class="feature-box" id="feature15">
+            <h3>Customizable Greeting</h3>
+            <p>Enter your name for a personalized greeting!</p>
+            <input type="text" id="greeting-name" placeholder="Enter Your Name">
+            <button onclick="personalizedGreeting()">Get Greeting</button>
+            <div id="greeting-message"></div>
+        </div>
+
+        <div class="feature-box" id="feature16">
+            <h3>Text to Speech</h3>
+            <p>Click to hear the text spoken aloud!</p>
+            <button onclick="textToSpeech()">Play Text</button>
+        </div>
+
+        <div class="feature-box" id="feature17">
+            <h3>Responsive Navigation Menu</h3>
+            <p>This is a mobile-friendly menu!</p>
+            <button onclick="toggleMenu()">Toggle Menu</button>
+            <div id="menu" style="display:none;">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box" id="feature18">
+            <h3>Hover Zoom</h3>
+            <p>Hover over this image to zoom in.</p>
+            <img src="https://via.placeholder.com/150" alt="Hover Zoom Image" class="zoom-img">
+        </div>
+
+        <div class="feature-box" id="feature19">
+            <h3>Scroll Indicator</h3>
+            <p>See the progress as you scroll down the page!</p>
+            <div id="scroll-indicator"></div>
+        </div>
+
+        <div class="feature-box" id="feature20">
+            <h3>Random Background Image</h3>
+            <p>Click to get a random background image from Unsplash.</p>
+            <button onclick="randomBackgroundImage()">Get Random Image</button>
+        </div>
+
+    </div>
 
 </div>
 
@@ -174,39 +263,28 @@
 <script>
     let isDarkMode = false;
 
-    function signUp() {
-        let username = document.getElementById('signup-username').value;
-        let password = document.getElementById('signup-password').value;
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
-        alert('Sign up successful!');
-        toggleSignin();
+    function changeBackgroundColor() {
+        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
     }
 
-    function signIn() {
-        let username = document.getElementById('signin-username').value;
-        let password = document.getElementById('signin-password').value;
-        if (username === localStorage.getItem('username') && password === localStorage.getItem('password')) {
-            alert('Sign in successful!');
-            document.getElementById('welcome-message').innerHTML = `Welcome back, ${username}!`;
-        } else {
-            alert('Invalid credentials!');
-        }
+    function generateRandomText() {
+        const texts = ["The quick brown fox jumps over the lazy dog.", "A journey of a thousand miles begins with a single step.", "To be or not to be, that is the question."];
+        alert(texts[Math.floor(Math.random() * texts.length)]);
     }
 
-    function toggleSignup() {
-        document.querySelector('.signin-form').style.display = 'none';
-        document.querySelector('.signup-form').style.display = 'block';
+    function animateButton() {
+        const button = document.querySelector('button');
+        button.style.transform = "scale(1.2)";
+        setTimeout(() => button.style.transform = "scale(1)", 500);
     }
 
-    function toggleSignin() {
-        document.querySelector('.signup-form').style.display = 'none';
-        document.querySelector('.signin-form').style.display = 'block';
+    function toggleAccordion() {
+        const accordion = document.getElementById('accordion');
+        accordion.style.display = accordion.style.display === "none" ? "block" : "none";
     }
 
-    function textToSpeech() {
-        let msg = new SpeechSynthesisUtterance("Hello! This is a sample text-to-speech feature.");
-        window.speechSynthesis.speak(msg);
+    function flipCard(card) {
+        card.querySelector('.flip-card-inner').classList.toggle('flipped');
     }
 
     function toggleDarkMode() {
@@ -218,13 +296,59 @@
         }
     }
 
-    function changeBackgroundColor() {
-        document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+    function changeImage() {
+        const images = [
+            "https://via.placeholder.com/300?text=Image+1",
+            "https://via.placeholder.com/300?text=Image+2",
+            "https://via.placeholder.com/300?text=Image+3"
+        ];
+        const img = document.getElementById('slider-img');
+        img.src = images[Math.floor(Math.random() * images.length)];
     }
 
-    function changeTextColor() {
-        document.body.style.color = "#" + Math.floor(Math.random()*16777215).toString(16);
+    function validateForm() {
+        const name = document.getElementById('name-input').value;
+        if (name) {
+            alert(`Hello, ${name}!`);
+        } else {
+            alert('Please enter your name.');
+        }
     }
+
+    function showTime() {
+        const time = new Date().toLocaleTimeString();
+        document.getElementById('live-clock').textContent = time;
+    }
+
+    function personalizedGreeting() {
+        const name = document.getElementById('greeting-name').value;
+        document.getElementById('greeting-message').textContent = `Hello, ${name}! Welcome to the site.`;
+    }
+
+    function textToSpeech() {
+        let msg = new SpeechSynthesisUtterance("Hello, this is a text-to-speech feature!");
+        window.speechSynthesis.speak(msg);
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
+
+    function randomBackgroundImage() {
+        fetch("https://source.unsplash.com/random")
+            .then(response => {
+                document.body.style.backgroundImage = `url(${response.url})`;
+            });
+    }
+
+    function showScrollIndicator() {
+        const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        document.getElementById('scroll-indicator').style.width = `${scrollPercentage}%`;
+    }
+
+    window.addEventListener('scroll', showScrollIndicator);
+    setInterval(showTime, 1000);
 </script>
 
 </body>
