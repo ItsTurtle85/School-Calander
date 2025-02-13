@@ -2,12 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--bg-color, #f4f4f9);
+    color: var(--text-color, #333);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +16,7 @@ body {
 }
 
 .container {
-    background-color: white;
+    background-color: var(--container-bg, white);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -24,42 +25,30 @@ body {
     text-align: center;
 }
 
-header h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #fff;
+    --container-bg: #1e1e1e;
 }
 
-label {
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#timeDisplay {
     font-size: 18px;
-    margin-bottom: 10px;
-    display: block;
+    margin: 10px 0;
 }
 
-select {
-    padding: 8px 12px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+#weatherInfo {
+    font-size: 18px;
+    margin: 10px 0;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
     cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-footer {
-    margin-top: 20px;
-    font-size: 12px;
 }
