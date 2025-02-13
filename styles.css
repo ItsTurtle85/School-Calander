@@ -38,12 +38,12 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 20px auto;
     padding: 20px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: background 0.3s ease;
 }
 
@@ -52,19 +52,19 @@ header {
     background: var(--header-bg);
     color: white;
     padding: 15px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 12px 12px 0 0;
 }
 
 button {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     font-size: 16px;
     background: var(--button-bg);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s;
 }
@@ -76,26 +76,26 @@ button:hover {
 
 input, select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 5px 0;
     border: 1px solid var(--input-border);
     background: var(--input-bg);
     color: var(--text-color);
-    border-radius: 5px;
+    border-radius: 6px;
     transition: border 0.3s ease, background 0.3s ease;
 }
 
 footer {
     text-align: center;
     margin-top: 20px;
-    padding: 10px;
+    padding: 12px;
     font-size: 0.9em;
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     .container {
-        width: 90%;
-        padding: 15px;
+        width: 95%;
+        padding: 18px;
     }
 }
