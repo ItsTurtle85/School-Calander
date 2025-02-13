@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Select elements
     const authScreen = document.getElementById("authScreen");
     const mainContent = document.getElementById("mainContent");
     const loginForm = document.getElementById("loginForm");
@@ -15,25 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const getWeatherBtn = document.getElementById("getWeather");
     const weatherInfo = document.getElementById("weatherInfo");
     const outfitSuggestion = document.getElementById("outfitSuggestion");
-    const subjectSelect = document.getElementById("subjectSelect");
-    const customSubjectInput = document.getElementById("customSubject");
-    const addSubjectBtn = document.getElementById("addSubject");
-    const removeSubjectBtn = document.getElementById("removeSubject");
+    const sundaySubjectsInput = document.getElementById("sundaySubjects");
     const mondaySubjectsInput = document.getElementById("mondaySubjects");
     const tuesdaySubjectsInput = document.getElementById("tuesdaySubjects");
     const wednesdaySubjectsInput = document.getElementById("wednesdaySubjects");
     const thursdaySubjectsInput = document.getElementById("thursdaySubjects");
     const fridaySubjectsInput = document.getElementById("fridaySubjects");
+    const saturdaySubjectsInput = document.getElementById("saturdaySubjects");
     const saveScheduleBtn = document.getElementById("saveSchedule");
     const tomorrowReminder = document.getElementById("tomorrowReminder");
     const setReminderBtn = document.getElementById("setReminder");
     const reminderDisplay = document.getElementById("reminderDisplay");
 
-    // Dummy users for login/register
+    // User Authentication
     const users = [];
     let currentUser = null;
 
-    // Toggle between Login and Register
     showRegister.addEventListener("click", () => {
         loginForm.classList.add("hidden");
         registerForm.classList.remove("hidden");
@@ -44,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
         loginForm.classList.remove("hidden");
     });
 
-    // Login functionality
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const username = loginUsername.value;
@@ -60,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Register functionality
     registerForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const username = registerUsername.value;
@@ -70,38 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Username already exists");
         } else {
             users.push({ username, password });
-            alert("Registration successful! You can now log in.");
+            alert("Registration successful!");
             showLogin.click();
         }
     });
 
-    // Toggle Theme
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-    });
-
-    // Set Weekly Schedule
-    saveScheduleBtn.addEventListener("click", () => {
-        const schedule = {
-            monday: mondaySubjectsInput.value.trim(),
-            tuesday: tuesdaySubjectsInput.value.trim(),
-            wednesday: wednesdaySubjectsInput.value.trim(),
-            thursday: thursdaySubjectsInput.value.trim(),
-            friday: fridaySubjectsInput.value.trim(),
-        };
-
-        localStorage.setItem("weeklySchedule", JSON.stringify(schedule));
-        alert("Schedule saved!");
-    });
-
-    // Set Reminder
-    setReminderBtn.addEventListener("click", () => {
-        const reminder = tomorrowReminder.value.trim();
-        localStorage.setItem("tomorrowReminder", reminder);
-        reminderDisplay.textContent = `Reminder: ${reminder}`;
-    });
-
-    // Fetch Weather and Suggest Outfit
+    // Weather Information
     getWeatherBtn.addEventListener("click", async () => {
         const city = citySelect.value;
         const country = countrySelect.value;
@@ -115,10 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Outfit suggestion based on weather
+    // Outfit Suggestion based on Weather
     function suggestOutfit(weather) {
         let suggestion = "";
-
         if (weather.current.temp_c < 10) {
             suggestion = "It's cold! You should take a coat and scarf.";
         } else if (weather.current.temp_c < 20) {
@@ -134,36 +103,48 @@ document.addEventListener("DOMContentLoaded", () => {
         outfitSuggestion.textContent = suggestion;
     }
 
-    // Subject management
-    addSubjectBtn.addEventListener("click", () => {
-        const customSubject = customSubjectInput.value.trim();
-        if (customSubject) {
-            const option = document.createElement("option");
-            option.textContent = customSubject;
-            subjectSelect.appendChild(option);
-            customSubjectInput.value = "";
-        }
+    // Schedule saving
+    saveScheduleBtn.addEventListener("click", () => {
+        const schedule = {
+            sunday: sundaySubjectsInput.value.trim(),
+            monday: mondaySubjectsInput.value.trim(),
+            tuesday: tuesdaySubjectsInput.value.trim(),
+            wednesday: wednesdaySubjectsInput.value.trim(),
+            thursday: thursdaySubjectsInput.value.trim(),
+            friday: fridaySubjectsInput.value.trim(),
+            saturday: saturdaySubjectsInput.value.trim(),
+        };
+
+        localStorage.setItem("weeklySchedule", JSON.stringify(schedule));
+        alert("Schedule saved!");
     });
 
-    removeSubjectBtn.addEventListener("click", () => {
-        const selectedOption = subjectSelect.options[subjectSelect.selectedIndex];
-        if (selectedOption) {
-            subjectSelect.removeChild(selectedOption);
-        }
+    // Reminder feature
+    setReminderBtn.addEventListener("click", () => {
+        const reminder = tomorrowReminder.value.trim();
+        localStorage.setItem("tomorrowReminder", reminder);
+        reminderDisplay.textContent = `Reminder: ${reminder}`;
     });
 
-    // Load saved schedule and reminder on page load
+    // Load schedule from localStorage
     const savedSchedule = JSON.parse(localStorage.getItem("weeklySchedule"));
     if (savedSchedule) {
+        sundaySubjectsInput.value = savedSchedule.sunday;
         mondaySubjectsInput.value = savedSchedule.monday;
         tuesdaySubjectsInput.value = savedSchedule.tuesday;
         wednesdaySubjectsInput.value = savedSchedule.wednesday;
         thursdaySubjectsInput.value = savedSchedule.thursday;
         fridaySubjectsInput.value = savedSchedule.friday;
+        saturdaySubjectsInput.value = savedSchedule.saturday;
     }
 
     const savedReminder = localStorage.getItem("tomorrowReminder");
     if (savedReminder) {
         reminderDisplay.textContent = `Reminder: ${savedReminder}`;
     }
+
+    // Theme toggle
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+    });
 });
