@@ -1,65 +1,91 @@
-// Theme Toggle
-document.getElementById("themeToggle").addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-});
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggle = document.getElementById("themeToggle");
+    const subjectSelect = document.getElementById("subjectSelect");
+    const addSubjectBtn = document.getElementById("addSubject");
+    const removeSubjectBtn = document.getElementById("removeSubject");
+    const customSubjectInput = document.getElementById("customSubject");
+    const changeLanguageBtn = document.getElementById("changeLanguageBtn");
+    const timeDisplay = document.getElementById("timeDisplay");
+    const weatherInfo = document.getElementById("weatherInfo");
+    const getWeatherBtn = document.getElementById("getWeather");
+    const countryInput = document.getElementById("country");
+    const cityInput = document.getElementById("city");
 
-// Real-time clock
-function updateClock() {
-    const now = new Date();
-    document.getElementById("timeDisplay").innerText = `⏳ Time: ${now.toLocaleTimeString()}`;
-}
-setInterval(updateClock, 1000);
-updateClock();
+    // Initialize subjects
+    const subjects = ["Math", "Science", "History", "English", "Physics", "Art"];
+    function populateSubjects() {
+        subjectSelect.innerHTML = "";
+        subjects.forEach(subject => {
+            let option = document.createElement("option");
+            option.value = subject;
+            option.textContent = subject;
+            subjectSelect.appendChild(option);
+        });
+    }
+    populateSubjects();
 
-// Weather API (OpenWeatherMap)
-document.getElementById("getWeather").addEventListener("click", () => {
-    const city = document.getElementById("city").value;
-    const country = document.getElementById("country").value;
-    if (!city || !country) return alert("Please enter a city and country!");
-
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=YOUR_API_KEY&units=metric`)
-        .then(response => response.json())
-        .then(data => {
-            const temp = data.main.temp;
-            let clothingAdvice = "Wear whatever you like.";
-            if (temp < 10) clothingAdvice = "🧥 Wear a warm coat!";
-            else if (temp < 20) clothingAdvice = "🧣 Wear a jacket!";
-            else if (temp > 30) clothingAdvice = "🩳 Wear light clothes!";
-            
-            document.getElementById("weatherInfo").innerText = `🌡️ Temp: ${temp}°C - ${clothingAdvice}`;
-        })
-        .catch(() => alert("Failed to get weather data"));
-});
-
-// Subject Management
-const subjects = ["Math", "Science", "History"];
-const subjectSelect = document.getElementById("subjectSelect");
-
-function updateSubjects() {
-    subjectSelect.innerHTML = "";
-    subjects.forEach(sub => {
-        const option = document.createElement("option");
-        option.value = sub.toLowerCase();
-        option.textContent = sub;
-        subjectSelect.appendChild(option);
+    // Theme toggle
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
     });
-}
 
-document.getElementById("addSubject").addEventListener("click", () => {
-    const newSubject = document.getElementById("customSubject").value;
-    if (newSubject && !subjects.includes(newSubject)) {
-        subjects.push(newSubject);
-        updateSubjects();
+    // Add custom subject
+    addSubjectBtn.addEventListener("click", () => {
+        const newSubject = customSubjectInput.value.trim();
+        if (newSubject && !subjects.includes(newSubject)) {
+            subjects.push(newSubject);
+            populateSubjects();
+            customSubjectInput.value = "";
+        }
+    });
+
+    // Remove selected subject
+    removeSubjectBtn.addEventListener("click", () => {
+        const selectedSubject = subjectSelect.value;
+        if (subjects.includes(selectedSubject)) {
+            subjects.splice(subjects.indexOf(selectedSubject), 1);
+            populateSubjects();
+        }
+    });
+
+    // Real-time clock
+    function updateTime() {
+        const now = new Date();
+        timeDisplay.textContent = now.toLocaleTimeString();
     }
-});
+    setInterval(updateTime, 1000);
+    updateTime();
 
-document.getElementById("removeSubject").addEventListener("click", () => {
-    const selectedSubject = subjectSelect.value;
-    const index = subjects.indexOf(selectedSubject);
-    if (index > -1) {
-        subjects.splice(index, 1);
-        updateSubjects();
-    }
-});
+    // Fetch weather data
+    getWeatherBtn.addEventListener("click", () => {
+        const country = countryInput.value.trim();
+        const city = cityInput.value.trim();
+        if (country && city) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=YOUR_API_KEY&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.main.temp;
+                    const weather = data.weather[0].main;
+                    let suggestion = "";
+                    if (temp < 10) suggestion = "Wear a coat!";
+                    else if (temp < 20) suggestion = "Wear a jacket!";
+                    else suggestion = "Short sleeves are fine!";
+                    if (weather.includes("Rain")) suggestion += " Don't forget an umbrella!";
+                    weatherInfo.textContent = `🌡️ ${temp}°C - ${weather}. ${suggestion}`;
+                })
+                .catch(() => weatherInfo.textContent = "Error fetching weather");
+        }
+    });
 
-updateSubjects();
+    // Change language (simple example)
+    let lang = "en";
+    const translations = {
+        en: { title: "Ultimate School Calendar", button: "Change Language" },
+        he: { title: "לוח שנה אולטימטיבי לבית הספר", button: "שנה שפה" }
+    };
+    changeLanguageBtn.addEventListener("click", () => {
+        lang = lang === "en" ? "he" : "en";
+        document.querySelector("h1").textContent = translations[lang].title;
+        changeLanguageBtn.textContent = translations[lang].button;
+    });
+});
