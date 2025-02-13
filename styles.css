@@ -1,141 +1,107 @@
-/* Reset styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Global Styles */
+/* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    text-align: center;
-    background-color: #f4f7fa;
-    color: #333;
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
 }
 
-#app {
-    width: 100%;
+.container {
     max-width: 800px;
-    margin: auto;
-    padding: 30px;
-}
-
-/* Screen Layout */
-.screen {
-    display: block;
-    padding: 30px;
-    background: #fff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
     border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-.hidden {
-    display: none;
-}
-
-/* Buttons and Inputs */
-input, button, select {
-    margin: 10px 0;
-    padding: 12px;
-    width: 90%;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+header {
+    text-align: center;
+    background: var(--header-bg-light);
+    color: white;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
 }
 
 button {
-    background-color: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    background: var(--button-bg-light);
     color: white;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: var(--button-hover-light);
+    transform: scale(1.05);
 }
 
-button:active {
-    background-color: #3e8e41;
-}
-
-button.logout {
-    background-color: #f44336;
-}
-
-button.logout:hover {
-    background-color: #e53935;
-}
-
-input[type="text"], input[type="password"] {
-    padding-left: 15px;
-}
-
-/* Header and Text */
-h2, h3 {
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-
-h3 {
-    color: #00796b;
-}
-
-/* Sections */
-.section {
-    background-color: #e1f5fe;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-}
-
-#schedule {
-    margin-bottom: 30px;
-}
-
-#days {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-}
-
-#days div {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    width: 30%;
-    min-width: 200px;
-}
-
-#days select {
+input {
     width: 100%;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 12px;
+    margin: 5px 0;
+    border: 1px solid var(--input-border-light);
+    background: var(--input-bg-light);
+    color: var(--text-color-light);
+    border-radius: 6px;
 }
 
-#weatherSection {
-    background-color: #f1f8e9;
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 0.9em;
 }
 
-#tomorrowItems {
-    font-size: 18px;
-    color: #1b5e20;
+/* Theme-specific variables */
+:root {
+    --bg-color-light: #f4f4f4;
+    --text-color-light: #333;
+    --header-bg-light: #0077cc;
+    --button-bg-light: #0088dd;
+    --button-hover-light: #005599;
+    --input-bg-light: #fff;
+    --input-border-light: #ccc;
+}
+
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f4f4f4;
+}
+
+button.dark-mode {
+    background-color: #004488;
+}
+
+input.dark-mode {
+    background-color: #2a2a2a;
+    color: #f4f4f4;
+}
+
+/* RTL Layout Adjustments */
+[dir="rtl"] {
+    text-align: right;
+}
+
+.container, main {
+    direction: rtl;
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 768px) {
-    #app {
-        padding: 15px;
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
     }
 
-    #days {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    #days div {
-        width: 100%;
+    button, input {
+        font-size: 0.9em;
     }
 }
