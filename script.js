@@ -6,16 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("registerForm");
     const themeToggle = document.getElementById("themeToggle");
     const changeLanguageBtn = document.getElementById("changeLanguageBtn");
-    
+
+    // Set default language
     let currentLanguage = 'he'; // Default language is Hebrew
 
-    // Toggle Language
+    // Toggle between languages
     changeLanguageBtn.addEventListener("click", () => {
         currentLanguage = currentLanguage === 'he' ? 'en' : 'he';
         toggleLanguage(currentLanguage);
     });
 
-    // Function to toggle between Hebrew and English
     function toggleLanguage(language) {
         const texts = {
             en: {
@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const langTexts = texts[language];
-        
-        // Update text content
+
+        // Update text content dynamically
         document.getElementById("title").textContent = langTexts.loginText;
         document.getElementById("loginUsername").placeholder = langTexts.usernamePlaceholder;
         document.getElementById("loginPassword").placeholder = langTexts.passwordPlaceholder;
