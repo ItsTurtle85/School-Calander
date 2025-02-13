@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const getWeatherBtn = document.getElementById("getWeather");
     const timeDisplay = document.getElementById("timeDisplay");
     const weatherInfo = document.getElementById("weatherInfo");
+    const outfitSuggestion = document.getElementById("outfitSuggestion");
     const subjectSelect = document.getElementById("subjectSelect");
     const customSubjectInput = document.getElementById("customSubject");
     const addSubjectBtn = document.getElementById("addSubject");
@@ -20,9 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const weatherAPIKey = "bfba7f78869e4222b89154845251302"; // Your WeatherAPI key
     const weatherBaseURL = "https://api.weatherapi.com/v1/current.json?key=" + weatherAPIKey;
 
-    // Function to toggle theme (dark/light mode)
+    // Toggle themes
     themeToggle.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
+        document.body.classList.toggle("custom-mode");
     });
 
     // Change language (English <-> Hebrew)
@@ -70,56 +72,59 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         const { current, location } = data;
                         weatherInfo.innerHTML = `
-                            <h3>Weather in ${location.name}</h3>
+                            <h3>Weather in ${location.name}, ${location.country}</h3>
                             <p>Temperature: ${current.temp_c}°C</p>
-                            <p>Humidity: ${current.humidity}%</p>
                             <p>Condition: ${current.condition.text}</p>
                         `;
+                        suggestOutfit(current);
                     }
                 })
-                .catch(() => {
-                    weatherInfo.innerHTML = `<p>Failed to fetch weather data. Please try again later.</p>`;
+                .catch(error => {
+                    console.error("Error fetching weather data:", error);
+                    weatherInfo.innerHTML = "<p>Error fetching weather data. Please try again later.</p>";
                 });
         } else {
-            weatherInfo.innerHTML = `<p>Please select a country and city first.</p>`;
+            weatherInfo.innerHTML = "<p>Please select both a country and a city.</p>";
         }
     });
 
-    // Time display function
-    function updateTime() {
-        const date = new Date();
-        const timeString = date.toLocaleTimeString();
-        timeDisplay.textContent = `Current Time: ${timeString}`;
+    // Suggest outfit based on weather
+    function suggestOutfit(weather) {
+        let suggestion = "";
+
+        if (weather.temp_c < 10) {
+            suggestion = "It's cold! You should wear a coat and a scarf.";
+        } else if (weather.temp_c >= 10 && weather.temp_c < 20) {
+            suggestion = "It's chilly! Consider wearing a jacket.";
+        } else {
+            suggestion = "It's warm! A light shirt will do.";
+        }
+
+        if (weather.condition.text.toLowerCase().includes("rain")) {
+            suggestion += " Don't forget to take an umbrella!";
+        }
+
+        outfitSuggestion.innerHTML = `<p>${suggestion}</p>`;
     }
 
-    setInterval(updateTime, 1000); // Update every second
-
-    // Subject handling
-    const subjects = ["Math", "English", "Science", "History"];
-    subjects.forEach(subject => {
-        const option = document.createElement("option");
-        option.value = subject;
-        option.textContent = subject;
-        subjectSelect.appendChild(option);
-    });
-
+    // Handle subject addition/removal
     addSubjectBtn.addEventListener("click", () => {
-        const newSubject = customSubjectInput.value.trim();
-        if (newSubject && !subjects.includes(newSubject)) {
-            subjects.push(newSubject);
+        const customSubject = customSubjectInput.value.trim();
+        if (customSubject) {
             const option = document.createElement("option");
-            option.value = newSubject;
-            option.textContent = newSubject;
+            option.textContent = customSubject;
             subjectSelect.appendChild(option);
-            customSubjectInput.value = ''; // Clear the input
+            customSubjectInput.value = "";
         }
     });
 
     removeSubjectBtn.addEventListener("click", () => {
-        const selectedSubject = subjectSelect.value;
-        if (selectedSubject && subjects.includes(selectedSubject)) {
-            subjects.splice(subjects.indexOf(selectedSubject), 1);
-            subjectSelect.removeChild(subjectSelect.querySelector(`option[value="${selectedSubject}"]`));
+        const selectedOption = subjectSelect.options[subjectSelect.selectedIndex];
+        if (selectedOption) {
+            subjectSelect.removeChild(selectedOption);
         }
     });
+
+    // Initialize page
+    document.body.classList.add("light-mode");
 });
