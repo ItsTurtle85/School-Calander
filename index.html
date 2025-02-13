@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate Web App</title>
+    <title>Ultimate Web App</title>
     <style>
-        /* Basic reset and general styles */
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -13,288 +13,217 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            transition: background-color 0.5s ease;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0;
+            margin: 0;
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            background: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
+        .light-mode {
+            background-color: #fff;
+            color: #333;
         }
 
-        /* Dark mode toggle styles */
         .dark-mode {
             background-color: #121212;
             color: white;
         }
 
-        .light-mode {
-            background-color: white;
-            color: black;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px;
-            background: #222;
-        }
-
-        .navbar a {
+        header {
+            padding: 20px;
+            text-align: center;
+            background-color: #4CAF50;
             color: white;
-            text-decoration: none;
+            font-size: 1.5em;
         }
 
-        /* Parallax scrolling effect */
-        .parallax {
-            background: url('https://source.unsplash.com/random') no-repeat center center fixed;
-            background-size: cover;
-            height: 400px;
+        .container {
+            padding: 20px;
         }
 
-        /* Flip card effect */
-        .flip-card {
+        .button {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
             width: 300px;
-            height: 300px;
-            perspective: 1000px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
         }
 
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
+        .form-container input {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
+        .form-container button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+        .theme-toggle, .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .flip-card-back {
-            transform: rotateY(180deg);
+        /* Language-specific styling */
+        .rtl {
+            direction: rtl;
+            text-align: right;
         }
 
-        /* Scroll progress bar */
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            header {
+                font-size: 1.2em;
+            }
+
+            .form-container {
+                width: 80%;
+            }
+        }
+
+        /* Scroll Progress Bar */
         #scroll-indicator {
             position: fixed;
             top: 0;
             left: 0;
             height: 5px;
-            background-color: green;
-            width: 0;
-        }
-
-        /* Time and Random text */
-        .time-display, .random-text {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .time-display {
-            font-size: 2em;
-        }
-
-        /* Audio player styles */
-        audio {
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        /* Form styling */
-        form {
-            margin: 20px;
-            padding: 10px;
-            background-color: #f4f4f4;
-            border-radius: 5px;
-        }
-
-        .greeting {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 1.5em;
-        }
-
-        /* Button and hover effects */
-        .btn {
             background-color: #4CAF50;
-            padding: 10px 20px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-            transform: scale(1.1);
-        }
-
-        img:hover {
-            transform: scale(1.1);
-            transition: transform 0.3s;
-        }
-
-        .accordion {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            transition: background-color 0.3s;
-        }
-
-        .accordion:hover {
-            background-color: #ddd;
-        }
-
-        .panel {
-            padding: 0 18px;
-            display: none;
-            background-color: #f1f1f1;
-            overflow: hidden;
+            width: 0;
+            z-index: 100;
         }
     </style>
 </head>
-<body>
-    <!-- Scroll progress indicator -->
+<body class="light-mode">
+
+    <!-- Scroll Progress Bar -->
     <div id="scroll-indicator"></div>
 
     <!-- Header -->
     <header>
-        <h1>The Ultimate Web App for Humanity!</h1>
-        <button onclick="toggleDarkMode()" class="btn">Toggle Dark Mode</button>
+        <h1 id="app-title">Ultimate Web App</h1>
     </header>
 
-    <!-- Parallax section -->
-    <div class="parallax"></div>
+    <!-- Main Content Container -->
+    <div class="container">
+        <button class="button" onclick="toggleTheme()">Toggle Theme</button>
+        <button class="button" onclick="toggleLanguage()">Switch Language</button>
 
-    <!-- Navigation bar -->
-    <div class="navbar">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-    </div>
-
-    <!-- Flip Card -->
-    <div class="flip-card">
-        <div class="flip-card-inner">
-            <div class="flip-card-front">
-                <img src="https://via.placeholder.com/300" alt="Avatar" style="width:100%;height:100%;">
-            </div>
-            <div class="flip-card-back">
-                <h1>More Info</h1>
-                <p>Some more info about the card.</p>
-            </div>
+        <!-- Sign-In/Sign-Up Form -->
+        <div class="form-container" id="auth-form">
+            <h2 id="auth-form-title">Sign Up</h2>
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button onclick="submitForm()">Submit</button>
         </div>
     </div>
 
-    <!-- Time and random text -->
-    <div class="time-display">
-        <h2>Current Time: <span id="current-time"></span></h2>
-    </div>
-
-    <div class="random-text">
-        <p id="random-text"></p>
-    </div>
-
-    <!-- Audio player -->
-    <audio controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Greeting form -->
-    <div class="greeting">
-        <label for="name-input">Enter your name:</label>
-        <input type="text" id="name-input" />
-        <button onclick="personalizedGreeting()" class="btn">Submit</button>
-        <p id="personalized-greeting"></p>
-    </div>
-
-    <!-- Accordion -->
-    <button class="accordion">Section 1</button>
-    <div class="panel">
-        <p>This is the first section's content.</p>
-    </div>
-
-    <button class="accordion">Section 2</button>
-    <div class="panel">
-        <p>This is the second section's content.</p>
-    </div>
-
-    <button class="accordion">Section 3</button>
-    <div class="panel">
-        <p>This is the third section's content.</p>
-    </div>
+    <!-- Floating Buttons -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <button class="language-toggle" onclick="toggleLanguage()">🌍</button>
 
     <script>
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle("dark-mode");
-            body.classList.toggle("light-mode");
+        // Initial Setup for Language & Theme
+        const language = localStorage.getItem('language') || 'en';
+        const theme = localStorage.getItem('theme') || 'light';
+
+        document.body.classList.add(theme + '-mode');
+        if (language === 'he') {
+            setLanguage('he');
+        } else {
+            setLanguage('en');
         }
 
-        // Show time
-        function showTime() {
-            const currentTime = new Date();
-            document.getElementById("current-time").textContent = currentTime.toLocaleTimeString();
+        // Toggle Theme (Dark/Light)
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
         }
 
-        // Random text generator
-        function generateRandomText() {
-            const texts = ["Welcome to the Ultimate Web App!", "Explore new features!", "Discover the unknown!", "Empowering humanity!"];
-            const randomText = texts[Math.floor(Math.random() * texts.length)];
-            document.getElementById("random-text").textContent = randomText;
+        // Set Language (English or Hebrew)
+        function setLanguage(lang) {
+            const appTitle = document.getElementById('app-title');
+            const authFormTitle = document.getElementById('auth-form-title');
+            const buttons = document.querySelectorAll('.button');
+
+            if (lang === 'he') {
+                document.body.classList.add('rtl');
+                document.body.classList.remove('ltr');
+                appTitle.innerText = 'אפליקציה ווב מעולה';
+                authFormTitle.innerText = 'הרשמה';
+                buttons[0].innerText = 'החלף נושא';
+                buttons[1].innerText = 'שנה שפה';
+                localStorage.setItem('language', 'he');
+            } else {
+                document.body.classList.remove('rtl');
+                document.body.classList.add('ltr');
+                appTitle.innerText = 'Ultimate Web App';
+                authFormTitle.innerText = 'Sign Up';
+                buttons[0].innerText = 'Toggle Theme';
+                buttons[1].innerText = 'Switch Language';
+                localStorage.setItem('language', 'en');
+            }
         }
 
-        // Personalized greeting
-        function personalizedGreeting() {
-            const name = document.getElementById("name-input").value;
-            document.getElementById("personalized-greeting").textContent = `Hello, ${name}! Welcome to the app!`;
+        // Toggle Language Between English and Hebrew
+        function toggleLanguage() {
+            const currentLanguage = localStorage.getItem('language');
+            const newLanguage = currentLanguage === 'he' ? 'en' : 'he';
+            setLanguage(newLanguage);
         }
 
-        // Accordion functionality
-        var acc = document.getElementsByClassName("accordion");
-        for (var i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
-            });
+        // Handle Form Submission
+        function submitForm() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                alert(`Welcome, ${username}!`);
+            } else {
+                alert('Please fill in all fields.');
+            }
         }
 
-        // Scroll progress
-        function showScrollIndicator() {
-            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        // Scroll Progress Indicator
+        window.onscroll = function() {
+            let scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            let scrollPosition = window.scrollY;
+            let scrollPercentage = (scrollPosition / scrollHeight) * 100;
             document.getElementById('scroll-indicator').style.width = `${scrollPercentage}%`;
-        }
-
-        window.addEventListener('scroll', showScrollIndicator);
-        setInterval(showTime, 1000);
-        setInterval(generateRandomText, 5000); // Change text every 5 seconds
+        };
     </script>
+
 </body>
 </html>
