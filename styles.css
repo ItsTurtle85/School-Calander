@@ -9,9 +9,9 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 30px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -103,5 +103,9 @@ input.dark-mode {
 
     button, input {
         font-size: 0.9em;
+    }
+
+    header {
+        padding: 10px;
     }
 }
