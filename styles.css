@@ -1,143 +1,100 @@
-/* Basic Styles */
+/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: var(--bg-color-light);
-    color: var(--text-color-light);
-    transition: all 0.3s ease;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-header {
     text-align: center;
-    background: var(--header-bg-light);
-    color: white;
-    padding: 15px;
-    border-radius: 12px 12px 0 0;
+    margin: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+#app {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Inputs and Buttons */
+input, button, select {
+    margin: 10px 0;
+    padding: 12px;
+    width: 90%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 16px;
-    background: var(--button-bg-light);
+    background-color: #007BFF;
     color: white;
-    border: none;
-    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s;
+    transition: background-color 0.3s ease;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 5px 0;
-    border: 1px solid var(--input-border-light);
-    background: var(--input-bg-light);
-    color: var(--text-color-light);
-    border-radius: 6px;
+button:hover {
+    background-color: #0056b3;
 }
 
-footer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 12px;
-    font-size: 0.9em;
+button:active {
+    background-color: #004080;
 }
 
-/* Auth Screen */
-.auth-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
-
-.auth-screen form {
-    width: 300px;
-    margin-bottom: 20px;
-}
-
-.auth-screen input {
-    margin-bottom: 15px;
-}
-
-/* Hide/Show forms */
 .hidden {
     display: none;
 }
 
-/* Theme-specific variables */
-:root {
-    --bg-color-light: #f4f4f4;
-    --text-color-light: #333;
-    --header-bg-light: #0077cc;
-    --button-bg-light: #0088dd;
-    --button-hover-light: #005599;
-    --input-bg-light: #fff;
-    --input-border-light: #ccc;
+/* Container for days and items */
+#schedule {
+    margin-top: 30px;
 }
 
-body.dark-mode {
-    background-color: #1e1e1e;
-    color: #f4f4f4;
+#days {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
-button.dark-mode {
-    background-color: #004488;
+#days div {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-input.dark-mode {
-    background-color: #2a2a2a;
-    color: #f4f4f4;
-}
-
-/* Schedule Form */
-#weeklySchedule {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-#weeklySchedule input {
-    margin-bottom: 10px;
+#days select {
     width: 100%;
 }
 
-/* Enhanced Styling */
-h1 {
-    font-size: 2em;
+#weatherSection {
+    background-color: #eef;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+h2, h3 {
     color: #333;
 }
 
-button:hover {
-    background-color: var(--button-hover-light);
-    transform: scale(1.05);
+#logoutBtn {
+    background-color: #dc3545;
+    color: white;
 }
 
-input {
-    font-size: 1em;
+#logoutBtn:hover {
+    background-color: #c82333;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
+/* Responsive Design */
+@media (max-width: 768px) {
+    #app {
+        padding: 15px;
+        width: 95%;
     }
 
-    button, input {
-        font-size: 0.9em;
+    #days {
+        grid-template-columns: 1fr;
     }
 }
