@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Web App</title>
+    <title>School Planner</title>
     <style>
         /* Base Styles */
         * {
@@ -168,6 +168,32 @@
             background-size: cover;
             background-position: center;
         }
+
+        /* Timetable Grid */
+        #scheduleGrid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .day-column {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .day-column h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .class-item {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -177,7 +203,7 @@
 
     <!-- Header -->
     <header>
-        <h1 id="app-title">Ultimate Web App</h1>
+        <h1 id="app-title">Ultimate School Planner</h1>
     </header>
 
     <!-- Parallax Section -->
@@ -185,44 +211,83 @@
 
     <!-- Main Content Container -->
     <div class="container">
-        <button class="button" onclick="toggleTheme()">Toggle Theme</button>
-        <button class="button" onclick="toggleLanguage()">Switch Language</button>
-
-        <!-- Profile and Settings Section -->
-        <div class="card">
-            <h3>Your Profile</h3>
-            <p>Username: <span id="username-display">Guest</span></p>
-            <p>Language: <span id="language-display">English</span></p>
-            <button class="button" onclick="showToast('Profile Updated!')">Update Profile</button>
+        <!-- Auth Section -->
+        <div id="authSection" class="form-container">
+            <h2 id="auth-form-title">Sign Up</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="register()" class="button">Register</button>
+            <button onclick="login()" class="button">Login</button>
         </div>
 
-        <!-- Sign-Up Form -->
-        <div class="form-container" id="auth-form">
-            <h2 id="auth-form-title">Sign Up</h2>
-            <input type="text" id="username" placeholder="Enter Username" required>
-            <input type="password" id="password" placeholder="Enter Password" required>
-            <button onclick="submitForm()">Submit</button>
+        <!-- Main App (Hidden until login) -->
+        <div id="mainApp" class="hidden">
+            <!-- Navigation -->
+            <nav class="flex gap-4 mb-6 p-2 bg-white rounded-lg shadow">
+                <button data-tab="timetable" class="tab-btn active px-4 py-2 rounded hover:bg-indigo-100">
+                    🕒 Timetable
+                </button>
+                <button data-tab="assignments" class="tab-btn px-4 py-2 rounded hover:bg-indigo-100">
+                    📚 Assignments
+                </button>
+                <button data-tab="grades" class="tab-btn px-4 py-2 rounded hover:bg-indigo-100">
+                    📊 Grades
+                </button>
+                <button onclick="logout()" 
+                        class="ml-auto px-4 py-2 text-red-600 hover:bg-red-100 rounded">
+                    Logout
+                </button>
+            </nav>
+
+            <!-- Timetable Section -->
+            <div id="timetable" class="tab-content active">
+                <div class="flex justify-between mb-4">
+                    <h2 class="text-2xl font-bold">Your Schedule</h2>
+                    <button onclick="showAddClassModal()"
+                            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                        Add Class
+                    </button>
+                </div>
+                <div id="scheduleGrid">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div id="assignments" class="tab-content hidden">
+                <h2 class="text-2xl font-bold">Assignments</h2>
+                <div id="assignmentsList"></div>
+            </div>
+
+            <!-- Grades Section -->
+            <div id="grades" class="tab-content hidden">
+                <h2 class="text-2xl font-bold">Grades</h2>
+                <div id="gradesList"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Buttons -->
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-    <button class="language-toggle" onclick="toggleLanguage()">🌍</button>
-    <button class="settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
-
-    <!-- Settings Panel -->
-    <div id="settings-panel" style="display: none;">
-        <div class="card">
-            <h3>Settings</h3>
-            <label for="font-select">Select Font:</label>
-            <select id="font-select">
-                <option value="Arial">Arial</option>
-                <option value="Roboto">Roboto</option>
-                <option value="Times New Roman">Times New Roman</option>
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg w-96">
+            <h3 class="text-xl font-bold mb-4">➕ Add New Class</h3>
+            <input type="text" id="className" placeholder="Class Name" class="w-full mb-2 p-2 border rounded">
+            <select id="classDay" class="w-full mb-2 p-2 border rounded">
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
             </select>
-            <label for="bg-color-select">Select Background Color:</label>
-            <input type="color" id="bg-color-select">
-            <button class="button" onclick="saveSettings()">Save Settings</button>
+            <input type="time" id="classTime" class="w-full mb-4 p-2 border rounded">
+            <div class="flex justify-end gap-2">
+                <button onclick="hideModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">
+                    Cancel
+                </button>
+                <button onclick="addNewClass()" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                    Add Class
+                </button>
+            </div>
         </div>
     </div>
 
@@ -230,79 +295,108 @@
     <div class="toast" id="toast">Notification</div>
 
     <script>
-        // Initial Setup for Language & Theme
-        const language = localStorage.getItem('language') || 'en';
-        const theme = localStorage.getItem('theme') || 'light';
-        const font = localStorage.getItem('font') || 'Arial';
-        const bgColor = localStorage.getItem('bg-color') || '#f1f1f1';
+        // Data Storage
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('users')) || {};
+        let classes = JSON.parse(localStorage.getItem('classes')) || {};
 
-        document.body.classList.add(theme + '-mode');
-        document.body.style.fontFamily = font;
-        document.body.style.backgroundColor = bgColor;
-
-        if (language === 'he') {
-            setLanguage('he');
-        } else {
-            setLanguage('en');
-        }
-
-        // Toggle Theme (Dark/Light)
-        function toggleTheme() {
-            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            localStorage.setItem('theme', newTheme);
-            document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('light-mode');
-        }
-
-        // Set Language (English or Hebrew)
-        function setLanguage(lang) {
-            const appTitle = document.getElementById('app-title');
-            const authFormTitle = document.getElementById('auth-form-title');
-            const usernameDisplay = document.getElementById('username-display');
-            const languageDisplay = document.getElementById('language-display');
-
-            if (lang === 'he') {
-                document.body.classList.add('rtl');
-                document.body.classList.remove('ltr');
-                appTitle.innerText = 'אפליקציה ווב מעולה';
-                authFormTitle.innerText = 'הרשמה';
-                usernameDisplay.innerText = 'אורח';
-                languageDisplay.innerText = 'עברית';
-                localStorage.setItem('language', 'he');
-            } else {
-                document.body.classList.remove('rtl');
-                document.body.classList.add('ltr');
-                appTitle.innerText = 'Ultimate Web App';
-                authFormTitle.innerText = 'Sign Up';
-                usernameDisplay.innerText = 'Guest';
-                languageDisplay.innerText = 'English';
-                localStorage.setItem('language', 'en');
-            }
-        }
-
-        // Toggle Language Between English and Hebrew
-        function toggleLanguage() {
-            const currentLanguage = localStorage.getItem('language');
-            const newLanguage = currentLanguage === 'he' ? 'en' : 'he';
-            setLanguage(newLanguage);
-        }
-
-        // Handle Form Submission
-        function submitForm() {
-            const username = document.getElementById('username').value;
+        // Auth Functions
+        function register() {
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
-            if (username && password) {
-                alert(`Welcome, ${username}!`);
-                localStorage.setItem('username', username);
-                document.getElementById('username-display').innerText = username;
-            } else {
-                alert('Please fill in all fields.');
+            
+            if (users[email]) {
+                showToast('User already exists!');
+                return;
             }
+            
+            users[email] = { password, classes: [] };
+            localStorage.setItem('users', JSON.stringify(users));
+            showToast('Registration successful!');
         }
 
-        // Show Toast Notification
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!users[email] || users[email].password !== password) {
+                showToast('Invalid credentials!');
+                return;
+            }
+            
+            currentUser = email;
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            loadSchedule();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+        }
+
+        // Schedule Functions
+        function showAddClassModal() {
+            document.getElementById('addClassModal').classList.remove('hidden');
+        }
+
+        function hideModal() {
+            document.getElementById('addClassModal').classList.add('hidden');
+        }
+
+        function addNewClass() {
+            const className = document.getElementById('className').value;
+            const day = document.getElementById('classDay').value;
+            const time = document.getElementById('classTime').value;
+            
+            if (!className || !time) {
+                showToast('Please fill all fields!');
+                return;
+            }
+            
+            users[currentUser].classes.push({ className, day, time });
+            localStorage.setItem('users', JSON.stringify(users));
+            loadSchedule();
+            hideModal();
+        }
+
+        function loadSchedule() {
+            const grid = document.getElementById('scheduleGrid');
+            grid.innerHTML = '';
+            
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            days.forEach(day => {
+                const dayClasses = users[currentUser].classes.filter(c => c.day === day);
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day-column';
+                dayElement.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2 text-indigo-700">${day}</h3>
+                    ${dayClasses.map(c => `
+                        <div class="class-item">
+                            <span>🕒 ${c.time}</span>
+                            <span>${c.className}</span>
+                        </div>
+                    `).join('')}
+                `;
+                grid.appendChild(dayElement);
+            });
+        }
+
+        // Tab Navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn, .tab-content').forEach(el => {
+                    el.classList.remove('active', 'bg-indigo-100');
+                    el.classList.add('hidden');
+                });
+                btn.classList.add('active', 'bg-indigo-100');
+                document.getElementById(btn.dataset.tab).classList.remove('hidden');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Toast Notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.innerText = message;
@@ -320,25 +414,14 @@
             document.getElementById('scroll-indicator').style.width = `${scrollPercentage}%`;
         };
 
-        // Toggle Settings Panel
-        function toggleSettingsPanel() {
-            const panel = document.getElementById('settings-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Save User Settings
-        function saveSettings() {
-            const selectedFont = document.getElementById('font-select').value;
-            const selectedBgColor = document.getElementById('bg-color-select').value;
-
-            localStorage.setItem('font', selectedFont);
-            localStorage.setItem('bg-color', selectedBgColor);
-            document.body.style.fontFamily = selectedFont;
-            document.body.style.backgroundColor = selectedBgColor;
-
-            showToast('Settings Saved!');
+        // Theme Toggle
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
         }
     </script>
-
 </body>
 </html>
