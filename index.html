@@ -10,29 +10,28 @@
 <body>
     <div class="container">
         <header>
-            <h1>📆 Ultimate School Calendar</h1>
+            <h1 id="title">📆 Ultimate School Calendar</h1>
             <button id="themeToggle">🌗 Toggle Theme</button>
+            <button id="changeLanguageBtn">🌍 עברית / English</button>
         </header>
         
         <div id="timeDisplay"></div>
         <div id="weatherInfo"></div>
         
         <main>
-            <label for="country">Country:</label>
+            <label for="country" id="countryLabel">Country:</label>
             <input type="text" id="country" placeholder="Enter your country">
 
-            <label for="city">City:</label>
+            <label for="city" id="cityLabel">City:</label>
             <input type="text" id="city" placeholder="Enter your city">
             <button id="getWeather">Get Weather</button>
             
-            <label for="subjectSelect">Subject:</label>
+            <label for="subjectSelect" id="subjectLabel">Subject:</label>
             <select id="subjectSelect"></select>
             
             <input type="text" id="customSubject" placeholder="Add a subject">
             <button id="addSubject">➕ Add</button>
             <button id="removeSubject">❌ Remove Selected</button>
-            
-            <button id="changeLanguageBtn">🌍 Change Language</button>
         </main>
         
         <footer>
