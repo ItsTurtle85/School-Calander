@@ -10,13 +10,15 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         body {
             font-family: 'Arial', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
             padding: 0;
             margin: 0;
+            background-color: #f1f1f1;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .light-mode {
@@ -29,18 +31,19 @@
             color: white;
         }
 
+        /* Header */
         header {
-            padding: 20px;
-            text-align: center;
             background-color: #4CAF50;
             color: white;
-            font-size: 1.5em;
-        }
-
-        .container {
+            text-align: center;
             padding: 20px;
+            font-size: 2em;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
+        /* Buttons */
         .button {
             background-color: #4CAF50;
             padding: 10px 20px;
@@ -49,12 +52,33 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin: 10px 0;
         }
 
         .button:hover {
             background-color: #45a049;
         }
 
+        /* Cards */
+        .card {
+            background: #fff;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.5em;
+        }
+
+        /* Form Styling */
         .form-container {
             display: flex;
             flex-direction: column;
@@ -82,7 +106,22 @@
             border-radius: 5px;
         }
 
-        .theme-toggle, .language-toggle {
+        /* Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Floating Buttons */
+        .theme-toggle, .language-toggle, .settings-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -90,20 +129,19 @@
             background-color: #4CAF50;
             border: none;
             color: white;
-            border-radius: 5px;
+            border-radius: 50%;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        /* Language-specific styling */
-        .rtl {
-            direction: rtl;
-            text-align: right;
+        .settings-toggle {
+            bottom: 20px;
         }
 
         /* Responsive Design */
         @media screen and (max-width: 768px) {
             header {
-                font-size: 1.2em;
+                font-size: 1.5em;
             }
 
             .form-container {
@@ -121,6 +159,15 @@
             width: 0;
             z-index: 100;
         }
+
+        /* Parallax effect */
+        .parallax {
+            background-image: url('https://via.placeholder.com/1500');
+            height: 400px;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -133,12 +180,23 @@
         <h1 id="app-title">Ultimate Web App</h1>
     </header>
 
+    <!-- Parallax Section -->
+    <div class="parallax"></div>
+
     <!-- Main Content Container -->
     <div class="container">
         <button class="button" onclick="toggleTheme()">Toggle Theme</button>
         <button class="button" onclick="toggleLanguage()">Switch Language</button>
 
-        <!-- Sign-In/Sign-Up Form -->
+        <!-- Profile and Settings Section -->
+        <div class="card">
+            <h3>Your Profile</h3>
+            <p>Username: <span id="username-display">Guest</span></p>
+            <p>Language: <span id="language-display">English</span></p>
+            <button class="button" onclick="showToast('Profile Updated!')">Update Profile</button>
+        </div>
+
+        <!-- Sign-Up Form -->
         <div class="form-container" id="auth-form">
             <h2 id="auth-form-title">Sign Up</h2>
             <input type="text" id="username" placeholder="Enter Username" required>
@@ -150,13 +208,38 @@
     <!-- Floating Buttons -->
     <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     <button class="language-toggle" onclick="toggleLanguage()">🌍</button>
+    <button class="settings-toggle" onclick="toggleSettingsPanel()">⚙️</button>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" style="display: none;">
+        <div class="card">
+            <h3>Settings</h3>
+            <label for="font-select">Select Font:</label>
+            <select id="font-select">
+                <option value="Arial">Arial</option>
+                <option value="Roboto">Roboto</option>
+                <option value="Times New Roman">Times New Roman</option>
+            </select>
+            <label for="bg-color-select">Select Background Color:</label>
+            <input type="color" id="bg-color-select">
+            <button class="button" onclick="saveSettings()">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Notification</div>
 
     <script>
         // Initial Setup for Language & Theme
         const language = localStorage.getItem('language') || 'en';
         const theme = localStorage.getItem('theme') || 'light';
+        const font = localStorage.getItem('font') || 'Arial';
+        const bgColor = localStorage.getItem('bg-color') || '#f1f1f1';
 
         document.body.classList.add(theme + '-mode');
+        document.body.style.fontFamily = font;
+        document.body.style.backgroundColor = bgColor;
+
         if (language === 'he') {
             setLanguage('he');
         } else {
@@ -176,23 +259,24 @@
         function setLanguage(lang) {
             const appTitle = document.getElementById('app-title');
             const authFormTitle = document.getElementById('auth-form-title');
-            const buttons = document.querySelectorAll('.button');
+            const usernameDisplay = document.getElementById('username-display');
+            const languageDisplay = document.getElementById('language-display');
 
             if (lang === 'he') {
                 document.body.classList.add('rtl');
                 document.body.classList.remove('ltr');
                 appTitle.innerText = 'אפליקציה ווב מעולה';
                 authFormTitle.innerText = 'הרשמה';
-                buttons[0].innerText = 'החלף נושא';
-                buttons[1].innerText = 'שנה שפה';
+                usernameDisplay.innerText = 'אורח';
+                languageDisplay.innerText = 'עברית';
                 localStorage.setItem('language', 'he');
             } else {
                 document.body.classList.remove('rtl');
                 document.body.classList.add('ltr');
                 appTitle.innerText = 'Ultimate Web App';
                 authFormTitle.innerText = 'Sign Up';
-                buttons[0].innerText = 'Toggle Theme';
-                buttons[1].innerText = 'Switch Language';
+                usernameDisplay.innerText = 'Guest';
+                languageDisplay.innerText = 'English';
                 localStorage.setItem('language', 'en');
             }
         }
@@ -211,9 +295,21 @@
 
             if (username && password) {
                 alert(`Welcome, ${username}!`);
+                localStorage.setItem('username', username);
+                document.getElementById('username-display').innerText = username;
             } else {
                 alert('Please fill in all fields.');
             }
+        }
+
+        // Show Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
         }
 
         // Scroll Progress Indicator
@@ -223,6 +319,25 @@
             let scrollPercentage = (scrollPosition / scrollHeight) * 100;
             document.getElementById('scroll-indicator').style.width = `${scrollPercentage}%`;
         };
+
+        // Toggle Settings Panel
+        function toggleSettingsPanel() {
+            const panel = document.getElementById('settings-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Save User Settings
+        function saveSettings() {
+            const selectedFont = document.getElementById('font-select').value;
+            const selectedBgColor = document.getElementById('bg-color-select').value;
+
+            localStorage.setItem('font', selectedFont);
+            localStorage.setItem('bg-color', selectedBgColor);
+            document.body.style.fontFamily = selectedFont;
+            document.body.style.backgroundColor = selectedBgColor;
+
+            showToast('Settings Saved!');
+        }
     </script>
 
 </body>
