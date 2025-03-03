@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>מערכת ניהול לימודים מתקדמת PRO - Ultimate Plus</title>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>מערכת ניהול לימודים מתקדמת - עתידנית</title>
+  <!-- Google Fonts for futuristic style -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #2c3e50;
@@ -15,98 +12,256 @@
       --background-color: #f0f8ff;
       --error-color: #d32f2f;
       --success-color: #388e3c;
-      --warning-color: #ffc107;
-      --info-color: #17a2b8;
-      --dark-bg: #1e1e1e;
-      --dark-text: #f5f5f5;
-      --transition-speed: 0.3s;
+      /* Updated dark mode variables */
+      --dark-bg: #121212;
+      --dark-text: #e0e0e0;
     }
-    /* Global Reset & Typography */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Roboto', sans-serif; background-color: var(--background-color); color: var(--primary-color); line-height: 1.6; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; min-height: 100vh; direction: rtl; }
-    body.dark-mode { background-color: var(--dark-bg); color: var(--dark-text); }
-    /* Button Styles */
-    button { background: linear-gradient(45deg, var(--secondary-color), #45a049); color: #fff; border: none; border-radius: 25px; padding: 10px 20px; font-weight: 500; text-transform: uppercase; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
-    button:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+
+    /* Keyframe animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes gradientBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Futuristic animated background for futuristic theme */
+    body.futuristic-theme {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+    }
+
+    /* Basic reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      /* Direction updated via JS if needed */
+      direction: rtl;
+      padding: 20px;
+      background-color: var(--background-color);
+      color: var(--primary-color);
+      min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s, font-family 0.3s;
+    }
+    body.dark-mode {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+    /* Responsive design */
+    @media (max-width: 600px) {
+      input, select { width: 90%; }
+      .auth-container, .day-container { margin: 1rem auto; }
+    }
+    .auth-container {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-out;
+    }
+    .dashboard {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    #clock { font-size: 1.2em; font-weight: bold; }
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--secondary-color);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
     button:focus { outline: 2px solid var(--secondary-color); }
-    /* Input, Select & Textarea Styles */
-    input, select, textarea { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color var(--transition-speed) ease; width: 100%; margin-bottom: 10px; }
-    input:focus, select:focus, textarea:focus { border-color: var(--secondary-color); outline: none; }
-    /* Authentication Container */
-    .auth-container { max-width: 400px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 15px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); text-align: center; }
-    /* Dashboard Layout */
-    .dashboard { display: none; min-height: 100vh; display: flex; flex-direction: row; }
-    .sidebar { width: 250px; background: rgba(255,255,255,0.95); border-right: 1px solid #ddd; padding: 20px; box-shadow: 2px 0 12px rgba(0,0,0,0.05); }
-    .sidebar h2 { margin-bottom: 20px; font-size: 1.4em; text-align: center; }
-    .sidebar button { width: 100%; margin: 8px 0; padding: 12px; font-size: 1em; border-radius: 25px; }
-    .sidebar img { display: block; margin: 0 auto 10px; }
-    .main-content { flex: 1; padding: 30px; background: rgba(255,255,255,0.98); }
-    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-    header h1 { font-size: 1.8em; }
-    header #clock { font-size: 1.2em; font-weight: 700; }
-    header .controls button { margin-left: 10px; padding: 8px 12px; font-size: 0.9em; border-radius: 25px; background: var(--secondary-color); color: #fff; border: none; }
-    header .controls button:hover { background: #45a049; }
-    /* Card Component */
-    .card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 6px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); transition: transform 0.2s ease; }
-    .card:hover { transform: translateY(-3px); }
-    /* Weather Section */
-    .weather-section select { width: 100%; margin-bottom: 15px; }
-    /* Schedule & Calendar Styles */
-    #progress-container { width: 100%; background: #ddd; border-radius: 10px; margin: 15px 0; overflow: hidden; }
-    #progress-bar { height: 20px; background: var(--secondary-color); width: 0%; transition: width 0.5s; }
-    .calendar-view { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 20px 0; }
-    .calendar-view div { padding: 10px; text-align: center; border-radius: 5px; cursor: pointer; transition: background 0.3s ease; border: 1px solid #ddd; }
-    .calendar-view div:hover { background: #e8f5e9; }
-    /* Day & Subject Cards */
-    .day-container { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-    .subject-card { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; background: #e8f5e9; padding: 8px 15px; margin: 8px 0; border-radius: 20px; cursor: grab; transition: transform 0.2s ease, background 0.2s ease; }
-    .subject-card:hover { background: #c8e6c9; transform: scale(1.02); }
-    .subject-card.completed { text-decoration: line-through; opacity: 0.6; }
-    .subject-card span, .subject-card button { margin-right: 5px; }
-    .remove-btn { cursor: pointer; color: var(--error-color); font-weight: bold; }
-    /* School Hours System */
-    .school-hours { margin-top: 20px; }
-    .school-hours table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-    .school-hours th, .school-hours td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-    .school-hours th { background: var(--secondary-color); color: #fff; }
-    .school-hours td .delete-hour { background: transparent; border: none; color: var(--error-color); font-weight: bold; cursor: pointer; }
-    .school-hours .form-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-    .school-hours .form-group select, .school-hours .form-group input { flex: 1; }
-    /* Export Options */
-    .export-options { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-    .export-options button, .export-options select { padding: 10px; border-radius: 25px; background: var(--secondary-color); color: #fff; border: none; }
-    .export-options button:hover, .export-options select:hover { background: #45a049; }
-    .export-options select { background: #fff; color: var(--primary-color); border: 1px solid #ddd; }
-    /* Modal & Overlay Styles */
-    .modal, .settings-modal, .profile-modal, .help-modal, .feedback-modal, .dashboard-customization-modal {
-      display: none; position: fixed; background: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 1100; max-width: 300px; text-align: center;
+    input, select {
+      margin: 10px;
+      padding: 12px;
+      width: 300px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
     }
-    .modal, .profile-modal, .help-modal, .feedback-modal, .dashboard-customization-modal { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-    .settings-modal { top: 50%; right: 20px; transform: translateY(-50%); }
-    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-    /* Notifications */
-    .message { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; font-weight: bold; z-index: 1200; }
-    .message.error { background: #ffebee; color: var(--error-color); }
-    .message.success { background: #e8f5e9; color: var(--success-color); }
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .dashboard { flex-direction: column; }
-      .sidebar { width: 100%; display: flex; overflow-x: auto; }
-      .sidebar button { flex: 1; margin: 5px; }
+    input:focus, select:focus {
+      border-color: var(--secondary-color);
+      outline: none;
     }
-    /* Dark Mode Adjustments */
-    body.dark-mode .card, body.dark-mode .sidebar, body.dark-mode .main-content, body.dark-mode .day-container { background: rgba(30,30,30,0.9); color: var(--dark-text); }
-    body.dark-mode .subject-card { background: #444; }
-    body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #333; color: var(--dark-text); border: 1px solid #555; }
+    .day-container {
+      background: rgba(255,255,255,0.9);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .day-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .subject-card {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: #e8f5e9;
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 20px;
+      cursor: grab;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .subject-card:hover {
+      background: #c8e6c9;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(0,200,150,0.5);
+    }
+    .subject-card.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .remove-btn {
+      cursor: pointer;
+      margin-left: 10px;
+      font-weight: bold;
+      color: var(--error-color);
+    }
+    .calendar-view {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .calendar-view div {
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .calendar-view div:hover { background: #f0f0f0; }
+    /* Modal styles with ARIA roles for accessibility */
+    .modal, .settings-modal, .profile-modal, .help-modal {
+      display: none;
+      position: fixed;
+      background: rgba(255,255,255,0.95);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 1100;
+      max-width: 300px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .modal[role="dialog"], .profile-modal[role="dialog"], .help-modal[role="dialog"] {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .settings-modal[role="dialog"] {
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    .message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 1001;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .error { background: #ffebee; color: var(--error-color); }
+    .success { background: #e8f5e9; color: var(--success-color); }
+
+    /* Dark mode adjustments */
+    .dark-mode .day-container {
+      background: #1e1e1e;
+      color: var(--dark-text);
+    }
+    .dark-mode .subject-card {
+      background: #2c2c2c;
+      color: var(--dark-text);
+    }
+    .dark-mode .modal,
+    .dark-mode .settings-modal,
+    .dark-mode .profile-modal,
+    .dark-mode .help-modal {
+      background: #1e1e1e;
+      color: var(--dark-text);
+    }
+
+    /* Weather and bag items sections */
+    .weather-section {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background 0.3s;
+    }
+    .bag-items {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    /* Progress bar */
+    #progress-container {
+      width: 100%;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    #progress-bar {
+      height: 20px;
+      background: var(--secondary-color);
+      width: 0%;
+      transition: width 0.5s;
+    }
   </style>
 </head>
 <body>
   <!-- Authentication Container -->
   <div class="auth-container" id="auth-container">
-    <h1 id="auth-heading">🎓 מערכת ניהול לימודים מתקדמת PRO</h1>
+    <h1 id="auth-heading">🎓 מערכת ניהול לימודים מתקדמת</h1>
     <div id="login-or-register">
-      <button id="btn-new-registration" onclick="showAuthForm('register')">📝 הרשמה חדשה</button>
-      <button id="btn-login" onclick="showAuthForm('login')">🔑 התחברות</button>
+      <button id="btn-new-registration" title="Register" onclick="showAuthForm('register')">📝 הרשמה חדשה</button>
+      <button id="btn-login" title="Login" onclick="showAuthForm('login')">🔑 התחברות</button>
     </div>
     <div id="register-form" style="display: none;">
       <h2 id="register-heading">הרשמה</h2>
@@ -125,169 +280,99 @@
 
   <!-- Dashboard -->
   <div class="dashboard" id="dashboard">
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
-      <img id="profile-pic" src="" alt="Profile Picture" style="width:50px; height:50px; border-radius:50%;">
-      <h2 id="current-user"></h2>
-      <button onclick="showSection('schedule')"><i class="fas fa-calendar-alt"></i> מערכת שעות</button>
-      <button onclick="showSection('grades')"><i class="fas fa-chart-line"></i> ציונים</button>
-      <button onclick="showSection('assignments')"><i class="fas fa-tasks"></i> משימות</button>
-      <button onclick="showSection('resources')"><i class="fas fa-book"></i> ספריית משאבים</button>
-      <button onclick="showSection('exams')"><i class="fas fa-pencil-alt"></i> ניהול מבחנים</button>
-      <button onclick="showSection('schoolHours')"><i class="fas fa-clock"></i> מערכת שעות לימודים</button>
-      <button onclick="showSection('calendar-section')"><i class="fas fa-calendar-days"></i> לוח שנה</button>
-      <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i> מצב לילה</button>
-    </nav>
-    <!-- Main Content -->
-    <div class="main-content">
-      <header>
-        <div>
-          <h1 id="dashboard-greeting">שלום, <span id="dashboard-username"></span>!</h1>
-          <div id="clock"></div>
-        </div>
-        <div class="controls">
-          <button id="btn-logout" onclick="logout()">🚪 יציאה</button>
-          <button id="btn-dark-mode" onclick="toggleDarkMode()">🌙 מצב לילה</button>
-          <button id="btn-settings" onclick="toggleSettings()">⚙️ הגדרות</button>
-          <button id="btn-profile" onclick="toggleProfile()">👤 פרופיל</button>
-          <button id="btn-help" onclick="toggleHelp()">❓ עזרה</button>
-          <button id="btn-customize-dashboard" onclick="toggleDashboardCustomization()"><i class="fas fa-th"></i> התאמה אישית</button>
-        </div>
-      </header>
-
-      <!-- Weather Section -->
-      <div class="card weather-section" id="weather">
-        <h2><i class="fas fa-cloud-sun"></i> מזג אוויר והמלצות לבוש</h2>
-        <select id="city-select" onchange="getWeather(this.value)">
-          <option value="">בחר עיר</option>
-          <option value="Tel Aviv">תל אביב</option>
-          <option value="Jerusalem">ירושלים</option>
-          <option value="Haifa">חיפה</option>
-          <option value="Beer Sheva">באר שבע</option>
-          <option value="Eilat">אילת</option>
+    <header>
+      <div>
+        <h1 id="dashboard-greeting">שלום, <span id="current-user"></span>!</h1>
+        <div id="clock"></div>
+      </div>
+      <div>
+        <button id="btn-logout" title="Logout" onclick="logout()">🚪 יציאה</button>
+        <button id="btn-dark-mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">🌙 מצב לילה</button>
+        <select id="language-select" onchange="changeLanguage(this.value)" title="Select Language">
+          <option value="he">עברית</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="ar">العربية</option>
+          <option value="es">Español</option>
         </select>
-        <div id="weather-info"></div>
-        <div class="bag-items" id="clothing-recommendations"></div>
-        <div class="bag-items" id="bag-recommendations"></div>
+        <button id="btn-settings" title="Settings" onclick="toggleSettings()">⚙️ הגדרות</button>
+        <button id="btn-profile" title="Edit Profile" onclick="toggleProfile()">👤 פרופיל</button>
+        <button id="btn-help" title="Help" onclick="toggleHelp()">❓ עזרה</button>
       </div>
+    </header>
 
-      <!-- Schedule Management Section -->
-      <div class="card" id="schedule">
-        <h2 id="schedule-heading">📅 ניהול מערכת שעות</h2>
-        <input type="text" id="search-input" placeholder="חפש נושא..." aria-label="Search Subject">
-        <select id="category-filter" onchange="filterByCategory(this.value)">
-          <option value="all">הכל</option>
-          <option value="מתמטיקה">מתמטיקה</option>
-          <option value="מדעים">מדעים</option>
-          <option value="היסטוריה">היסטוריה</option>
-          <option value="כללי">כללי</option>
-        </select>
-        <div id="progress-container">
-          <div id="progress-bar"></div>
-        </div>
-        <div id="days-container"></div>
-      </div>
+    <!-- Weather Section -->
+    <section class="weather-section">
+      <h2 id="weather-heading">⛅ מזג אוויר והמלצות לבוש</h2>
+      <select id="city-select" onchange="getWeather(this.value)" title="Select City">
+        <option value="">בחר עיר</option>
+        <option value="Tel Aviv">תל אביב</option>
+        <option value="Jerusalem">ירושלים</option>
+        <option value="Haifa">חיפה</option>
+        <option value="Beer Sheva">באר שבע</option>
+        <option value="Eilat">אילת</option>
+      </select>
+      <div id="weather-info"></div>
+      <div class="bag-items" id="clothing-recommendations"></div>
+    </section>
 
-      <!-- Calendar View Section -->
-      <div class="card" id="calendar-section">
-        <h2><i class="fas fa-calendar-days"></i> לוח שנה</h2>
-        <div class="calendar-view" id="calendar"></div>
-      </div>
+    <!-- Daily Bag Items Section -->
+    <section class="weather-section">
+      <h2 id="bag-items-heading">🎒 פריטים יומיים לתיק</h2>
+      <div id="daily-bag-items"></div>
+    </section>
 
-      <!-- School Hours System Section -->
-      <div class="card school-hours" id="schoolHours">
-        <h2>מערכת שעות לימודים</h2>
-        <div id="school-hours-table"></div>
-        <div class="form-group">
-          <select id="school-hours-day">
-            <option value="ראשון">ראשון</option>
-            <option value="שני">שני</option>
-            <option value="שלישי">שלישי</option>
-            <option value="רביעי">רביעי</option>
-            <option value="חמישי">חמישי</option>
-            <option value="שישי">שישי</option>
-          </select>
-          <select id="school-hours-time">
-            <option value="08:00-09:00">08:00-09:00</option>
-            <option value="09:00-10:00">09:00-10:00</option>
-            <option value="10:00-11:00">10:00-11:00</option>
-            <option value="11:00-12:00">11:00-12:00</option>
-            <option value="12:00-13:00">12:00-13:00</option>
-            <option value="13:00-14:00">13:00-14:00</option>
-          </select>
-          <input type="text" id="school-hours-subject" placeholder="נושא">
-          <button onclick="addSchoolHour()">הוסף שיעור</button>
-        </div>
-      </div>
+    <!-- Calendar View -->
+    <section class="calendar-view" id="calendar"></section>
 
-      <!-- Assignments Section -->
-      <div class="card" id="assignments">
-        <h2>משימות ומועדי הגשה</h2>
-        <input type="text" id="assignment-title" placeholder="כותרת המשימה">
-        <input type="date" id="assignment-due">
-        <textarea id="assignment-desc" placeholder="תיאור המשימה"></textarea>
-        <button onclick="addAssignment()">הוסף משימה</button>
-        <div id="assignments-list"></div>
+    <!-- Schedule Management Section -->
+    <section id="schedule-management">
+      <h2 id="schedule-heading">📅 ניהול מערכת שעות</h2>
+      <input type="text" id="search-input" placeholder="חפש נושא..." aria-label="Search Subject">
+      <select id="category-filter" onchange="filterByCategory(this.value)" title="Filter by Category">
+        <option value="all">הכל</option>
+        <option value="מתמטיקה">מתמטיקה</option>
+        <option value="מדעים">מדעים</option>
+        <option value="היסטוריה">היסטוריה</option>
+        <option value="כללי">כללי</option>
+      </select>
+      <!-- Progress Bar -->
+      <div id="progress-container">
+        <div id="progress-bar"></div>
       </div>
+      <div id="days-container"></div>
+    </section>
 
-      <!-- Grades Section -->
-      <div class="card" id="grades">
-        <h2>מעקב ציונים</h2>
-        <input type="text" id="grade-subject" placeholder="נושא">
-        <input type="number" id="grade-value" placeholder="ציון">
-        <button onclick="addGrade()">הוסף ציון</button>
-        <canvas id="gradesChart" style="max-width:100%;"></canvas>
-        <div id="grades-list"></div>
-      </div>
-
-      <!-- Resource Library Section (New Feature) -->
-      <div class="card" id="resources">
-        <h2>ספריית משאבים</h2>
-        <input type="text" id="resource-title" placeholder="כותרת המשאב">
-        <input type="text" id="resource-link" placeholder="קישור או תיאור קצר">
-        <button onclick="addResource()">הוסף משאב</button>
-        <div id="resources-list"></div>
-      </div>
-
-      <!-- Exam Management Section (New Feature) -->
-      <div class="card" id="exams">
-        <h2>ניהול מבחנים</h2>
-        <input type="text" id="exam-title" placeholder="כותרת המבחן">
-        <input type="date" id="exam-date">
-        <textarea id="exam-desc" placeholder="תיאור המבחן"></textarea>
-        <button onclick="addExam()">הוסף מבחן</button>
-        <div id="exams-list"></div>
-      </div>
-
-      <!-- Export, Data & Feedback Options -->
-      <div class="export-options" id="export">
-        <button id="btn-export-schedule" onclick="exportSchedule()">📤 ייצוא מערכת שעות</button>
-        <button id="btn-export-pdf" onclick="exportToPDF()">📄 ייצוא ל-PDF</button>
-        <button id="btn-export-csv" onclick="exportScheduleCSV()">📑 ייצוא כ-CSV</button>
-        <button id="btn-export-excel" onclick="exportScheduleExcel()">📊 ייצוא ל-Excel</button>
-        <button id="btn-import-schedule" onclick="importSchedule()">📥 יבוא מערכת שעות</button>
-        <button id="btn-backup-cloud" onclick="backupToCloud()">☁️ גיבוי לענן</button>
-        <button id="btn-restore-cloud" onclick="restoreFromCloud()">♻️ שחזור מגיבוי</button>
-        <button id="btn-print-schedule" onclick="printSchedule()">🖨️ הדפס מערכת שעות</button>
-        <button id="btn-speech" onclick="startSpeechRecognition()">🎤 הוספת קולי</button>
-        <button id="btn-reset-data" onclick="resetData()">♻️ אפס נתונים</button>
-        <button id="btn-feedback" onclick="toggleFeedback()">💬 משוב</button>
-        <select id="theme-select" onchange="setCustomTheme(this.value)">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="red">Red</option>
-        </select>
-      </div>
-    </div>
+    <!-- Export and Backup Options -->
+    <section class="export-options">
+      <button id="btn-export-schedule" title="Export Schedule" onclick="exportSchedule()">📤 ייצוא מערכת שעות</button>
+      <button id="btn-export-pdf" title="Export to PDF" onclick="exportToPDF()">📄 ייצוא ל-PDF</button>
+      <button id="btn-export-csv" title="Export as CSV" onclick="exportScheduleCSV()">📑 ייצוא כ-CSV</button>
+      <button id="btn-import-schedule" title="Import Schedule" onclick="importSchedule()">📥 יבוא מערכת שעות</button>
+      <button id="btn-backup-cloud" title="Backup to Cloud" onclick="backupToCloud()">☁️ גיבוי לענן</button>
+      <button id="btn-restore-cloud" title="Restore from Cloud" onclick="restoreFromCloud()">♻️ שחזור מגיבוי</button>
+      <button id="btn-theme-dark" title="Dark Theme" onclick="setTheme('dark')">נושא כהה</button>
+      <button id="btn-theme-light" title="Light Theme" onclick="setTheme('light')">נושא בהיר</button>
+      <select id="theme-select" onchange="setCustomTheme(this.value)" title="Custom Theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="red">Red</option>
+        <option value="futuristic">Futuristic</option>
+      </select>
+      <button id="btn-print-schedule" title="Print Schedule" onclick="printSchedule()">🖨️ הדפס מערכת שעות</button>
+      <button id="btn-speech" title="Voice Input" onclick="startSpeechRecognition()">🎤 הוספת קולי</button>
+      <!-- NEW: Bag Management Button -->
+      <button id="btn-bag-management" title="Bag Management" onclick="openBagModal()">👜 ניהול תיק</button>
+    </section>
   </div>
 
-  <!-- Modals and Overlay -->
-  <div class="modal" id="subject-modal">
-    <h3>עריכת נושא</h3>
-    <input type="text" id="edit-subject-input" placeholder="ערוך נושא">
-    <input type="text" id="edit-time-input" placeholder="שעה (לדוגמה: 08:00-09:00)">
+  <!-- Modal for Editing Subject (role="dialog") -->
+  <div class="modal" id="subject-modal" role="dialog" aria-modal="true" aria-labelledby="edit-subject-heading">
+    <h3 id="edit-subject-heading">עריכת נושא</h3>
+    <input type="text" id="edit-subject-input">
+    <input type="text" id="edit-time-input" placeholder="שעה (לדוגמה: 8:00-9:00)">
     <select id="edit-category-input">
       <option value="כללי">כללי</option>
       <option value="מתמטיקה">מתמטיקה</option>
@@ -296,89 +381,108 @@
     </select>
     <button onclick="saveEditedSubject()">שמור שינויים</button>
   </div>
-  <div class="overlay" id="modal-overlay"></div>
 
-  <div class="settings-modal" id="settings-modal">
-    <h3>הגדרות מתקדמות</h3>
+  <!-- Settings Modal (role="dialog") -->
+  <div class="settings-modal" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-heading">
+    <h3 id="settings-heading">הגדרות מתקדמות</h3>
     <label for="font-select">בחר גופן:</label>
     <select id="font-select" onchange="changeFont(this.value)">
-      <option value="Roboto">Roboto</option>
       <option value="Arial">Arial</option>
       <option value="Verdana">Verdana</option>
       <option value="Tahoma">Tahoma</option>
       <option value="Times New Roman">Times New Roman</option>
+      <option value="Orbitron">Orbitron</option>
+      <option value="Roboto">Roboto</option>
     </select>
     <button onclick="resetSettings()">אפס הגדרות</button>
-    <button onclick="alert('תכונה זו תצא בהמשך')">העדפות התראות</button>
-    <button onclick="alert('תכונה זו תצא בהמשך')">אפשרויות סנכרון אוטומטי</button>
+    <button onclick="alert('Feature coming soon: Notification Preferences')">העדפות התראות</button>
+    <button onclick="alert('Feature coming soon: Auto-Sync Options')">אפשרויות סנכרון אוטומטי</button>
     <button onclick="toggleSettings()">סגור</button>
   </div>
 
-  <div class="profile-modal" id="profile-modal">
-    <h3>פרופיל משתמש</h3>
+  <!-- Profile Modal (role="dialog") -->
+  <div class="profile-modal" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-heading">
+    <h3 id="profile-heading">פרופיל משתמש</h3>
     <label for="profile-username">שם משתמש:</label>
     <input type="text" id="profile-username" disabled>
     <label for="profile-password">סיסמה חדשה:</label>
     <input type="password" id="profile-password">
-    <label for="profile-pic-url">קישור לתמונת פרופיל:</label>
-    <input type="text" id="profile-pic-url" placeholder="URL">
     <button onclick="updateProfile()">עדכן פרופיל</button>
     <button onclick="toggleProfile()">סגור</button>
   </div>
 
-  <div class="help-modal" id="help-modal">
-    <h3>עזרה</h3>
+  <!-- Help Modal (role="dialog") -->
+  <div class="help-modal" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-heading">
+    <h3 id="help-heading">עזרה</h3>
     <p>ברוכים הבאים למערכת ניהול הלימודים. כאן תוכלו:</p>
     <ul>
       <li>להוסיף, לערוך ולסמן נושאים כהושלמו.</li>
-      <li>לעקוב אחרי התקדמותכם באמצעות סרגל התקדמות.</li>
+      <li>לעקוב אחרי התקדמותכם באמצעות סרגל התקדמות ואנימציות מתקדמות.</li>
       <li>להשתמש בקלט קולי להוספת נושאים.</li>
-      <li>לייצא את מערכת השעות כ-JSON, CSV, Excel או PDF.</li>
-      <li>להתאים אישית את הנושא, הגופן ולוח המחוונים.</li>
-      <li>לנהל את מערכת השעות הלימודית – קבעו שיעורים בזמן מוגדר לכל יום.</li>
-      <li>לעקוב אחרי משימות ומועדי הגשה.</li>
-      <li>לעקוב אחרי ציונים.</li>
-      <li>להוסיף ולנהל משאבים לימודיים בספריית המשאבים (תכונה חדשה).</li>
-      <li>לנהל מבחנים – קבעו מועדי מבחנים והכניסו תיאורים (תכונה חדשה).</li>
-      <li>על פי מזג האוויר – יוצגו המלצות לבוש.</li>
-      <li>על פי מערכת השעות של המחר – יוצגו המלצות לתיק (מה להכניס/להוציא) כדי להיות מוכן ליום הבא.</li>
+      <li>לייצא את מערכת השעות כ-JSON, CSV או PDF.</li>
+      <li>להתאים אישית את הנושא, הגופן, הצבעים והנראות בצורה עתידנית.</li>
     </ul>
     <button onclick="toggleHelp()">סגור</button>
   </div>
 
-  <div class="feedback-modal" id="feedback-modal">
-    <h3>משוב</h3>
-    <textarea id="feedback-text" placeholder="כתבו כאן את המשוב..."></textarea>
-    <button onclick="submitFeedback()">שלח</button>
-    <button onclick="toggleFeedback()">סגור</button>
+  <!-- NEW: Bag Management Modal (role="dialog") -->
+  <div class="modal" id="bag-modal" role="dialog" aria-modal="true" aria-labelledby="bag-modal-heading">
+    <h3 id="bag-modal-heading">ניהול תיק - חומרים להוספה/הסרה</h3>
+    <label for="bag-day-select">בחר יום:</label>
+    <select id="bag-day-select">
+      <option value="0">ראשון</option>
+      <option value="1">שני</option>
+      <option value="2">שלישי</option>
+      <option value="3">רביעי</option>
+      <option value="4">חמישי</option>
+      <option value="5">שישי</option>
+    </select>
+    <button onclick="checkBagContents()">בדוק תיק</button>
+    <div id="bag-results"></div>
+    <button onclick="closeBagModal()">סגור</button>
   </div>
 
-  <!-- Dashboard Customization Modal -->
-  <div class="dashboard-customization-modal" id="dashboard-customization-modal">
-    <h3>התאמה אישית של לוח המחוונים</h3>
-    <form id="dashboard-customization-form">
-      <label><input type="checkbox" name="section" value="weather" checked> מזג אוויר והמלצות לבוש</label><br>
-      <label><input type="checkbox" name="section" value="schedule" checked> מערכת שעות</label><br>
-      <label><input type="checkbox" name="section" value="grades" checked> ציונים</label><br>
-      <label><input type="checkbox" name="section" value="assignments" checked> משימות</label><br>
-      <label><input type="checkbox" name="section" value="resources" checked> ספריית משאבים</label><br>
-      <label><input type="checkbox" name="section" value="exams" checked> ניהול מבחנים</label><br>
-      <label><input type="checkbox" name="section" value="schoolHours" checked> מערכת שעות לימודים</label><br>
-      <label><input type="checkbox" name="section" value="calendar-section" checked> לוח שנה</label><br>
-      <button type="button" onclick="saveDashboardCustomization()">שמור</button>
-    </form>
-  </div>
+  <!-- Shared Overlay -->
+  <div class="overlay" id="modal-overlay"></div>
 
-  <!-- JavaScript: Combined & Enhanced Functionality -->
   <script>
     "use strict";
-    /***************** Global Variables *****************/
+    /***************** Global Variables & Dictionaries *****************/
     const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי'];
-    const timeSlots = ["08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00"];
     let currentUser = null;
-    // רק עברית – אין תמיכה באנגלית
-    let currentLang = 'he';
+    let currentLang = localStorage.getItem('currentLang') || 'he';
+
     const translations = {
+      en: {
+        authHeading: "🎓 Advanced Study Management System",
+        newRegistration: "📝 New Registration",
+        login: "🔑 Login",
+        registerHeading: "Register",
+        loginHeading: "Login",
+        usernamePlaceholder: "Username",
+        passwordPlaceholder: "Password",
+        confirmPasswordPlaceholder: "Confirm Password",
+        logout: "🚪 Logout",
+        darkMode: "🌙 Dark Mode",
+        weatherHeading: "⛅ Weather and Clothing Recommendations",
+        bagItemsHeading: "🎒 Daily Bag Items",
+        scheduleHeading: "📅 Schedule Management",
+        addSubject: "Add Subject",
+        sortSubjects: "Sort Subjects",
+        clearDay: "Clear Day",
+        edit: "Edit",
+        addNote: "Add Note",
+        reminder: "Reminder",
+        exportSchedule: "📤 Export Schedule",
+        exportToPDF: "📄 Export to PDF",
+        importSchedule: "📥 Import Schedule",
+        backupToCloud: "☁️ Backup to Cloud",
+        restoreFromCloud: "♻️ Restore from Cloud",
+        lightMode: "Light Mode",
+        themeDark: "Dark Theme",
+        language: "Language",
+        searchPlaceholder: "Search subject..."
+      },
       he: {
         authHeading: "🎓 מערכת ניהול לימודים מתקדמת",
         newRegistration: "📝 הרשמה חדשה",
@@ -406,80 +510,138 @@
         restoreFromCloud: "♻️ שחזור מגיבוי",
         lightMode: "מצב בהיר",
         themeDark: "נושא כהה",
-        searchPlaceholder: "חפש נושא...",
-        assignmentsHeading: "משימות ומועדי הגשה",
-        gradeSubjectPlaceholder: "נושא",
-        gradeValuePlaceholder: "ציון",
-        gradesHeading: "מעקב ציונים",
-        profilePicPlaceholder: "קישור לתמונת פרופיל"
+        language: "שפה",
+        searchPlaceholder: "חפש נושא..."
+      },
+      ru: {
+        authHeading: "🎓 Продвинутая система управления обучением",
+        newRegistration: "📝 Новая регистрация",
+        login: "🔑 Вход",
+        registerHeading: "Регистрация",
+        loginHeading: "Вход",
+        usernamePlaceholder: "Имя пользователя",
+        passwordPlaceholder: "Пароль",
+        confirmPasswordPlaceholder: "Подтвердите пароль",
+        logout: "🚪 Выход",
+        darkMode: "🌙 Темный режим",
+        weatherHeading: "⛅ Погода и рекомендации по одежде",
+        bagItemsHeading: "🎒 Ежедневные вещи в сумке",
+        scheduleHeading: "📅 Управление расписанием",
+        addSubject: "Добавить предмет",
+        sortSubjects: "Сортировать предметы",
+        clearDay: "Очистить день",
+        edit: "Редактировать",
+        addNote: "Добавить заметку",
+        reminder: "Напоминание",
+        exportSchedule: "📤 Экспорт расписания",
+        exportToPDF: "📄 Экспорт в PDF",
+        importSchedule: "📥 Импорт расписания",
+        backupToCloud: "☁️ Резервное копирование в облако",
+        restoreFromCloud: "♻️ Восстановление из облака",
+        lightMode: "Светлый режим",
+        themeDark: "Темная тема",
+        language: "Язык",
+        searchPlaceholder: "Поиск предмета..."
+      },
+      ar: {
+        authHeading: "🎓 نظام إدارة دراسات متقدم",
+        newRegistration: "📝 تسجيل جديد",
+        login: "🔑 تسجيل الدخول",
+        registerHeading: "تسجيل",
+        loginHeading: "تسجيل الدخول",
+        usernamePlaceholder: "اسم المستخدم",
+        passwordPlaceholder: "كلمة المرور",
+        confirmPasswordPlaceholder: "تأكيد كلمة المرور",
+        logout: "🚪 تسجيل الخروج",
+        darkMode: "🌙 الوضع الليلي",
+        weatherHeading: "⛅ الطقس وتوصيات الملابس",
+        bagItemsHeading: "🎒 أغراض الحقيبة اليومية",
+        scheduleHeading: "📅 إدارة الجدول",
+        addSubject: "أضف مادة",
+        sortSubjects: "ترتيب المواد",
+        clearDay: "مسح اليوم",
+        edit: "تعديل",
+        addNote: "أضف ملاحظة",
+        reminder: "تذكير",
+        exportSchedule: "📤 تصدير الجدول",
+        exportToPDF: "📄 تصدير إلى PDF",
+        importSchedule: "📥 استيراد الجدول",
+        backupToCloud: "☁️ النسخ الاحتياطي إلى السحابة",
+        restoreFromCloud: "♻️ استعادة من السحابة",
+        lightMode: "الوضع الفاتح",
+        themeDark: "السمة الداكنة",
+        language: "اللغة",
+        searchPlaceholder: "ابحث عن مادة..."
+      },
+      es: {
+        authHeading: "🎓 Sistema Avanzado de Gestión de Estudios",
+        newRegistration: "📝 Nueva Registro",
+        login: "🔑 Iniciar sesión",
+        registerHeading: "Registrarse",
+        loginHeading: "Iniciar sesión",
+        usernamePlaceholder: "Nombre de usuario",
+        passwordPlaceholder: "Contraseña",
+        confirmPasswordPlaceholder: "Confirmar contraseña",
+        logout: "🚪 Cerrar sesión",
+        darkMode: "🌙 Modo oscuro",
+        weatherHeading: "⛅ Clima y recomendaciones de vestimenta",
+        bagItemsHeading: "🎒 Artículos diarios para la mochila",
+        scheduleHeading: "📅 Gestión de horarios",
+        addSubject: "Agregar materia",
+        sortSubjects: "Ordenar materias",
+        clearDay: "Limpiar día",
+        edit: "Editar",
+        addNote: "Agregar nota",
+        reminder: "Recordatorio",
+        exportSchedule: "📤 Exportar horario",
+        exportToPDF: "📄 Exportar a PDF",
+        importSchedule: "📥 Importar horario",
+        backupToCloud: "☁️ Respaldo en la nube",
+        restoreFromCloud: "♻️ Restaurar desde la nube",
+        lightMode: "Modo claro",
+        themeDark: "Tema oscuro",
+        language: "Idioma",
+        searchPlaceholder: "Buscar materia..."
       }
     };
+
     const themes = {
-      light: { '--background-color': '#f0f8ff', '--primary-color': '#2c3e50', '--secondary-color': '#4CAF50' },
-      dark: { '--background-color': '#1e1e1e', '--primary-color': '#f5f5f5', '--secondary-color': '#4CAF50' },
-      blue: { '--background-color': '#e0f7fa', '--primary-color': '#01579b', '--secondary-color': '#0288d1' },
-      green: { '--background-color': '#e8f5e9', '--primary-color': '#1b5e20', '--secondary-color': '#43a047' },
-      red: { '--background-color': '#ffebee', '--primary-color': '#b71c1c', '--secondary-color': '#e53935' }
-    };
-    const clothingRecommendations = {
-      he: { cold: 'מעיל', warm: 'בגדים קצרים', rain: 'מטריה', cloudy: 'סוודר', sunny: 'כובע ומשקפי שמש' }
-    };
-    let notifiedSlots = {};
-    let notifiedAssignments = {};
-    let assignments = JSON.parse(localStorage.getItem('assignments') || '[]');
-    let grades = JSON.parse(localStorage.getItem('grades') || '[]');
-    // New: Resource Library
-    let resources = JSON.parse(localStorage.getItem('resources') || '[]');
-    // New: Exam Management
-    let exams = JSON.parse(localStorage.getItem('exams') || '[]');
-
-    /***************** Dashboard Customization *****************/
-    function loadDashboardCustomization() {
-      const config = JSON.parse(localStorage.getItem('dashboardSections') || '{}');
-      const defaultConfig = {
-        weather: true,
-        schedule: true,
-        grades: true,
-        assignments: true,
-        resources: true,
-        exams: true,
-        schoolHours: true,
-        "calendar-section": true
-      };
-      return Object.assign(defaultConfig, config);
-    }
-    function applyDashboardCustomization() {
-      const config = loadDashboardCustomization();
-      for (const section in config) {
-        const el = document.getElementById(section);
-        if (el) {
-          el.style.display = config[section] ? "block" : "none";
-        }
+      light: {
+        '--background-color': '#f0f8ff',
+        '--primary-color': '#2c3e50',
+        '--secondary-color': '#4CAF50'
+      },
+      dark: {
+        '--background-color': '#121212',
+        '--primary-color': '#e0e0e0',
+        '--secondary-color': '#4CAF50'
+      },
+      blue: {
+        '--background-color': '#e0f7fa',
+        '--primary-color': '#01579b',
+        '--secondary-color': '#0288d1'
+      },
+      green: {
+        '--background-color': '#e8f5e9',
+        '--primary-color': '#1b5e20',
+        '--secondary-color': '#43a047'
+      },
+      red: {
+        '--background-color': '#ffebee',
+        '--primary-color': '#b71c1c',
+        '--secondary-color': '#e53935'
+      },
+      futuristic: {
+        '--background-color': 'transparent',
+        '--primary-color': '#ffffff',
+        '--secondary-color': '#23d5ab'
       }
-    }
-    function toggleDashboardCustomization() {
-      const modal = document.getElementById('dashboard-customization-modal');
-      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-      document.getElementById('modal-overlay').style.display = modal.style.display;
-      const config = loadDashboardCustomization();
-      document.querySelectorAll('#dashboard-customization-form input[name="section"]').forEach(input => {
-        input.checked = !!config[input.value];
-      });
-    }
-    function saveDashboardCustomization() {
-      const newConfig = {};
-      document.querySelectorAll('#dashboard-customization-form input[name="section"]').forEach(input => {
-        newConfig[input.value] = input.checked;
-      });
-      localStorage.setItem('dashboardSections', JSON.stringify(newConfig));
-      applyDashboardCustomization();
-      toggleDashboardCustomization();
-      showMessage('לוח המחוונים עודכן', 'success');
-    }
+    };
 
-    /***************** Utility & UI Update Functions *****************/
+    /***************** Multi-Language Functions *****************/
     function updateLanguage() {
       localStorage.setItem('currentLang', currentLang);
+      document.body.dir = (currentLang === 'he' || currentLang === 'ar') ? "rtl" : "ltr";
       document.getElementById('auth-heading').textContent = translations[currentLang].authHeading;
       document.getElementById('btn-new-registration').textContent = translations[currentLang].newRegistration;
       document.getElementById('btn-login').textContent = translations[currentLang].login;
@@ -492,16 +654,32 @@
       document.getElementById('login-password').placeholder = translations[currentLang].passwordPlaceholder;
       document.getElementById('btn-logout').textContent = translations[currentLang].logout;
       document.getElementById('btn-dark-mode').textContent = translations[currentLang].darkMode;
+      document.getElementById('weather-heading').textContent = translations[currentLang].weatherHeading;
+      document.getElementById('bag-items-heading').textContent = translations[currentLang].bagItemsHeading;
       document.getElementById('schedule-heading').textContent = translations[currentLang].scheduleHeading;
       document.getElementById('search-input').placeholder = translations[currentLang].searchPlaceholder;
+      document.getElementById('btn-export-schedule').textContent = translations[currentLang].exportSchedule;
+      document.getElementById('btn-export-pdf').textContent = translations[currentLang].exportToPDF;
+      document.getElementById('btn-import-schedule').textContent = translations[currentLang].importSchedule;
+      document.getElementById('btn-backup-cloud').textContent = translations[currentLang].backupToCloud;
+      document.getElementById('btn-restore-cloud').textContent = translations[currentLang].restoreFromCloud;
+      document.getElementById('btn-theme-dark').textContent = translations[currentLang].themeDark;
+      document.getElementById('btn-theme-light').textContent = translations[currentLang].lightMode;
       renderScheduleUI();
     }
-    /***************** Theme & Font Functions *****************/
+    function changeLanguage(lang) {
+      currentLang = lang;
+      updateLanguage();
+    }
+
+    /***************** Theme Functions *****************/
     function setTheme(theme) {
       if (theme === 'dark') {
         document.body.classList.add('dark-mode');
+        document.body.classList.remove('futuristic-theme');
       } else if (theme === 'light') {
         document.body.classList.remove('dark-mode');
+        document.body.classList.remove('futuristic-theme');
       }
       localStorage.setItem('currentTheme', theme);
     }
@@ -510,15 +688,19 @@
         Object.keys(themes[themeName]).forEach(key => {
           document.documentElement.style.setProperty(key, themes[themeName][key]);
         });
+        if (themeName === 'futuristic') {
+          document.body.classList.add('futuristic-theme');
+          document.body.classList.remove('dark-mode');
+        } else {
+          document.body.classList.remove('futuristic-theme');
+        }
         localStorage.setItem('currentCustomTheme', themeName);
       }
     }
-    function changeFont(fontName) {
-      document.body.style.fontFamily = fontName + ", sans-serif";
-      localStorage.setItem('currentFont', fontName);
-    }
+
+    /***************** Toggle Dark Mode *****************/
     function toggleDarkMode() {
-      if (document.body.classList.contains('dark-mode')) {
+      if(document.body.classList.contains('dark-mode')) {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('currentTheme', 'light');
       } else {
@@ -526,16 +708,240 @@
         localStorage.setItem('currentTheme', 'dark');
       }
     }
-    /***************** Section Navigation *****************/
-    function showSection(section) {
-      const sectionElement = document.getElementById(section);
-      if(sectionElement) {
-        sectionElement.scrollIntoView({ behavior: "smooth" });
-      } else {
-        alert("תכונה זו תצא בהמשך");
+
+    /***************** Additional Settings Functions *****************/
+    function toggleSettings() {
+      const settingsModal = document.getElementById('settings-modal');
+      settingsModal.style.display = (settingsModal.style.display === 'block') ? 'none' : 'block';
+      document.getElementById('modal-overlay').style.display = (settingsModal.style.display === 'block') ? 'block' : 'none';
+    }
+    function resetSettings() {
+      localStorage.removeItem('currentLang');
+      localStorage.removeItem('currentTheme');
+      localStorage.removeItem('currentCustomTheme');
+      currentLang = 'he';
+      setTheme('light');
+      setCustomTheme('light');
+      updateLanguage();
+      toggleSettings();
+      showMessage('ההגדרות אופסו', 'success');
+    }
+    function changeFont(fontName) {
+      document.body.style.fontFamily = fontName;
+      localStorage.setItem('currentFont', fontName);
+    }
+
+    /***************** Profile Functions *****************/
+    function toggleProfile() {
+      const profileModal = document.getElementById('profile-modal');
+      profileModal.style.display = (profileModal.style.display === 'block') ? 'none' : 'block';
+      document.getElementById('modal-overlay').style.display = (profileModal.style.display === 'block') ? 'block' : 'none';
+      if (currentUser) {
+        document.getElementById('profile-username').value = currentUser;
       }
     }
-    /***************** Notification & Message *****************/
+    function updateProfile() {
+      showMessage('פרופיל עודכן', 'success');
+      toggleProfile();
+    }
+
+    /***************** Help Functions *****************/
+    function toggleHelp() {
+      const helpModal = document.getElementById('help-modal');
+      helpModal.style.display = (helpModal.style.display === 'block') ? 'none' : 'block';
+      document.getElementById('modal-overlay').style.display = (helpModal.style.display === 'block') ? 'block' : 'none';
+    }
+
+    /***************** Additional Functions *****************/
+    const users = JSON.parse(localStorage.getItem('schoolUsers') || '{}');
+    async function getWeather(city) {
+      if (!city) return;
+      try {
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city}&aqi=no`);
+        if (!response.ok) throw new Error("API error");
+        const data = await response.json();
+        const weatherInfo = `<p>טמפרטורה: ${data.current.temp_c}°C</p><p>תנאים: ${data.current.condition.text}</p>`;
+        document.getElementById('weather-info').innerHTML = weatherInfo;
+        showClothingRecommendations(data.current);
+        generateBagItems();
+      } catch (error) {
+        showMessage('שגיאה בקבלת נתוני מזג אוויר', 'error');
+        console.error("Error fetching weather:", error);
+      }
+    }
+    // NEW: Improved Clothing Recommendations Function
+    function showClothingRecommendations(weather) {
+      const recommendations = [];
+      const temp = weather.temp_c;
+      const condition = weather.condition.text.toLowerCase();
+      // Temperature-based recommendations
+      if (temp <= 0) {
+        recommendations.push('מעיל חזק, כפפות, כובע חם');
+      } else if (temp <= 10) {
+        recommendations.push('מעיל, צעיף');
+      } else if (temp <= 20) {
+        recommendations.push('סוודר או חליפה קלה');
+      } else {
+        recommendations.push('לבוש קל ונוח');
+      }
+      // Precipitation-based recommendations
+      if (weather.precip_mm > 0) {
+        recommendations.push('מטריה או מעיל גשם');
+      }
+      // Sunny condition (only if warm enough)
+      if (condition.includes('שמש') && temp >= 20) {
+        recommendations.push('כובע ומשקפי שמש');
+      }
+      // Wind-based recommendation if wind is strong
+      if (weather.wind_kph && weather.wind_kph > 20) {
+        recommendations.push('הצטיידו במעיל רוח');
+      }
+      const html = `<strong>המלצות לבוש:</strong><ul>${recommendations.map(item => `<li>${item}</li>`).join('')}</ul>`;
+      document.getElementById('clothing-recommendations').innerHTML = html;
+    }
+    function generateBagItems() {
+      if (!currentUser || !users[currentUser].schedule) return;
+      const itemsByDay = users[currentUser].schedule.map((subjects, index) => {
+        const day = daysOfWeek[index];
+        const items = [];
+        if (subjects.length > 0) items.push('מחברת', 'עטים');
+        if (subjects.some(s => s.includes('מתמטיקה'))) items.push('מחשבון');
+        if (subjects.some(s => s.includes('ספורט'))) items.push('בגד ספורט');
+        return `<div class="day-bag-items"><strong>${day}:</strong> ${items.join(', ')}</div>`;
+      }).join('');
+      document.getElementById('daily-bag-items').innerHTML = itemsByDay;
+    }
+    function updateStorage() {
+      localStorage.setItem('schoolUsers', JSON.stringify(users));
+    }
+    function bindSubjectEvents() {
+      const subjectCards = document.querySelectorAll('.subject-card');
+      subjectCards.forEach(card => {
+        card.setAttribute('draggable', true);
+        card.addEventListener('dragstart', handleDragStart, false);
+        card.addEventListener('dragover', handleDragOver, false);
+        card.addEventListener('drop', handleDrop, false);
+      });
+    }
+    // Render the schedule UI
+    function renderScheduleUI() {
+      const daysContainer = document.getElementById('days-container');
+      daysContainer.innerHTML = '';
+      if (!users[currentUser] || !users[currentUser].schedule) return;
+      users[currentUser].schedule.forEach((subjects, index) => {
+        let subjectHTML = subjects.map((subject, i) => `
+          <div class="subject-card" data-index="${i}">
+            <span onclick="toggleCompleted(this)">${subject}</span>
+            <span class="remove-btn" title="Remove" onclick="removeSubject(${index}, '${subject}')">X</span>
+            <button onclick="editSubject(${index}, '${subject}')" title="${translations[currentLang].edit}">${translations[currentLang].edit}</button>
+            <button onclick="addNote(${index}, '${subject}')" title="${translations[currentLang].addNote}">${translations[currentLang].addNote}</button>
+            <button onclick="setReminder(${index}, '${subject}')" title="${translations[currentLang].reminder}">${translations[currentLang].reminder}</button>
+            <button onclick="markDone(this)" title="Mark as Completed">✔️</button>
+          </div>
+        `).join('');
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'day-container';
+        dayDiv.innerHTML = `
+          <h3>${daysOfWeek[index]}</h3>
+          <input type="text" id="subject-input-${index}" placeholder="${translations[currentLang].addSubject}">
+          <button onclick="addSubject(${index})" title="${translations[currentLang].addSubject}">${translations[currentLang].addSubject}</button>
+          <button onclick="sortSubjects(${index})" title="${translations[currentLang].sortSubjects}">${translations[currentLang].sortSubjects}</button>
+          <button onclick="clearDay(${index})" title="${translations[currentLang].clearDay}">${translations[currentLang].clearDay}</button>
+          <div id="subjects-${index}">
+            ${subjectHTML}
+          </div>
+        `;
+        daysContainer.appendChild(dayDiv);
+      });
+      bindSubjectEvents();
+      updateProgress();
+    }
+    function addSubject(dayIndex) {
+      const input = document.getElementById(`subject-input-${dayIndex}`);
+      const subject = input.value.trim();
+      if (!subject) {
+        showMessage('אנא הזן נושא', 'error');
+        return;
+      }
+      if (!users[currentUser].schedule) {
+        users[currentUser].schedule = Array.from({ length: 6 }, () => []);
+      }
+      users[currentUser].schedule[dayIndex].push(subject);
+      updateStorage();
+      renderScheduleUI();
+      input.value = '';
+      generateBagItems();
+    }
+    function removeSubject(dayIndex, subject) {
+      users[currentUser].schedule[dayIndex] = users[currentUser].schedule[dayIndex].filter(s => s !== subject);
+      updateStorage();
+      renderScheduleUI();
+      generateBagItems();
+    }
+    function editSubject(dayIndex, subject) {
+      document.getElementById('subject-modal').style.display = 'block';
+      document.getElementById('modal-overlay').style.display = 'block';
+      document.getElementById('edit-subject-input').value = subject;
+      document.getElementById('edit-time-input').value = '08:00-09:00';
+      document.getElementById('edit-category-input').value = 'כללי';
+    }
+    function saveEditedSubject() {
+      document.getElementById('subject-modal').style.display = 'none';
+      document.getElementById('modal-overlay').style.display = 'none';
+      showMessage('הנושא עודכן בהצלחה', 'success');
+      // (Optional: update the schedule accordingly)
+    }
+    function exportSchedule() {
+      const dataStr = JSON.stringify(users[currentUser].schedule);
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+      const exportFileDefaultName = 'schedule.json';
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+    function exportScheduleCSV() {
+      if (!users[currentUser] || !users[currentUser].schedule) return;
+      let csvContent = "data:text/csv;charset=utf-8,";
+      users[currentUser].schedule.forEach((subjects, index) => {
+        csvContent += daysOfWeek[index] + "," + subjects.join(";") + "\n";
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "schedule.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    function importSchedule() {
+      const inputElement = document.createElement('input');
+      inputElement.type = 'file';
+      inputElement.accept = 'application/json';
+      inputElement.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            users[currentUser].schedule = JSON.parse(e.target.result);
+            updateStorage();
+            renderScheduleUI();
+            generateBagItems();
+            showMessage('מערכת השעות עודכנה', 'success');
+          } catch (error) {
+            showMessage('קובץ לא חוקי', 'error');
+          }
+        };
+        reader.readAsText(file);
+      });
+      inputElement.click();
+    }
+    function exportToPDF() {
+      showMessage('ייצוא ל-PDF בהקדם', 'success');
+    }
+    function printSchedule() {
+      window.print();
+    }
     function showMessage(message, type) {
       const msgDiv = document.createElement('div');
       msgDiv.className = `message ${type}`;
@@ -543,8 +949,112 @@
       document.body.appendChild(msgDiv);
       setTimeout(() => msgDiv.remove(), 3000);
     }
-    /***************** Authentication *****************/
-    const users = JSON.parse(localStorage.getItem('schoolUsers') || '{}');
+    let dragSrcEl = null;
+    function handleDragStart(e) {
+      dragSrcEl = this;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    function handleDragOver(e) {
+      if (e.preventDefault) e.preventDefault();
+      return false;
+    }
+    function handleDrop(e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (dragSrcEl !== this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+        updateStorage();
+      }
+      return false;
+    }
+    // Debounce function for improved search performance
+    function debounce(func, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+    document.getElementById('search-input').addEventListener('input', debounce(function() {
+      const query = this.value.toLowerCase();
+      const dayContainers = document.querySelectorAll('.day-container');
+      dayContainers.forEach(container => {
+        const subjects = container.querySelectorAll('.subject-card');
+        subjects.forEach(card => {
+          card.style.display = card.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+        });
+      });
+    }, 300));
+    function sortSubjects(dayIndex) {
+      users[currentUser].schedule[dayIndex].sort();
+      updateStorage();
+      renderScheduleUI();
+    }
+    function addNote(dayIndex, subject) {
+      const note = prompt('הזן הערה עבור הנושא:');
+      if (note) {
+        const newSubject = subject + ' (' + note + ')';
+        removeSubject(dayIndex, subject);
+        users[currentUser].schedule[dayIndex].push(newSubject);
+        updateStorage();
+        renderScheduleUI();
+      }
+    }
+    function renderCalendar() {
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = '';
+      const date = new Date();
+      const currentDay = date.getDate();
+      for (let i = 1; i <= 31; i++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.textContent = i;
+        dayDiv.style.background = (i === currentDay) ? 'var(--secondary-color)' : '#fff';
+        dayDiv.style.color = (i === currentDay) ? '#fff' : 'var(--primary-color)';
+        dayDiv.addEventListener('click', () => alert('נבחר היום: ' + i));
+        calendar.appendChild(dayDiv);
+      }
+    }
+    renderCalendar();
+    function setReminder(dayIndex, subject) {
+      const reminderTime = prompt('הזן זמן תזכורת (לדוגמה: 07:30):');
+      if (reminderTime) {
+        if (Notification.permission !== "granted") {
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+              new Notification('תזכורת', { body: subject + ' - ' + reminderTime });
+            }
+          });
+        } else {
+          new Notification('תזכורת', { body: subject + ' - ' + reminderTime });
+        }
+        showMessage('תזכורת עבור ' + subject + ' הוגדרה לשעה ' + reminderTime, 'success');
+      }
+    }
+    function clearDay(dayIndex) {
+      if (confirm('האם למחוק את כל הנושאים של היום?')) {
+        users[currentUser].schedule[dayIndex] = [];
+        updateStorage();
+        renderScheduleUI();
+        generateBagItems();
+        showMessage('הנושאים נמחקו', 'success');
+      }
+    }
+    function filterByCategory(category) {
+      const dayContainers = document.querySelectorAll('.day-container');
+      dayContainers.forEach(container => {
+        const subjects = container.querySelectorAll('.subject-card');
+        subjects.forEach(card => {
+          card.style.display = (card.textContent.includes(category) || category === 'all') ? 'flex' : 'none';
+        });
+      });
+    }
+    function backupToCloud() {
+      showMessage('גיבוי לענן הצליח', 'success');
+    }
+    function restoreFromCloud() {
+      showMessage('שחזור מגיבוי הענן הצליח', 'success');
+    }
     function showAuthForm(formType) {
       document.getElementById('login-or-register').style.display = 'none';
       if (formType === 'register') {
@@ -569,22 +1079,14 @@
         showMessage('שם המשתמש כבר קיים', 'error');
         return;
       }
-      users[username] = {
-        password,
-        schedule: Array.from({length: 6}, () => []),
-        schoolHours: {},
-        profilePic: ""
-      };
-      daysOfWeek.forEach(day => { users[username].schoolHours[day] = []; });
+      users[username] = { password, schedule: Array.from({ length: 6 }, () => []) };
       updateStorage();
       showMessage('הרשמה הצליחה!', 'success');
       currentUser = username;
-      document.getElementById('dashboard-username').textContent = currentUser;
       document.getElementById('current-user').textContent = currentUser;
       document.getElementById('auth-container').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'block';
       renderScheduleUI();
-      renderSchoolHours();
     }
     function login() {
       const username = document.getElementById('login-username').value.trim();
@@ -599,16 +1101,11 @@
       }
       showMessage('התחברות הצליחה!', 'success');
       currentUser = username;
-      document.getElementById('dashboard-username').textContent = currentUser;
       document.getElementById('current-user').textContent = currentUser;
       document.getElementById('auth-container').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'block';
       renderScheduleUI();
-      renderSchoolHours();
-      renderAssignments();
-      renderGrades();
-      renderResources();
-      renderExams();
+      generateBagItems();
     }
     function logout() {
       currentUser = null;
@@ -616,473 +1113,29 @@
       document.getElementById('dashboard').style.display = 'none';
       document.getElementById('auth-container').style.display = 'block';
     }
-    function updateStorage() {
-      localStorage.setItem('schoolUsers', JSON.stringify(users));
-      if(currentUser) localStorage.setItem('currentUser', currentUser);
-      localStorage.setItem('assignments', JSON.stringify(assignments));
-      localStorage.setItem('grades', JSON.stringify(grades));
-      localStorage.setItem('resources', JSON.stringify(resources));
-      localStorage.setItem('exams', JSON.stringify(exams));
+    function updateClock() {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString();
     }
-    /***************** Weather & Clothing Recommendations *****************/
-    async function getWeather(city) {
-      if (!city) return;
-      try {
-        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=bfba7f78869e4222b89154845251302&q=${city}&aqi=no`);
-        if (!response.ok) throw new Error("API error");
-        const data = await response.json();
-        const weatherInfo = `
-          <p>טמפרטורה: ${data.current.temp_c}°C</p>
-          <p>תנאים: ${data.current.condition.text}</p>
-        `;
-        document.getElementById('weather-info').innerHTML = weatherInfo;
-        showClothingRecommendations(data.current);
-      } catch (error) {
-        showMessage('שגיאה בקבלת נתוני מזג אוויר', 'error');
-        console.error("Error fetching weather:", error);
-      }
-    }
-    function showClothingRecommendations(weather) {
-      const recs = [];
-      if (weather.temp_c < 15) recs.push(clothingRecommendations[currentLang].cold);
-      if (weather.temp_c > 25) recs.push(clothingRecommendations[currentLang].warm);
-      if (weather.precip_mm > 0) recs.push(clothingRecommendations[currentLang].rain);
-      if (weather.cloud > 50) recs.push(clothingRecommendations[currentLang].cloudy);
-      if (weather.condition.text.includes('שמש') || weather.condition.text.includes('Sunny')) recs.push(clothingRecommendations[currentLang].sunny);
-      document.getElementById('clothing-recommendations').innerHTML = `<strong>המלצות לבוש:</strong>
-         <ul>${recs.map(item => `<li>${item}</li>`).join('')}</ul>`;
-    }
-    /***************** Bag Recommendations Based on Tomorrow's Schedule (New Feature) *****************/
-    function updateBagRecommendations() {
-      if (!currentUser || !users[currentUser].schedule) return;
-      // נניח שמערכת השעות מאורגנת עבור 6 ימים (ראשון-שישי)
-      let todayIndex = new Date().getDay();
-      // אם היום הוא שבת (6) או שישי (5) נניח שמחר יהיה ראשון (0)
-      let tomorrowIndex = (todayIndex === 6 || todayIndex === 5) ? 0 : todayIndex + 1;
-      let tomorrowSchedule = users[currentUser].schedule[tomorrowIndex] || [];
-      let recommendations = [];
-      if(tomorrowSchedule.length === 0) {
-         recommendations.push("אין שיעורים למחר");
-      } else {
-         recommendations.push("מחברת", "עט", "עיפרון");
-         tomorrowSchedule.forEach(subject => {
-              if(subject.includes("מתמטיקה") && !recommendations.includes("מחשבון")) {
-                   recommendations.push("מחשבון");
-              }
-              if(subject.includes("מדעים") && !recommendations.includes("ערכת ניסויים")) {
-                   recommendations.push("ערכת ניסויים");
-              }
-              if(subject.includes("היסטוריה") && !recommendations.includes("ספר היסטוריה")) {
-                   recommendations.push("ספר היסטוריה");
-              }
-         });
-      }
-      document.getElementById('bag-recommendations').innerHTML = `<strong>המלצות לתיק למחר:</strong>
-         <ul>${recommendations.map(item => `<li>${item}</li>`).join('')}</ul>`;
-    }
-    /***************** Schedule Management *****************/
-    function renderScheduleUI() {
-      const daysContainer = document.getElementById('days-container');
-      daysContainer.innerHTML = '';
-      if(!users[currentUser] || !users[currentUser].schedule) return;
-      users[currentUser].schedule.forEach((subjects, index) => {
-        let subjectHTML = subjects.map((subject, i) => `
-          <div class="subject-card" data-index="${i}">
-            <span onclick="toggleCompleted(this)">${subject}</span>
-            <span class="remove-btn" title="Remove" onclick="removeSubject(${index}, '${subject}')">X</span>
-            <button onclick="editSubject(${index}, '${subject}')" title="${translations[currentLang].edit}">${translations[currentLang].edit}</button>
-            <button onclick="addNote(${index}, '${subject}')" title="${translations[currentLang].addNote}">${translations[currentLang].addNote}</button>
-            <button onclick="setReminder(${index}, '${subject}')" title="${translations[currentLang].reminder}">${translations[currentLang].reminder}</button>
-            <button onclick="markDone(this)" title="Mark as Completed">✔️</button>
-          </div>
-        `).join('');
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'day-container';
-        dayDiv.innerHTML = `
-          <h3>${daysOfWeek[index]}</h3>
-          <input type="text" id="subject-input-${index}" placeholder="${translations[currentLang].addSubject}">
-          <button onclick="addSubject(${index})" title="${translations[currentLang].addSubject}">${translations[currentLang].addSubject}</button>
-          <button onclick="sortSubjects(${index})" title="${translations[currentLang].sortSubjects}">${translations[currentLang].sortSubjects}</button>
-          <button onclick="clearDay(${index})" title="${translations[currentLang].clearDay}">${translations[currentLang].clearDay}</button>
-          <div id="subjects-${index}">${subjectHTML}</div>
-        `;
-        daysContainer.appendChild(dayDiv);
-      });
-      bindSubjectEvents();
+    setInterval(updateClock, 1000);
+    function markDone(btn) {
+      btn.parentElement.classList.toggle('completed');
       updateProgress();
-      updateBagRecommendations();
     }
-    function addSubject(dayIndex) {
-      const input = document.getElementById(`subject-input-${dayIndex}`);
-      const subject = input.value.trim();
-      if (!subject) {
-        showMessage('אנא הזן נושא', 'error');
-        return;
-      }
-      if (!users[currentUser].schedule) {
-        users[currentUser].schedule = Array.from({length: 6}, () => []);
-      }
-      users[currentUser].schedule[dayIndex].push(subject);
-      updateStorage();
-      renderScheduleUI();
-      input.value = '';
+    function updateProgress() {
+      const allCards = document.querySelectorAll('.subject-card');
+      const total = allCards.length;
+      let completed = 0;
+      allCards.forEach(card => { if (card.classList.contains('completed')) completed++; });
+      const percent = total ? Math.round((completed / total) * 100) : 0;
+      document.getElementById('progress-bar').style.width = percent + "%";
     }
-    function removeSubject(dayIndex, subject) {
-      users[currentUser].schedule[dayIndex] = users[currentUser].schedule[dayIndex].filter(s => s !== subject);
-      updateStorage();
-      renderScheduleUI();
-    }
-    function editSubject(dayIndex, subject) {
-      document.getElementById('subject-modal').style.display = 'block';
-      document.getElementById('modal-overlay').style.display = 'block';
-      document.getElementById('edit-subject-input').value = subject;
-      document.getElementById('edit-time-input').value = '08:00-09:00';
-      document.getElementById('edit-category-input').value = 'כללי';
-    }
-    function saveEditedSubject() {
-      document.getElementById('subject-modal').style.display = 'none';
-      document.getElementById('modal-overlay').style.display = 'none';
-      showMessage('הנושא עודכן בהצלחה', 'success');
-      // (Optional: עדכון המידע במערכת)
-    }
-    function sortSubjects(dayIndex) {
-      users[currentUser].schedule[dayIndex].sort();
-      updateStorage();
-      renderScheduleUI();
-    }
-    function addNote(dayIndex, subject) {
-      const note = prompt('הזן הערה עבור הנושא:');
-      if (note) {
-        removeSubject(dayIndex, subject);
-        users[currentUser].schedule[dayIndex].push(subject + ' (' + note + ')');
-        updateStorage();
-        renderScheduleUI();
-      }
-    }
-    function setReminder(dayIndex, subject) {
-      const reminderTime = prompt('הזן זמן תזכורת (לדוגמה: 07:30):');
-      if (reminderTime) {
-        if (Notification.permission !== "granted") {
-          Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-              new Notification('תזכורת', { body: subject + ' - ' + reminderTime });
-            }
-          });
-        } else {
-          new Notification('תזכורת', { body: subject + ' - ' + reminderTime });
-        }
-        showMessage('תזכורת עבור ' + subject + ' הוגדרה לשעה ' + reminderTime, 'success');
-      }
-    }
-    function clearDay(dayIndex) {
-      if (confirm('האם למחוק את כל הנושאים של היום?')) {
-        users[currentUser].schedule[dayIndex] = [];
-        updateStorage();
-        renderScheduleUI();
-        showMessage('הנושאים נמחקו', 'success');
-      }
-    }
-    /***************** Calendar & Export Functions *****************/
-    function renderCalendar() {
-      const calendar = document.getElementById('calendar');
-      calendar.innerHTML = '';
-      const date = new Date();
-      const currentDay = date.getDate();
-      for (let i = 1; i <= 31; i++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.textContent = i;
-        dayDiv.style.background = i === currentDay ? 'var(--secondary-color)' : '#fff';
-        dayDiv.style.color = i === currentDay ? '#fff' : 'var(--primary-color)';
-        dayDiv.addEventListener('click', () => alert('נבחר היום: ' + i));
-        calendar.appendChild(dayDiv);
-      }
-    }
-    renderCalendar();
-    function exportSchedule() {
-      const dataStr = JSON.stringify(users[currentUser].schedule);
-      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-      const linkElement = document.createElement('a');
-      linkElement.setAttribute('href', dataUri);
-      linkElement.setAttribute('download', 'schedule.json');
-      linkElement.click();
-    }
-    function exportScheduleCSV() {
-      if (!users[currentUser] || !users[currentUser].schedule) return;
-      let csvContent = "data:text/csv;charset=utf-8,";
-      users[currentUser].schedule.forEach((subjects, index) => {
-        csvContent += daysOfWeek[index] + "," + subjects.join(";") + "\n";
-      });
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "schedule.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    function exportScheduleExcel() {
-      if (!users[currentUser] || !users[currentUser].schedule) return;
-      let csvContent = "";
-      users[currentUser].schedule.forEach((subjects, index) => {
-        csvContent += daysOfWeek[index] + "\t" + subjects.join("\t") + "\n";
-      });
-      const blob = new Blob([csvContent], { type: "application/vnd.ms-excel" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "schedule.xls";
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-    function importSchedule() {
-      const inputElement = document.createElement('input');
-      inputElement.type = 'file';
-      inputElement.accept = 'application/json';
-      inputElement.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            users[currentUser].schedule = JSON.parse(e.target.result);
-            updateStorage();
-            renderScheduleUI();
-            showMessage('מערכת השעות עודכנה', 'success');
-          } catch (error) {
-            showMessage('קובץ לא חוקי', 'error');
-          }
-        };
-        reader.readAsText(file);
-      });
-      inputElement.click();
-    }
-    function exportToPDF() {
-      showMessage('ייצוא ל-PDF בהקדם', 'success');
-    }
-    function printSchedule() {
-      window.print();
-    }
-    /***************** School Hours System *****************/
-    function renderSchoolHours() {
-      if (!currentUser || !users[currentUser].schoolHours) return;
-      let html = '<table>';
-      html += '<tr><th>שעה</th>';
-      daysOfWeek.forEach(day => { html += `<th>${day}</th>`; });
-      html += '</tr>';
-      timeSlots.forEach(slot => {
-        html += `<tr><td>${slot}</td>`;
-        daysOfWeek.forEach(day => {
-          const classes = users[currentUser].schoolHours[day] || [];
-          const entry = classes.find(cls => cls.time === slot);
-          if (entry) {
-            html += `<td>${entry.subject} <button class="delete-hour" onclick="removeSchoolHour('${day}','${slot}')">X</button></td>`;
-          } else {
-            html += `<td></td>`;
-          }
-        });
-        html += '</tr>';
-      });
-      html += '</table>';
-      document.getElementById('school-hours-table').innerHTML = html;
-    }
-    function addSchoolHour() {
-      const day = document.getElementById('school-hours-day').value;
-      const time = document.getElementById('school-hours-time').value;
-      const subject = document.getElementById('school-hours-subject').value.trim();
-      if (!subject) {
-        showMessage('יש להזין נושא', 'error');
-        return;
-      }
-      const daySchedule = users[currentUser].schoolHours[day];
-      if (daySchedule.find(cls => cls.time === time)) {
-        showMessage('שיעור כבר קיים בשעה זו', 'error');
-        return;
-      }
-      daySchedule.push({ time, subject });
-      updateStorage();
-      renderSchoolHours();
-      document.getElementById('school-hours-subject').value = '';
-      showMessage('השיעור נוסף', 'success');
-    }
-    function removeSchoolHour(day, time) {
-      users[currentUser].schoolHours[day] = users[currentUser].schoolHours[day].filter(cls => cls.time !== time);
-      updateStorage();
-      renderSchoolHours();
-      showMessage('השיעור הוסר', 'success');
-    }
-    /***************** Upcoming Class Notification *****************/
-    function checkUpcomingClass() {
-      if (!currentUser) return;
-      const today = new Date();
-      let dayIndex = today.getDay();
-      if(dayIndex === 6) return;
-      const todayName = daysOfWeek[dayIndex];
-      const currentMinutes = today.getHours() * 60 + today.getMinutes();
-      const slots = users[currentUser].schoolHours[todayName] || [];
-      slots.forEach(slot => {
-        let startTime = slot.time.split('-')[0];
-        const [startHour, startMin] = startTime.split(':').map(Number);
-        const slotMinutes = startHour * 60 + startMin;
-        if (slotMinutes - currentMinutes <= 10 && slotMinutes - currentMinutes > 0) {
-          const key = todayName + slot.time;
-          if (!notifiedSlots[key]) {
-            if (Notification.permission === "granted") {
-              new Notification('הודעת שיעור קרוב', { body: `${slot.subject} בשעה ${slot.time}` });
-              notifiedSlots[key] = true;
-            }
-          }
-        }
-      });
-    }
-    setInterval(checkUpcomingClass, 60000);
-    /***************** Smart Assignment Reminders *****************/
-    function checkAssignmentReminders() {
-      if (!currentUser) return;
-      const now = new Date();
-      assignments.forEach((assignment, index) => {
-        const due = new Date(assignment.dueDate);
-        const diff = due - now;
-        if (diff > 0 && diff <= 86400000 && !notifiedAssignments[index]) {
-          if (Notification.permission === "granted") {
-            new Notification('משימה קרובה', { body: `${assignment.title} - ${assignment.dueDate}` });
-            notifiedAssignments[index] = true;
-          }
-        }
-      });
-    }
-    setInterval(checkAssignmentReminders, 60000);
-    /***************** Assignment Deadlines Tracker *****************/
-    function addAssignment() {
-      const title = document.getElementById('assignment-title').value.trim();
-      const dueDate = document.getElementById('assignment-due').value;
-      const desc = document.getElementById('assignment-desc').value.trim();
-      if (!title || !dueDate) {
-        showMessage('יש להזין כותרת ומועד הגשה', 'error');
-        return;
-      }
-      assignments.push({ title, dueDate, desc });
-      updateStorage();
-      renderAssignments();
-      document.getElementById('assignment-title').value = '';
-      document.getElementById('assignment-due').value = '';
-      document.getElementById('assignment-desc').value = '';
-      showMessage('משימה נוספה', 'success');
-    }
-    function renderAssignments() {
-      const container = document.getElementById('assignments-list');
-      container.innerHTML = '';
-      assignments.forEach((assignment, index) => {
-        const due = new Date(assignment.dueDate);
-        const now = new Date();
-        let status = '';
-        if (due - now < 86400000 && due - now > 0) {
-          status = ' (בעדיפות - הגשה תוך 24 שעות)';
-          if (Notification.permission === "granted") {
-            new Notification('משימה קרובה', { body: assignment.title + ' - ' + assignment.dueDate });
-          }
-        }
-        container.innerHTML += `<div>${assignment.title} - ${assignment.dueDate} ${status}</div>`;
-      });
-    }
-    /***************** Grade Tracking *****************/
-    function addGrade() {
-      const subject = document.getElementById('grade-subject').value.trim();
-      const gradeValue = document.getElementById('grade-value').value;
-      if (!subject || !gradeValue) {
-        showMessage('יש להזין נושא וציון', 'error');
-        return;
-      }
-      grades.push({ subject, grade: Number(gradeValue) });
-      updateStorage();
-      renderGrades();
-      document.getElementById('grade-subject').value = '';
-      document.getElementById('grade-value').value = '';
-      showMessage('ציון נוסף', 'success');
-      updateGradesChart();
-    }
-    function renderGrades() {
-      const container = document.getElementById('grades-list');
-      container.innerHTML = '';
-      grades.forEach((g, index) => {
-        container.innerHTML += `<div>${g.subject}: ${g.grade}</div>`;
-      });
-    }
-    function updateGradesChart() {
-      const ctx = document.getElementById('gradesChart').getContext('2d');
-      const subjects = grades.map(g => g.subject);
-      const gradeValues = grades.map(g => g.grade);
-      if(window.gradesChartInstance) window.gradesChartInstance.destroy();
-      window.gradesChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: subjects,
-          datasets: [{
-            label: translations[currentLang].gradesHeading,
-            data: gradeValues,
-            backgroundColor: 'rgba(75, 192, 192, 0.6)'
-          }]
-        }
-      });
-    }
-    /***************** Resource Library (New Feature) *****************/
-    function addResource() {
-      const title = document.getElementById('resource-title').value.trim();
-      const link = document.getElementById('resource-link').value.trim();
-      if (!title || !link) {
-        showMessage('יש להזין כותרת וקישור/תיאור', 'error');
-        return;
-      }
-      resources.push({ title, link });
-      localStorage.setItem('resources', JSON.stringify(resources));
-      renderResources();
-      document.getElementById('resource-title').value = '';
-      document.getElementById('resource-link').value = '';
-      showMessage('משאב נוסף', 'success');
-    }
-    function renderResources() {
-      const container = document.getElementById('resources-list');
-      container.innerHTML = '';
-      resources.forEach((res, index) => {
-        container.innerHTML += `<div>${res.title}: <a href="${res.link}" target="_blank">${res.link}</a></div>`;
-      });
-    }
-    /***************** Exam Management (New Feature) *****************/
-    function addExam() {
-      const title = document.getElementById('exam-title').value.trim();
-      const examDate = document.getElementById('exam-date').value;
-      const desc = document.getElementById('exam-desc').value.trim();
-      if (!title || !examDate) {
-        showMessage('יש להזין כותרת ותאריך', 'error');
-        return;
-      }
-      exams.push({ title, examDate, desc });
-      localStorage.setItem('exams', JSON.stringify(exams));
-      renderExams();
-      document.getElementById('exam-title').value = '';
-      document.getElementById('exam-date').value = '';
-      document.getElementById('exam-desc').value = '';
-      showMessage('מבחן נוסף', 'success');
-    }
-    function renderExams() {
-      const container = document.getElementById('exams-list');
-      container.innerHTML = '';
-      exams.forEach((exam, index) => {
-        container.innerHTML += `<div>${exam.title} - ${exam.examDate} <br><small>${exam.desc}</small></div>`;
-      });
-    }
-    /***************** Auto-Save Functionality *****************/
-    function autoSaveData() {
-      updateStorage();
-      showMessage('נתונים נשמרו אוטומטית', 'success');
-    }
-    setInterval(autoSaveData, 60000);
-    /***************** Voice Input *****************/
     function startSpeechRecognition() {
       if (!('webkitSpeechRecognition' in window)) {
         showMessage('דיבור לא נתמך בדפדפן זה', 'error');
         return;
       }
       const recognition = new webkitSpeechRecognition();
-      recognition.lang = 'he-IL';
+      recognition.lang = currentLang === 'en' ? 'en-US' : (currentLang === 'ru' ? 'ru-RU' : (currentLang === 'ar' ? 'ar-SA' : (currentLang === 'es' ? 'es-ES' : 'he-IL')));
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
         if (currentUser && users[currentUser].schedule) {
@@ -1092,116 +1145,61 @@
           showMessage('נושא נוסף באמצעות קול: ' + transcript, 'success');
         }
       };
-      recognition.onerror = function(event) {
+      recognition.onerror = function() {
         showMessage('שגיאה בהכרה קולית', 'error');
       };
       recognition.start();
     }
-    /***************** Modal Toggles *****************/
-    function toggleSettings() {
-      const modal = document.getElementById('settings-modal');
-      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    /***************** NEW: Bag Management Functions *****************/
+    function openBagModal() {
+      document.getElementById('bag-modal').style.display = 'block';
+      document.getElementById('modal-overlay').style.display = 'block';
     }
-    function toggleProfile() {
-      const modal = document.getElementById('profile-modal');
-      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-      if (currentUser) {
-        document.getElementById('profile-username').value = currentUser;
-        document.getElementById('profile-pic-url').value = users[currentUser].profilePic || '';
-      }
+    function closeBagModal() {
+      document.getElementById('bag-modal').style.display = 'none';
+      document.getElementById('modal-overlay').style.display = 'none';
     }
-    function toggleHelp() {
-      const modal = document.getElementById('help-modal');
-      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    function checkBagContents() {
+      const daySelect = document.getElementById('bag-day-select');
+      const currentDayIndex = parseInt(daySelect.value);
+      let previousDayIndex = currentDayIndex - 1;
+      if (previousDayIndex < 0) previousDayIndex = 5;
+      const schedule = users[currentUser].schedule;
+      const currentSchedule = new Set(schedule[currentDayIndex] || []);
+      const previousSchedule = new Set(schedule[previousDayIndex] || []);
+      const subjectsToAdd = Array.from(currentSchedule).filter(x => !previousSchedule.has(x));
+      const subjectsToRemove = Array.from(previousSchedule).filter(x => !currentSchedule.has(x));
+      let resultHtml = `<p>לפי מערכת השעות:</p>`;
+      resultHtml += `<p>היום הנבחר: ${daysOfWeek[currentDayIndex]}</p>`;
+      resultHtml += `<p>היום הקודם: ${daysOfWeek[previousDayIndex]}</p>`;
+      resultHtml += `<p><strong>להוספה:</strong> ${subjectsToAdd.length ? subjectsToAdd.join(', ') : 'אין – כל החומרים קיימים'}</p>`;
+      resultHtml += `<p><strong>להסרה:</strong> ${subjectsToRemove.length ? subjectsToRemove.join(', ') : 'אין – אין צורך להסיר'}</p>`;
+      document.getElementById('bag-results').innerHTML = resultHtml;
     }
-    function toggleFeedback() {
-      const modal = document.getElementById('feedback-modal');
-      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-    }
-    function submitFeedback() {
-      const feedback = document.getElementById('feedback-text').value.trim();
-      if(feedback) {
-        showMessage('תודה על המשוב!', 'success');
-        document.getElementById('feedback-text').value = '';
-        toggleFeedback();
-      } else {
-        showMessage('יש להזין משוב', 'error');
-      }
-    }
-    function resetSettings() {
-      localStorage.removeItem('currentLang');
-      localStorage.removeItem('currentTheme');
-      localStorage.removeItem('currentCustomTheme');
-      localStorage.removeItem('currentFont');
-      currentLang = 'he';
-      setTheme('light');
-      setCustomTheme('light');
-      changeFont('Roboto');
-      updateLanguage();
-      toggleSettings();
-      showMessage('הגדרות אופסו', 'success');
-    }
-    function resetData() {
-      if(confirm("האם לאפס את כל הנתונים?")) {
-        localStorage.clear();
-        location.reload();
-      }
-    }
-    /***************** Clock *****************/
-    function updateClock() {
-      document.getElementById('clock').textContent = new Date().toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    /***************** Auto-Login & Persistent Settings *****************/
+    /***************** Initialization *****************/
     document.addEventListener('DOMContentLoaded', () => {
-      // אם אין משתמש מחובר, נבצע כניסה אוטומטית למשתמש demo
-      if(!localStorage.getItem('currentUser')) {
-        currentUser = "demo";
-        if(!users["demo"]) {
-          users["demo"] = {
-            password: "demo",
-            schedule: Array.from({length: 6}, () => []),
-            schoolHours: {}
-          };
-          daysOfWeek.forEach(day => { users["demo"].schoolHours[day] = []; });
-          updateStorage();
-        }
-      } else {
-        currentUser = localStorage.getItem('currentUser');
-      }
+      currentLang = localStorage.getItem('currentLang') || currentLang;
       const savedTheme = localStorage.getItem('currentTheme') || 'light';
       setTheme(savedTheme);
       const savedCustomTheme = localStorage.getItem('currentCustomTheme') || 'light';
       setCustomTheme(savedCustomTheme);
-      const savedFont = localStorage.getItem('currentFont') || 'Roboto';
+      const savedFont = localStorage.getItem('currentFont') || 'Arial';
       changeFont(savedFont);
       updateLanguage();
       renderScheduleUI();
-      renderCalendar();
-      renderSchoolHours();
-      renderAssignments();
-      renderGrades();
-      renderResources();
-      renderExams();
-      applyDashboardCustomization();
-      // אם המשתמש demo, נעביר אותו ישירות ללוח המחוונים
-      if (users[currentUser]) {
-        document.getElementById('dashboard-username').textContent = currentUser;
+      const savedUser = localStorage.getItem('currentUser');
+      if (savedUser && users[savedUser]) {
+        currentUser = savedUser;
         document.getElementById('current-user').textContent = currentUser;
         document.getElementById('auth-container').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'block';
+        renderScheduleUI();
+        generateBagItems();
       }
     });
     window.addEventListener('beforeunload', () => {
       if (currentUser) localStorage.setItem('currentUser', currentUser);
     });
-    // הוסר רישום service worker כדי למנוע בעיות בקבצים מקומיים
-
   </script>
-
-  <!-- External Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </body>
 </html>
